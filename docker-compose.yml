@@ -1,0 +1,81 @@
+version: "3.8"
+
+services:
+  ravendb:
+    image: ravendb/ravendb:4.2-ubuntu-latest
+    container_name: ritter.co-goal-ravendb
+    ports:
+      - 8080:8080
+      - 38888:38888
+    environment:
+      - RAVEN_ARGS='--Setup.Mode=None'
+      - RAVEN_Security_UnsecuredAccessAllowed='PublicNetwork'
+      - RAVEN_License_Eula_Accepted=true
+    volumes:
+      - ravendb-data:/opt/RavenDB/Server/RavenData
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.16.2
+    container_name: ritter.co-goal-elasticsearch
+    ports:
+      - 9200:9200
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+    environment:
+      - xpack.monitoring.enabled=true
+      - xpack.watcher.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - discovery.type=single-node
+
+  kibana:
+    container_name: ritter.co-goal-kibana
+    image: docker.elastic.co/kibana/kibana:7.16.2
+    ports:
+      - 5601:5601
+    depends_on:
+      - elasticsearch
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+
+  mssql:
+    image: "mcr.microsoft.com/mssql/server:2019-CU14-ubuntu-20.04"
+    container_name: ritter.co-goal-mssql
+    ports:
+      - "11433:1433"
+    environment:
+      SA_PASSWORD: "pxh4P8w3"
+      ACCEPT_EULA: "Y"
+    volumes:
+      - mssql:/var/opt/mssql
+
+  demo:
+    image: ${REGISTRY:-ritter.co}/goal/demo:${PLATFORM:-windows}-${TAG:-latest}
+    container_name: ritter.co-goal-demo
+    restart: on-failure
+    build:
+      context: .
+      dockerfile: src/DDDDemo/Goal.Demo.Api/Dockerfile
+    depends_on:
+      - mssql
+      - elasticsearch
+      - ravendb
+
+  demo2:
+    image: ${REGISTRY:-ritter.co}/goal/demo2:${PLATFORM:-windows}-${TAG:-latest}
+    container_name: ritter.co-goal-demo2
+    restart: on-failure
+    build:
+      context: .
+      dockerfile: src/DDDCQRSDemo/Goal.Demo2.Api/Dockerfile
+    depends_on:
+      - mssql
+      - elasticsearch
+      - ravendb
+
+volumes:
+  mssql:
+    name: mssql-vol
+  elasticsearch-data:
+    name: elasticsearch-vol
+  ravendb-data:
+    name: ravendb-vol

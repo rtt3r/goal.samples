@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<IsPackable>false</IsPackable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<LangVersion>latest</LangVersion>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="RavenDB.Client" Version="5.3.100" />
+		<PackageReference Include="Goal.Infra.Data.Query.Seedwork" Version="0.0.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Goal.Demo2.Dto\Goal.Demo2.Dto.csproj" />
+	</ItemGroup>
+</Project>

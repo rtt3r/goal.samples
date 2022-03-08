@@ -1,0 +1,38 @@
+version: "3.8"
+
+services:
+  demo:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ConnectionStrings__DefaultConnection='Server=192.168.0.101,11433;Initial Catalog=goal-dev;Persist Security Info=False;User ID=sa;Password=pxh4P8w3;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;'
+      - ASPNETCORE_ConnectionStrings__Elasticsearch=http://elasticsearch:9200
+      - ASPNETCORE_URLS=https://+;http://+
+      - ASPNETCORE_HTTPS_PORT=4431
+      - ASPNETCORE_RavenSettings__Urls=http://ravendb:8080,
+      - ASPNETCORE_RavenSettings__DatabaseName=Demo
+      - ASPNETCORE_RavenSettings__CertFilePath=
+      - ASPNETCORE_RavenSettings__CertPassword=
+    ports:
+      - "8001:80"
+      - "4431:443"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
+  demo2:
+    environment:
+        - ASPNETCORE_ENVIRONMENT=Development
+        - ASPNETCORE_ConnectionStrings__DefaultConnection='Server=192.168.0.101,11433;Initial Catalog=goal-dev;Persist Security Info=False;User ID=sa;Password=pxh4P8w3;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;'
+        - ASPNETCORE_ConnectionStrings__Elasticsearch=http://elasticsearch:9200
+        - ASPNETCORE_URLS=https://+;http://+
+        - ASPNETCORE_HTTPS_PORT=4431
+        - ASPNETCORE_RavenSettings__Urls=http://ravendb:8080,
+        - ASPNETCORE_RavenSettings__DatabaseName=Demo2
+        - ASPNETCORE_RavenSettings__CertFilePath=
+        - ASPNETCORE_RavenSettings__CertPassword=
+    ports:
+        - "8002:80"
+        - "4432:443"
+    volumes:
+        - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+        - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro

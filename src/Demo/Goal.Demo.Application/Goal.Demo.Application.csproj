@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<IsPackable>false</IsPackable>
+		<LangVersion>latest</LangVersion>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="AutoMapper" Version="11.0.1" />
+		<PackageReference Include="Goal.Infra.Crosscutting" Version="0.0.1" />
+		<PackageReference Include="Goal.Domain.Seedwork" Version="0.0.1" />
+		<PackageReference Include="Goal.Application.Seedwork" Version="0.0.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Goal.Demo.Application.DTO\Goal.Demo.Application.DTO.csproj" />
+		<ProjectReference Include="..\Goal.Demo.Domain\Goal.Demo.Domain.csproj" />
+	</ItemGroup>
+
+</Project>

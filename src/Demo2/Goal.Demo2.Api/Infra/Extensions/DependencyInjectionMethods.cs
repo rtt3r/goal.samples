@@ -2,6 +2,7 @@ using System.Reflection;
 using Goal.Application.Seedwork.Handlers;
 using Goal.Demo2.Api.Infra.Bus;
 using Goal.Demo2.Infra.Data;
+using Goal.Demo2.Infra.Data.Auditing;
 using Goal.Demo2.Infra.Data.EventSourcing;
 using Goal.Demo2.Infra.Data.Query.Repositories.Customers;
 using Goal.Demo2.Infra.Data.Repositories;
@@ -25,7 +26,7 @@ namespace Goal.Demo2.Api.Infra.Extensions
             string connectionString = configuration.GetConnectionString("DefaultConnection");
 
             services.AddHttpContextAccessor();
-            services.AddSingleton(provider => new AuditingInterceptor(connectionString));
+            services.AddScoped<Demo2AuditChangesInterceptor>();
 
             services
                 .AddDbContext<EventSourcingContext>((provider, options) =>
@@ -46,7 +47,7 @@ namespace Goal.Demo2.Api.Infra.Extensions
                             opts => opts.MigrationsAssembly(typeof(Demo2Context).Assembly.GetName().Name))
                         .EnableSensitiveDataLogging();
 
-                    options.AddInterceptors(provider.GetRequiredService<AuditingInterceptor>());
+                    options.AddInterceptors(provider.GetRequiredService<Demo2AuditChangesInterceptor>());
                 });
 
             services.Configure<RavenSettings>(configuration.GetSection("RavenSettings"));

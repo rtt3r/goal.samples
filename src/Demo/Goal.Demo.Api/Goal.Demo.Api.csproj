@@ -34,10 +34,10 @@
 			<Version>8.4.1</Version>
 		</PackageReference>
 		<PackageReference Include="Goal.Infra.Crosscutting">
-			<Version>0.2.1</Version>
+			<Version>0.2.2</Version>
 		</PackageReference>
 		<PackageReference Include="Goal.Infra.Http.Seedwork">
-			<Version>0.2.1</Version>
+			<Version>0.2.2</Version>
 		</PackageReference>
 	</ItemGroup>
 

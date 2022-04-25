@@ -20,19 +20,19 @@
 			<Version>7.17.1</Version>
 		</PackageReference>
 		<PackageReference Include="Goal.Infra.Crosscutting">
-			<Version>0.2.1</Version>
+			<Version>0.2.2</Version>
 		</PackageReference>
 		<PackageReference Include="Goal.Domain.Seedwork">
-			<Version>0.2.1</Version>
+			<Version>0.2.2</Version>
 		</PackageReference>
 		<PackageReference Include="Goal.Application.Seedwork">
-			<Version>0.2.1</Version>
+			<Version>0.2.2</Version>
 		</PackageReference>
 		<PackageReference Include="Goal.Infra.Data.Seedwork">
-			<Version>0.2.1</Version>
+			<Version>0.2.2</Version>
 		</PackageReference>
 		<PackageReference Include="Goal.Infra.Http.Seedwork">
-			<Version>0.2.1</Version>
+			<Version>0.2.2</Version>
 		</PackageReference>
 	</ItemGroup>
 

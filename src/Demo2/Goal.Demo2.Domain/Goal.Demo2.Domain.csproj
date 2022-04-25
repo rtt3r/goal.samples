@@ -9,10 +9,10 @@
 
 	<ItemGroup>
 		<PackageReference Include="Goal.Domain.Seedwork">
-			<Version>0.2.1</Version>
+			<Version>0.2.2</Version>
 		</PackageReference>
 		<PackageReference Include="Goal.Infra.Data.Seedwork">
-			<Version>0.2.1</Version>
+			<Version>0.2.2</Version>
 		</PackageReference>
 	</ItemGroup>
 

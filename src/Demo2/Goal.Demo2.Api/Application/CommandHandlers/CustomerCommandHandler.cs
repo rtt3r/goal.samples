@@ -14,7 +14,7 @@ using MediatR;
 
 namespace Goal.Demo2.Api.Application.CommandHandlers
 {
-    public class CustomerCommandHandler : CommandHandler,
+    public class CustomerCommandHandler : BaseCommandHandler,
         IRequestHandler<RegisterNewCustomerCommand, ICommandResult<CustomerDto>>,
         IRequestHandler<UpdateCustomerCommand, ICommandResult>,
         IRequestHandler<RemoveCustomerCommand, ICommandResult>
@@ -43,7 +43,7 @@ namespace Goal.Demo2.Api.Application.CommandHandlers
 
             if (!validationResult.IsValid)
             {
-                await NotifyValidationErrors(validationResult, cancellationToken);
+                await NotifyViolations(validationResult, cancellationToken);
                 return CommandResult.ValidationError<CustomerDto>(default);
             }
 
@@ -80,7 +80,7 @@ namespace Goal.Demo2.Api.Application.CommandHandlers
 
             if (!validationResult.IsValid)
             {
-                await NotifyValidationErrors(validationResult, cancellationToken);
+                await NotifyViolations(validationResult, cancellationToken);
                 return CommandResult.ValidationError();
             }
 
@@ -129,7 +129,7 @@ namespace Goal.Demo2.Api.Application.CommandHandlers
 
             if (!validationResult.IsValid)
             {
-                await NotifyValidationErrors(validationResult, cancellationToken);
+                await NotifyViolations(validationResult, cancellationToken);
                 return CommandResult.ValidationError();
             }
 

@@ -42,13 +42,13 @@ WebApplication app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
-    app.UseSwagger()
-        .UseSwaggerUI(c =>
-        {
-            c.SwaggerEndpoint("/swagger/v1/swagger.json", "Demo2 API V1");
-            c.DisplayRequestDuration();
-            c.RoutePrefix = string.Empty;
-        });
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Demo2 API V1");
+        c.DisplayRequestDuration();
+        c.RoutePrefix = string.Empty;
+    });
 }
 
 app.UseHttpsRedirection();

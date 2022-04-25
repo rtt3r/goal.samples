@@ -6,7 +6,7 @@ namespace Goal.Demo2.Api.Application.Events
     {
         public CustomerRemovedEvent(Guid id)
         {
-            AggregateId = id;
+            AggregateId = $"{id}";
         }
     }
 }

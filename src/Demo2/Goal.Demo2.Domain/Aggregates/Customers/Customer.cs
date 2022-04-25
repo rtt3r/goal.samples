@@ -20,7 +20,8 @@ namespace Goal.Demo2.Domain.Aggregates.Customers
 
         public DateTime BirthDate { get; private set; }
 
-        public void UpdateName(string name) => throw new NotImplementedException();
-        public void UpdateBirthDate(DateTime birthDate) => throw new NotImplementedException();
+        public void UpdateName(string name) => Name = name;
+
+        public void UpdateBirthDate(DateTime birthDate) => BirthDate = birthDate;
     }
 }

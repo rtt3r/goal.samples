@@ -4,7 +4,6 @@ using Goal.Demo2.Api.Application.Dtos.Customers.Requests;
 using Goal.Demo2.Dto.Customers;
 using Goal.Demo2.Infra.Data.Query.Repositories.Customers;
 using Goal.Domain.Seedwork.Commands;
-using Goal.Infra.Crosscutting.Adapters;
 using Goal.Infra.Http.Seedwork.Controllers;
 using Goal.Infra.Http.Seedwork.Controllers.Requests;
 using Goal.Infra.Http.Seedwork.Controllers.Results;
@@ -23,18 +22,15 @@ namespace Goal.Demo2.Api.Controllers
         private readonly ICustomerQueryRepository customerRepository;
         private readonly IBusHandler busHandler;
         private readonly INotificationHandler notificationHandler;
-        private readonly ITypeAdapter typeAdapter;
 
         public CustomersController(
             ICustomerQueryRepository customerRepository,
             IBusHandler busHandler,
-            INotificationHandler notificationHandler,
-            ITypeAdapter typeAdapter)
+            INotificationHandler notificationHandler)
         {
             this.customerRepository = customerRepository;
             this.busHandler = busHandler;
             this.notificationHandler = notificationHandler;
-            this.typeAdapter = typeAdapter;
         }
 
         [HttpGet]
@@ -72,12 +68,12 @@ namespace Goal.Demo2.Api.Controllers
 
             if (result.IsValidationError())
             {
-                return BadRequest();
+                return BadRequest(notificationHandler.GetNotifications());
             }
 
             if (result.IsDomainError())
             {
-                return UnprocessableEntity();
+                return UnprocessableEntity(notificationHandler.GetNotifications());
             }
 
             return CreatedAtRoute(

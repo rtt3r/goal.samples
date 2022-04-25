@@ -12,7 +12,7 @@ namespace Goal.Demo2.Infra.Data.Query
         protected IAsyncDocumentSession dbSession;
         private bool disposed;
 
-        public RavenQueryRepository(IAsyncDocumentSession dbSession)
+        protected RavenQueryRepository(IAsyncDocumentSession dbSession)
         {
             this.dbSession = dbSession;
         }

@@ -24,13 +24,9 @@ namespace Goal.Demo2.Api.Infra.Bus
             where TCommand : ICommand<ICommandResult<TResult>>
             => _mediator.Send(command);
 
-        public Task RaiseEvent<TEvent>(TEvent @event) where TEvent : Event
+        public Task RaiseEvent<TEvent>(TEvent @event) where TEvent : IEvent
         {
-            if (!@event.MessageType.Equals("DomainNotification"))
-            {
-                _eventStore?.Save(@event);
-            }
-
+            _eventStore?.Save(@event);
             return _mediator.Publish(@event);
         }
     }

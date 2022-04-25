@@ -8,8 +8,12 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Goal.Domain.Seedwork" Version="0.0.1" />
-		<PackageReference Include="Goal.Infra.Data.Seedwork" Version="0.0.1" />
+		<PackageReference Include="Goal.Domain.Seedwork">
+			<Version>0.2.1</Version>
+		</PackageReference>
+		<PackageReference Include="Goal.Infra.Data.Seedwork">
+			<Version>0.2.1</Version>
+		</PackageReference>
 	</ItemGroup>
 
 </Project>

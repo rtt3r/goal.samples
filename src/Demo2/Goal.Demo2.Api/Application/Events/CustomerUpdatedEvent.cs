@@ -6,7 +6,7 @@ namespace Goal.Demo2.Api.Application.Events
     {
         public CustomerUpdatedEvent(Guid id, string name, string email, DateTime birthDate)
         {
-            AggregateId = id;
+            AggregateId = $"{id}";
             Name = name;
             Email = email;
             BirthDate = birthDate;

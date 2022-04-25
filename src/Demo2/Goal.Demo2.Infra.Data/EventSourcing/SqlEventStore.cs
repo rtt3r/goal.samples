@@ -12,12 +12,12 @@ namespace Goal.Demo2.Infra.Data.EventSourcing
             this.dbContext = dbContext;
         }
 
-        public void Save<T>(T @event) where T : Event
+        public void Save<T>(T @event) where T : IEvent
         {
             var storedEvent = new StoredEvent(
-                @event,
-                JsonSerializer.Serialize(@event),
-                "");
+               @event,
+               JsonSerializer.Serialize(@event),
+               "");
 
             dbContext.StoredEvents.Add(storedEvent);
             dbContext.SaveChanges();

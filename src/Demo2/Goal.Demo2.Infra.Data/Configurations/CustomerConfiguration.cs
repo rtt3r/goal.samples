@@ -35,7 +35,7 @@ namespace Goal.Demo2.Infra.Data.Configurations
             builder.ToTable("StoredEvents");
             builder.HasKey(p => p.Id);
 
-            builder.Property(c => c.MessageType)
+            builder.Property(c => c.EventType)
                 .HasMaxLength(100)
                 .IsRequired();
         }

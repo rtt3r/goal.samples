@@ -1,22 +1,15 @@
 using System.Reflection;
 using Goal.Application.Seedwork.Handlers;
-using Goal.Demo2.Api.Application.CommandHandlers;
-using Goal.Demo2.Api.Application.Commands.Customers;
-using Goal.Demo2.Api.Application.EventHandlers;
-using Goal.Demo2.Api.Application.Events;
 using Goal.Demo2.Api.Infra.Bus;
-using Goal.Demo2.Dto.Customers;
 using Goal.Demo2.Infra.Data;
 using Goal.Demo2.Infra.Data.EventSourcing;
 using Goal.Demo2.Infra.Data.Query.Repositories.Customers;
 using Goal.Demo2.Infra.Data.Repositories;
 using Goal.Domain.Seedwork;
 using Goal.Domain.Seedwork.Aggregates;
-using Goal.Domain.Seedwork.Commands;
 using Goal.Domain.Seedwork.Events;
 using Goal.Infra.Data.Query.Seedwork;
 using Goal.Infra.Http.Seedwork.DependencyInjection;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Raven.DependencyInjection;
 using Serilog;
@@ -32,7 +25,7 @@ namespace Goal.Demo2.Api.Infra.Extensions
             string connectionString = configuration.GetConnectionString("DefaultConnection");
 
             services.AddHttpContextAccessor();
-            //services.AddScoped<ElasticAuditChangesInterceptor>();
+            services.AddSingleton(provider => new AuditingInterceptor(connectionString));
 
             services
                 .AddDbContext<EventSourcingContext>((provider, options) =>
@@ -42,8 +35,6 @@ namespace Goal.Demo2.Api.Infra.Extensions
                             connectionString,
                             opts => opts.MigrationsAssembly(typeof(EventSourcingContext).Assembly.GetName().Name))
                         .EnableSensitiveDataLogging();
-
-                    //options.AddInterceptors(provider.GetRequiredService<ElasticAuditChangesInterceptor>());
                 });
 
             services
@@ -55,12 +46,11 @@ namespace Goal.Demo2.Api.Infra.Extensions
                             opts => opts.MigrationsAssembly(typeof(Demo2Context).Assembly.GetName().Name))
                         .EnableSensitiveDataLogging();
 
-                    //options.AddInterceptors(provider.GetRequiredService<ElasticAuditChangesInterceptor>());
+                    options.AddInterceptors(provider.GetRequiredService<AuditingInterceptor>());
                 });
 
             services.Configure<RavenSettings>(configuration.GetSection("RavenSettings"));
 
-            // 1. Add an IDocumentStore singleton. Make sure that RavenSettings section exist in appsettings.json
             services.AddRavenDbDocStore(opts =>
             {
                 string urls = configuration["RavenSettings:Urls"];
@@ -73,26 +63,11 @@ namespace Goal.Demo2.Api.Infra.Extensions
                 };
             });
 
-            // 2. Add a scoped IAsyncDocumentSession. For the sync version, use .AddRavenSession().
             services.AddRavenDbAsyncSession();
 
-            // Domain Bus (Mediator)
             services.AddScoped<IBusHandler, InMemoryBusHandler>();
-
-            // Domain Event Store
             services.AddScoped<IEventStore, SqlEventStore>();
-
-            // Domain - Events
             services.AddScoped<INotificationHandler, NotificationHandler>();
-            //services.AddScoped<INotificationHandler<CustomerRegisteredEvent>, CustomerEventHandler>();
-            //services.AddScoped<INotificationHandler<CustomerUpdatedEvent>, CustomerEventHandler>();
-            //services.AddScoped<INotificationHandler<CustomerRemovedEvent>, CustomerEventHandler>();
-
-            //// Domain - Commands
-            //services.AddScoped<IRequestHandler<RegisterNewCustomerCommand, ICommandResult<CustomerDto>>, CustomerCommandHandler>();
-            //services.AddScoped<IRequestHandler<UpdateCustomerCommand, ICommandResult>, CustomerCommandHandler>();
-            //services.AddScoped<IRequestHandler<RemoveCustomerCommand, ICommandResult>, CustomerCommandHandler>();
-
             services.AddScoped<IUnitOfWork, Demo2UnitOfWork>();
 
             services.RegisterAllTypesOf<IRepository>(typeof(CustomerRepository).Assembly);

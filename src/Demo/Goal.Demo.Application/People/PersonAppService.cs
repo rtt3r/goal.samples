@@ -51,12 +51,12 @@ namespace Goal.Demo.Application.People
 
             if (!result.IsValid)
             {
-                throw new BusinessException(result.Errors.First().ToString());
+                throw new DomainViolationException(result.Errors.First().ToString());
             }
 
             if (await personRepository.AnyAsync(PersonSpecifications.MatchCpf(request.Cpf)))
             {
-                throw new BusinessException("CPF duplicado");
+                throw new DomainViolationException("CPF duplicado");
             }
 
             var person = Person.CreatePerson(
@@ -80,7 +80,7 @@ namespace Goal.Demo.Application.People
 
             if (!result.IsValid)
             {
-                throw new BusinessException(result.Errors.First().ToString());
+                throw new DomainViolationException(result.Errors.First().ToString());
             }
 
             Person person = await personRepository.LoadAsync(id)
@@ -90,7 +90,7 @@ namespace Goal.Demo.Application.People
                 !PersonSpecifications.MatchId(person.Id)
                 && PersonSpecifications.MatchCpf(person.Cpf.Number)))
             {
-                throw new BusinessException("CPF duplicado");
+                throw new DomainViolationException("CPF duplicado");
             }
 
             personRepository.Update(person);

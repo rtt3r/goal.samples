@@ -7,18 +7,37 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.2" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.2" />
-		<PackageReference Include="NEST" Version="7.17.0" />
-		<PackageReference Include="NEST.JsonNetSerializer" Version="7.17.0" />
-		<PackageReference Include="Goal.Infra.Crosscutting" Version="0.0.1" />
-		<PackageReference Include="Goal.Domain.Seedwork" Version="0.0.1" />
-		<PackageReference Include="Goal.Application.Seedwork" Version="0.0.1" />
-		<PackageReference Include="Goal.Infra.Data.Seedwork" Version="0.0.1" />
-		<PackageReference Include="Goal.Infra.Http.Seedwork" Version="0.0.1" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore">
+			<Version>6.0.4</Version>
+		</PackageReference>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite">
+			<Version>6.0.4</Version>
+		</PackageReference>
+		<PackageReference Include="NEST">
+			<Version>7.17.1</Version>
+		</PackageReference>
+		<PackageReference Include="NEST.JsonNetSerializer">
+			<Version>7.17.1</Version>
+		</PackageReference>
+		<PackageReference Include="Goal.Infra.Crosscutting">
+			<Version>0.2.1</Version>
+		</PackageReference>
+		<PackageReference Include="Goal.Domain.Seedwork">
+			<Version>0.2.1</Version>
+		</PackageReference>
+		<PackageReference Include="Goal.Application.Seedwork">
+			<Version>0.2.1</Version>
+		</PackageReference>
+		<PackageReference Include="Goal.Infra.Data.Seedwork">
+			<Version>0.2.1</Version>
+		</PackageReference>
+		<PackageReference Include="Goal.Infra.Http.Seedwork">
+			<Version>0.2.1</Version>
+		</PackageReference>
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\..\Demo2\Goal.Demo2.Infra.Data\Goal.Demo2.Infra.Data.csproj" />
 		<ProjectReference Include="..\Goal.Demo.Application\Goal.Demo.Application.csproj" />
 		<ProjectReference Include="..\Goal.Demo.Domain\Goal.Demo.Domain.csproj" />
 		<ProjectReference Include="..\Goal.Demo.Infra.Data\Goal.Demo.Infra.Data.csproj" />

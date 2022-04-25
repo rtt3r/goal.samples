@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
@@ -77,10 +77,10 @@
 			<Version>8.4.1</Version>
 		</PackageReference>
 		<PackageReference Include="Goal.Infra.Crosscutting">
-			<Version>0.2.2</Version>
+			<Version>0.2.3</Version>
 		</PackageReference>
 		<PackageReference Include="Goal.Infra.Http.Seedwork">
-			<Version>0.2.2</Version>
+			<Version>0.2.3</Version>
 		</PackageReference>
 	</ItemGroup>
 

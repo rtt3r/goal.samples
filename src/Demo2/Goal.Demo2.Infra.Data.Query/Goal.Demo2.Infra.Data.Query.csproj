@@ -11,7 +11,7 @@
 			<Version>5.3.102</Version>
 		</PackageReference>
 		<PackageReference Include="Goal.Infra.Data.Query.Seedwork">
-			<Version>0.2.2</Version>
+			<Version>0.2.3</Version>
 		</PackageReference>
 	</ItemGroup>
 

@@ -65,6 +65,7 @@ namespace Goal.Demo2.Api.Infra.Extensions
             });
 
             services.AddRavenDbAsyncSession();
+            services.AddRavenDbSession();
 
             services.AddScoped<IBusHandler, InMemoryBusHandler>();
             services.AddScoped<IEventStore, SqlEventStore>();

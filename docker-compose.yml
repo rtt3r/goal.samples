@@ -14,28 +14,20 @@ services:
     volumes:
       - ravendb-data:/opt/RavenDB/Server/RavenData
 
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.16.2
-    container_name: ritter.co-goal-elasticsearch
+  seq:
+    image: datalust/seq:latest
+    container_name: ritter.co-goal-seq
+    restart: unless-stopped
     ports:
-      - 9200:9200
+      - 81:80
+      - 5341:5341
+    environment:
+      - ACCEPT_EULA=Y
+      - SEQ_FIRSTRUN_ADMINPASSWORDHASH=FCYqICbqbAUjB9UmVl3ddA5EOeqd6d51jNwW+SgPK1wmajiQoQ==
     volumes:
-      - elasticsearch-data:/usr/share/elasticsearch/data
-    environment:
-      - xpack.monitoring.enabled=true
-      - xpack.watcher.enabled=false
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-      - discovery.type=single-node
-
-  kibana:
-    container_name: ritter.co-goal-kibana
-    image: docker.elastic.co/kibana/kibana:7.16.2
-    ports:
-      - 5601:5601
-    depends_on:
-      - elasticsearch
-    environment:
-      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+      - type: volume
+        source: seq-volume
+        target: /data
 
   mssql:
     image: "mcr.microsoft.com/mssql/server:2019-CU14-ubuntu-20.04"
@@ -57,13 +49,13 @@ services:
       dockerfile: src/Demo2/Goal.Demo2.Api/Dockerfile
     depends_on:
       - mssql
-      - elasticsearch
+      - seq
       - ravendb
 
 volumes:
   mssql:
     name: mssql-vol
-  elasticsearch-data:
-    name: elasticsearch-vol
   ravendb-data:
     name: ravendb-vol
+  seq-volume:
+    name: seq-1-volume

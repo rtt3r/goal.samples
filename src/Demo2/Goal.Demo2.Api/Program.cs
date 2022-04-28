@@ -6,11 +6,12 @@ using Goal.Infra.Crosscutting.Localization;
 using MediatR;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Options;
+using Serilog;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-builder.ConfgureLogging();
+builder.Host.UseSerilog((ctx, lc) => lc.ConfgureLogging(builder.Configuration, builder.Environment));
 
 // Add services to the container.
 builder.Services.AddServices(builder.Configuration, builder.Environment);

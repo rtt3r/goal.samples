@@ -8,8 +8,7 @@
       "commandVersion": "1.0",
       "serviceActions": {
         "demo2": "StartDebugging",
-        "elasticsearch": "StartWithoutDebugging",
-        "kibana": "StartWithoutDebugging",
+        "seq": "StartWithoutDebugging",
         "mssql": "StartWithoutDebugging",
         "ravendb": "StartWithoutDebugging"
       }

@@ -1,3 +1,5 @@
+using System.Net;
+using System.Text.Json;
 using Goal.Application.Seedwork.Handlers;
 using Goal.Demo2.Api.Application.Commands.Customers;
 using Goal.Demo2.Api.Application.Dtos.Customers.Requests;
@@ -22,15 +24,18 @@ namespace Goal.Demo2.Api.Controllers
         private readonly ICustomerQueryRepository customerRepository;
         private readonly IBusHandler busHandler;
         private readonly INotificationHandler notificationHandler;
+        private readonly ILogger<CustomersController> logger;
 
         public CustomersController(
             ICustomerQueryRepository customerRepository,
             IBusHandler busHandler,
-            INotificationHandler notificationHandler)
+            INotificationHandler notificationHandler,
+            ILogger<CustomersController> logger)
         {
             this.customerRepository = customerRepository;
             this.busHandler = busHandler;
             this.notificationHandler = notificationHandler;
+            this.logger = logger;
         }
 
         [HttpGet]
@@ -58,23 +63,60 @@ namespace Goal.Demo2.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<CustomerDto>> Post([FromBody] RegisterNewCustomerRequest request)
         {
+            logger.LogTrace(
+                "Executing {ActionName}: {Payload}",
+                ControllerContext.ActionDescriptor.DisplayName,
+                JsonSerializer.Serialize(request));
+
             var command = new RegisterNewCustomerCommand(
                 request.Name,
                 request.Email,
                 request.BirthDate);
 
+            logger.LogTrace(
+                "Sending command {Name}: {Command}",
+                nameof(RegisterNewCustomerRequest),
+                JsonSerializer.Serialize(command));
+
             ICommandResult<CustomerDto> result = await busHandler
                 .SendCommand<RegisterNewCustomerCommand, CustomerDto>(command);
 
+            logger.LogTrace(
+                "Command result: {Name}: {Result}",
+                nameof(ICommandResult<CustomerDto>),
+                JsonSerializer.Serialize(result));
+
             if (result.IsValidationError())
             {
-                return BadRequest(notificationHandler.GetNotifications());
+                IEnumerable<Goal.Domain.Seedwork.Notifications.Notification> notifications = notificationHandler.GetNotifications();
+
+                logger.LogTrace(
+                    "Request result: {StatusCodeDescription} ({StatusCode}) => {Data}",
+                    $"{HttpStatusCode.BadRequest}",
+                    StatusCodes.Status400BadRequest,
+                    JsonSerializer.Serialize(notifications));
+
+                return BadRequest(notifications);
             }
 
             if (result.IsDomainError())
             {
+                IEnumerable<Goal.Domain.Seedwork.Notifications.Notification> notifications = notificationHandler.GetNotifications();
+
+                logger.LogTrace(
+                    "Request result: {StatusCodeDescription} ({StatusCode}) => {Data}",
+                    $"{HttpStatusCode.UnprocessableEntity}",
+                    StatusCodes.Status422UnprocessableEntity,
+                    JsonSerializer.Serialize(notifications));
+
                 return UnprocessableEntity(notificationHandler.GetNotifications());
             }
+
+            logger.LogTrace(
+                "Request result: {StatusCodeDescription} ({StatusCode}) => {Data}",
+                $"{HttpStatusCode.Created}",
+                StatusCodes.Status201Created,
+                JsonSerializer.Serialize(result.Data));
 
             return CreatedAtRoute(
                 nameof(GetById),

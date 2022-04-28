@@ -1,3 +1,4 @@
+using System.Text.Json;
 using FluentValidation.Results;
 using Goal.Application.Seedwork.Extensions;
 using Goal.Application.Seedwork.Handlers;
@@ -21,21 +22,27 @@ namespace Goal.Demo2.Api.Application.CommandHandlers
     {
         private readonly ICustomerRepository customerRepository;
         private readonly ITypeAdapter typeAdapter;
+        private readonly ILogger<CustomerCommandHandler> logger;
 
         public CustomerCommandHandler(
             ICustomerRepository customerRepository,
             IUnitOfWork unitOfWork,
             IBusHandler busHandler,
             INotificationHandler notificationHandler,
-            ITypeAdapter typeAdapter)
+            ITypeAdapter typeAdapter,
+            ILogger<CustomerCommandHandler> logger)
             : base(unitOfWork, busHandler, notificationHandler)
         {
             this.customerRepository = customerRepository;
             this.typeAdapter = typeAdapter;
+            this.logger = logger;
         }
 
         public async Task<ICommandResult<CustomerDto>> Handle(RegisterNewCustomerCommand command, CancellationToken cancellationToken)
         {
+            logger.LogTrace("Handle command {CommandName} started", nameof(RegisterNewCustomerCommand));
+            logger.LogTrace("Validating command {Command}", JsonSerializer.Serialize(command));
+
             ValidationResult validationResult = await ValidateCommandAsync(
                 new RegisterNewCustomerCommandValidation(),
                 command,
@@ -43,11 +50,17 @@ namespace Goal.Demo2.Api.Application.CommandHandlers
 
             if (!validationResult.IsValid)
             {
+                logger.LogTrace("Validation fail: {ValidationResult}", JsonSerializer.Serialize(validationResult));
+
                 await NotifyViolations(validationResult, cancellationToken);
                 return CommandResult.ValidationError<CustomerDto>(default);
             }
 
+            logger.LogTrace($"Validation succeeded");
+
             var customer = new Customer(command.Name, command.Email, command.BirthDate);
+
+            logger.LogTrace($"Checking customer email");
 
             if (await customerRepository.GetByEmail(customer.Email) != null)
             {
@@ -55,10 +68,17 @@ namespace Goal.Demo2.Api.Application.CommandHandlers
                     new Notification(command.MessageType, "The customer e-mail has already been taken."),
                     cancellationToken);
 
+                logger.LogTrace($"Email check fail: The customer e-mail has already been taken");
+
                 return CommandResult.DomainError<CustomerDto>(default);
             }
 
+            logger.LogTrace($"Email check succeeded");
+            logger.LogTrace($"Saving new customer to database");
+
             await customerRepository.AddAsync(customer, cancellationToken);
+
+            logger.LogTrace($"Commit data");
 
             if (await Commit(cancellationToken))
             {
@@ -68,6 +88,7 @@ namespace Goal.Demo2.Api.Application.CommandHandlers
                     typeAdapter.ProjectAs<CustomerDto>(customer));
             }
 
+            logger.LogTrace($"Commit failed");
             return CommandResult.DomainError<CustomerDto>(default);
         }
 

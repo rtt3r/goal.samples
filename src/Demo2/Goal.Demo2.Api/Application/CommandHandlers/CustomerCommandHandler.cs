@@ -68,7 +68,7 @@ namespace Goal.Demo2.Api.Application.CommandHandlers
                     new Notification(command.MessageType, "The customer e-mail has already been taken."),
                     cancellationToken);
 
-                logger.LogTrace($"Email check fail: The customer e-mail has already been taken");
+                logger.LogTrace("Email check fail: {Error}", "The customer e-mail has already been taken");
 
                 return CommandResult.DomainError<CustomerDto>(default);
             }

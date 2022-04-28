@@ -6,6 +6,7 @@ using Goal.Demo2.Api.Application.Dtos.Customers.Requests;
 using Goal.Demo2.Dto.Customers;
 using Goal.Demo2.Infra.Data.Query.Repositories.Customers;
 using Goal.Domain.Seedwork.Commands;
+using Goal.Domain.Seedwork.Notifications;
 using Goal.Infra.Http.Seedwork.Controllers;
 using Goal.Infra.Http.Seedwork.Controllers.Requests;
 using Goal.Infra.Http.Seedwork.Controllers.Results;
@@ -64,7 +65,7 @@ namespace Goal.Demo2.Api.Controllers
         public async Task<ActionResult<CustomerDto>> Post([FromBody] RegisterNewCustomerRequest request)
         {
             logger.LogTrace(
-                "Executing {ActionName}: {Payload}",
+                "Executing action {ActionName} with payload: {Payload}",
                 ControllerContext.ActionDescriptor.DisplayName,
                 JsonSerializer.Serialize(request));
 
@@ -74,7 +75,7 @@ namespace Goal.Demo2.Api.Controllers
                 request.BirthDate);
 
             logger.LogTrace(
-                "Sending command {Name}: {Command}",
+                "Sending command {Name} to handler: {Command}",
                 nameof(RegisterNewCustomerRequest),
                 JsonSerializer.Serialize(command));
 
@@ -82,18 +83,17 @@ namespace Goal.Demo2.Api.Controllers
                 .SendCommand<RegisterNewCustomerCommand, CustomerDto>(command);
 
             logger.LogTrace(
-                "Command result: {Name}: {Result}",
-                nameof(ICommandResult<CustomerDto>),
+                "Command handle result: {Result}",
                 JsonSerializer.Serialize(result));
 
             if (result.IsValidationError())
             {
-                IEnumerable<Goal.Domain.Seedwork.Notifications.Notification> notifications = notificationHandler.GetNotifications();
+                IEnumerable<Notification> notifications = notificationHandler.GetNotifications();
 
                 logger.LogTrace(
-                    "Request result: {StatusCodeDescription} ({StatusCode}) => {Data}",
-                    $"{HttpStatusCode.BadRequest}",
+                    "Action result: {StatusCode} ({StatusCodeDescription}) => {Data}",
                     StatusCodes.Status400BadRequest,
+                    $"{HttpStatusCode.BadRequest}",
                     JsonSerializer.Serialize(notifications));
 
                 return BadRequest(notifications);
@@ -101,21 +101,21 @@ namespace Goal.Demo2.Api.Controllers
 
             if (result.IsDomainError())
             {
-                IEnumerable<Goal.Domain.Seedwork.Notifications.Notification> notifications = notificationHandler.GetNotifications();
+                IEnumerable<Notification> notifications = notificationHandler.GetNotifications();
 
                 logger.LogTrace(
-                    "Request result: {StatusCodeDescription} ({StatusCode}) => {Data}",
-                    $"{HttpStatusCode.UnprocessableEntity}",
+                    "Action result: {StatusCode} ({StatusCodeDescription}) => {Data}",
                     StatusCodes.Status422UnprocessableEntity,
+                    $"{HttpStatusCode.UnprocessableEntity}",
                     JsonSerializer.Serialize(notifications));
 
                 return UnprocessableEntity(notificationHandler.GetNotifications());
             }
 
             logger.LogTrace(
-                "Request result: {StatusCodeDescription} ({StatusCode}) => {Data}",
-                $"{HttpStatusCode.Created}",
+                "Action result: {StatusCode} ({StatusCodeDescription}) => {Data}",
                 StatusCodes.Status201Created,
+                $"{HttpStatusCode.Created}",
                 JsonSerializer.Serialize(result.Data));
 
             return CreatedAtRoute(

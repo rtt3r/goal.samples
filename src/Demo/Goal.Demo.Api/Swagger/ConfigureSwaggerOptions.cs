@@ -1,8 +1,5 @@
-using System;
-using System.IO;
 using System.Reflection;
 using Goal.Infra.Http.Seedwork.Swagger;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;

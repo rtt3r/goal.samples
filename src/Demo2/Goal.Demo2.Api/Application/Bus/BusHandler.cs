@@ -3,7 +3,7 @@ using Goal.Domain.Seedwork.Commands;
 using Goal.Domain.Seedwork.Events;
 using MediatR;
 
-namespace Goal.Demo2.Api.Infra.Bus
+namespace Goal.Demo2.Api.Application.Bus
 {
     public sealed class InMemoryBusHandler : IBusHandler
     {

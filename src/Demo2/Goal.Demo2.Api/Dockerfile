@@ -14,6 +14,7 @@ COPY ["src/Demo2/Goal.Demo2.Infra.Data/Goal.Demo2.Infra.Data.csproj", "src/Demo2
 COPY ["src/Demo2/Goal.Demo2.Infra.Data.Query/Goal.Demo2.Infra.Data.Query.csproj", "src/Demo2/Goal.Demo2.Infra.Data.Query/"]
 COPY ["src/Demo2/Goal.Demo2.Domain/Goal.Demo2.Domain.csproj", "src/Demo2/Goal.Demo2.Domain/"]
 COPY ["src/Demo2/Goal.Demo2.Dto/Goal.Demo2.Dto.csproj", "src/Demo2/Goal.Demo2.Dto/"]
+COPY ["src/Demo2/Goal.Demo2.Infra.Crosscutting/Goal.Demo2.Infra.Crosscutting.csproj", "src/Demo2/Goal.Demo2.Infra.Crosscutting.Dto/"]
 
 RUN dotnet restore "src/Demo2/Goal.Demo2.Api/Goal.Demo2.Api.csproj"
 COPY . .

@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using Goal.Demo.Application.DTO.People.Requests;
 using Goal.Demo.Application.DTO.People.Responses;
 using Goal.Demo.Application.People;
@@ -6,7 +5,6 @@ using Goal.Infra.Http.Seedwork.Controllers;
 using Goal.Infra.Http.Seedwork.Controllers.Requests;
 using Goal.Infra.Http.Seedwork.Controllers.Results;
 using Goal.Infra.Http.Seedwork.Extensions;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Goal.Demo.Api.Controllers

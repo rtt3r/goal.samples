@@ -1,5 +1,5 @@
 using Goal.Application.Seedwork.Handlers;
-using Goal.Demo2.Api.Infra.Bus;
+using Goal.Demo2.Api.Application.Bus;
 using Goal.Demo2.Infra.Data;
 using Goal.Demo2.Infra.Data.Auditing;
 using Goal.Demo2.Infra.Data.EventSourcing;

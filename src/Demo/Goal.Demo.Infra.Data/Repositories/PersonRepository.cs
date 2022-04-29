@@ -41,20 +41,20 @@ namespace Goal.Demo.Infra.Data.Repositories
                 .ToList();
         }
 
-        public override async Task<ICollection<Person>> QueryAsync(CancellationToken cancellationToken = new CancellationToken())
-        {
-            return await Context
-                .Set<Person>()
-                .Include(p => p.Cpf)
-                .ToListAsync(cancellationToken);
-        }
-
         public override IPagedCollection<Person> Query(IPagination pagination)
         {
             return Context
                 .Set<Person>()
                 .Include(p => p.Cpf)
                 .PaginateList(pagination);
+        }
+
+        public override async Task<ICollection<Person>> QueryAsync(CancellationToken cancellationToken = new CancellationToken())
+        {
+            return await Context
+                .Set<Person>()
+                .Include(p => p.Cpf)
+                .ToListAsync(cancellationToken);
         }
 
         public override async Task<IPagedCollection<Person>> QueryAsync(IPagination pagination, CancellationToken cancellationToken = new CancellationToken())

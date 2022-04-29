@@ -6,7 +6,7 @@ using Goal.Demo2.Api.Application.Commands.Customers;
 using Goal.Demo2.Api.Application.Events;
 using Goal.Demo2.Api.Application.Validations.Customers;
 using Goal.Demo2.Domain.Aggregates.Customers;
-using Goal.Demo2.Dto.Customers;
+using Goal.Demo2.Model.Customers;
 using Goal.Domain.Seedwork;
 using Goal.Domain.Seedwork.Commands;
 using Goal.Domain.Seedwork.Notifications;
@@ -16,7 +16,7 @@ using MediatR;
 namespace Goal.Demo2.Api.Application.CommandHandlers
 {
     public class CustomerCommandHandler : BaseCommandHandler,
-        IRequestHandler<RegisterNewCustomerCommand, ICommandResult<CustomerDto>>,
+        IRequestHandler<RegisterNewCustomerCommand, ICommandResult<CustomerModel>>,
         IRequestHandler<UpdateCustomerCommand, ICommandResult>,
         IRequestHandler<RemoveCustomerCommand, ICommandResult>
     {
@@ -38,7 +38,7 @@ namespace Goal.Demo2.Api.Application.CommandHandlers
             this.logger = logger;
         }
 
-        public async Task<ICommandResult<CustomerDto>> Handle(RegisterNewCustomerCommand command, CancellationToken cancellationToken)
+        public async Task<ICommandResult<CustomerModel>> Handle(RegisterNewCustomerCommand command, CancellationToken cancellationToken)
         {
             logger.LogTrace("Handle command {CommandName} started", nameof(RegisterNewCustomerCommand));
             logger.LogTrace("Validating command {Command}", JsonSerializer.Serialize(command));
@@ -53,7 +53,7 @@ namespace Goal.Demo2.Api.Application.CommandHandlers
                 logger.LogTrace("Validation fail: {ValidationResult}", JsonSerializer.Serialize(validationResult));
 
                 await NotifyViolations(validationResult, cancellationToken);
-                return CommandResult.ValidationError<CustomerDto>(default);
+                return CommandResult.ValidationError<CustomerModel>(default);
             }
 
             logger.LogTrace($"Validation succeeded");
@@ -70,7 +70,7 @@ namespace Goal.Demo2.Api.Application.CommandHandlers
 
                 logger.LogTrace("Email check fail: {Error}", "The customer e-mail has already been taken");
 
-                return CommandResult.DomainError<CustomerDto>(default);
+                return CommandResult.DomainError<CustomerModel>(default);
             }
 
             logger.LogTrace($"Email check succeeded");
@@ -85,11 +85,11 @@ namespace Goal.Demo2.Api.Application.CommandHandlers
                 await busHandler.RaiseEvent(new CustomerRegisteredEvent(customer.Id, customer.Name, customer.Email, customer.BirthDate));
 
                 return CommandResult.Success(
-                    typeAdapter.ProjectAs<CustomerDto>(customer));
+                    typeAdapter.ProjectAs<CustomerModel>(customer));
             }
 
             logger.LogTrace($"Commit failed");
-            return CommandResult.DomainError<CustomerDto>(default);
+            return CommandResult.DomainError<CustomerModel>(default);
         }
 
         public async Task<ICommandResult> Handle(UpdateCustomerCommand command, CancellationToken cancellationToken)

@@ -4,7 +4,7 @@ using Serilog;
 using Serilog.Exceptions;
 using Serilog.Sinks.SystemConsole.Themes;
 
-namespace Goal.Demo2.Api.Infra.Extensions
+namespace Goal.Demo2.Infra.Crosscutting.Extensions
 {
     public static class LoggingExtensions
     {

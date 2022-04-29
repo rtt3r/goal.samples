@@ -1,6 +1,6 @@
-namespace Goal.Demo2.Dto.Customers
+namespace Goal.Demo2.Model.Customers
 {
-    public class CustomerDto
+    public class CustomerModel
     {
         public string CustomerId { get; set; }
         public string Name { get; set; }

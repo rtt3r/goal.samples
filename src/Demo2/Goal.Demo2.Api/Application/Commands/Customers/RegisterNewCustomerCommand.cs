@@ -1,9 +1,9 @@
-using Goal.Demo2.Dto.Customers;
+using Goal.Demo2.Model.Customers;
 using Goal.Domain.Seedwork.Commands;
 
 namespace Goal.Demo2.Api.Application.Commands.Customers
 {
-    public class RegisterNewCustomerCommand : CustomerCommand<ICommandResult<CustomerDto>>
+    public class RegisterNewCustomerCommand : CustomerCommand<ICommandResult<CustomerModel>>
     {
         public string Email { get; set; }
 

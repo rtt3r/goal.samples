@@ -1,6 +1,6 @@
 using Goal.Demo2.Api.Application.Events;
-using Goal.Demo2.Dto.Customers;
 using Goal.Demo2.Infra.Data.Query.Repositories.Customers;
+using Goal.Demo2.Model.Customers;
 using MediatR;
 
 namespace Goal.Demo2.Api.Application.EventHandlers
@@ -19,7 +19,7 @@ namespace Goal.Demo2.Api.Application.EventHandlers
 
         public async Task Handle(CustomerUpdatedEvent message, CancellationToken cancellationToken)
         {
-            CustomerDto customer = await customerRepository.LoadAsync(message.AggregateId.ToString(), cancellationToken);
+            CustomerModel customer = await customerRepository.LoadAsync(message.AggregateId.ToString(), cancellationToken);
 
             customer.CustomerId = message.AggregateId.ToString();
             customer.Name = message.Name;
@@ -36,7 +36,7 @@ namespace Goal.Demo2.Api.Application.EventHandlers
         {
             await customerRepository.StoreAsync(
                 message.AggregateId.ToString(),
-                new CustomerDto
+                new CustomerModel
                 {
                     CustomerId = message.AggregateId.ToString(),
                     Name = message.Name,

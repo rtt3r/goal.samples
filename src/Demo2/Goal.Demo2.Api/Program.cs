@@ -2,6 +2,7 @@ using System.Globalization;
 using System.Text.Json;
 using Goal.Demo2.Api.Infra.Extensions;
 using Goal.Demo2.Api.Infra.Swagger;
+using Goal.Demo2.Infra.Crosscutting.Extensions;
 using Goal.Infra.Crosscutting.Localization;
 using MediatR;
 using Microsoft.AspNetCore.Localization;

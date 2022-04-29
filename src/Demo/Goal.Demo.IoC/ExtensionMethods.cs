@@ -19,7 +19,6 @@ namespace Goal.Demo.IoC
             string connectionString = configuration.GetConnectionString("DefaultConnection");
 
             services.AddHttpContextAccessor();
-            //services.AddScoped<EFAuditChangesInterceptor>();
 
             services
                 .AddDbContext<DemoContext>((provider, options) =>
@@ -29,8 +28,6 @@ namespace Goal.Demo.IoC
                             connectionString,
                             opts => opts.MigrationsAssembly(typeof(DemoContext).Assembly.GetName().Name))
                         .EnableSensitiveDataLogging();
-
-                    //options.AddInterceptors(provider.GetRequiredService<EFAuditChangesInterceptor>());
                 });
 
             services.AddScoped<DbContext>(provider => provider.GetService<DemoContext>());

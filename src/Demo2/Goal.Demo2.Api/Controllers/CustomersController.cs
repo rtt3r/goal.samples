@@ -3,8 +3,8 @@ using System.Text.Json;
 using Goal.Application.Seedwork.Handlers;
 using Goal.Demo2.Api.Application.Commands.Customers;
 using Goal.Demo2.Api.Application.Dtos.Customers.Requests;
-using Goal.Demo2.Dto.Customers;
 using Goal.Demo2.Infra.Data.Query.Repositories.Customers;
+using Goal.Demo2.Model.Customers;
 using Goal.Domain.Seedwork.Commands;
 using Goal.Domain.Seedwork.Notifications;
 using Goal.Infra.Http.Seedwork.Controllers;
@@ -41,15 +41,15 @@ namespace Goal.Demo2.Api.Controllers
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<PagedResponse<CustomerDto>>> Get([FromQuery] PaginationRequest request)
+        public async Task<ActionResult<PagedResponse<CustomerModel>>> Get([FromQuery] PaginationRequest request)
             => Paged(await customerRepository.QueryAsync(request.ToPagination()));
 
         [HttpGet("{id}", Name = nameof(GetById))]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<CustomerDto>> GetById([FromRoute] string id)
+        public async Task<ActionResult<CustomerModel>> GetById([FromRoute] string id)
         {
-            CustomerDto customer = await customerRepository.LoadAsync(id);
+            CustomerModel customer = await customerRepository.LoadAsync(id);
 
             if (customer is null)
             {
@@ -62,7 +62,7 @@ namespace Goal.Demo2.Api.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<CustomerDto>> Post([FromBody] RegisterNewCustomerRequest request)
+        public async Task<ActionResult<CustomerModel>> Post([FromBody] RegisterNewCustomerRequest request)
         {
             logger.LogTrace(
                 "Executing action {ActionName} with payload: {Payload}",
@@ -79,8 +79,8 @@ namespace Goal.Demo2.Api.Controllers
                 nameof(RegisterNewCustomerRequest),
                 JsonSerializer.Serialize(command));
 
-            ICommandResult<CustomerDto> result = await busHandler
-                .SendCommand<RegisterNewCustomerCommand, CustomerDto>(command);
+            ICommandResult<CustomerModel> result = await busHandler
+                .SendCommand<RegisterNewCustomerCommand, CustomerModel>(command);
 
             logger.LogTrace(
                 "Command handle result: {Result}",
@@ -129,7 +129,7 @@ namespace Goal.Demo2.Api.Controllers
         [ProducesResponseType(StatusCodes.Status202Accepted)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<CustomerDto>> Patch([FromRoute] Guid id, [FromBody] UpdateCustomerRequest request)
+        public async Task<ActionResult<CustomerModel>> Patch([FromRoute] Guid id, [FromBody] UpdateCustomerRequest request)
         {
             var command = new UpdateCustomerCommand(
                 id,

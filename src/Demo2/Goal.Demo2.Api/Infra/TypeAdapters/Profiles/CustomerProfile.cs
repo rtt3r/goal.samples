@@ -1,6 +1,6 @@
 using AutoMapper;
 using Goal.Demo2.Domain.Aggregates.Customers;
-using Goal.Demo2.Dto.Customers;
+using Goal.Demo2.Model.Customers;
 
 namespace Goal.Demo2.Api.Infra.TypeAdapters.Profiles
 {
@@ -8,7 +8,7 @@ namespace Goal.Demo2.Api.Infra.TypeAdapters.Profiles
     {
         public CustomerProfile()
         {
-            CreateMap<Customer, CustomerDto>()
+            CreateMap<Customer, CustomerModel>()
                 .ForMember(dest => dest.CustomerId, opt => opt.MapFrom(src => src.Id));
         }
     }

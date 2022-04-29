@@ -1,10 +1,10 @@
-using Goal.Application.Seedwork.Services;
 using Goal.Demo.Application.People;
 using Goal.Demo.Infra.Data;
 using Goal.Demo.Infra.Data.Repositories;
-using Goal.Domain.Seedwork;
-using Goal.Domain.Seedwork.Aggregates;
-using Goal.Infra.Http.Seedwork.DependencyInjection;
+using Goal.Seedwork.Application.Services;
+using Goal.Seedwork.Domain;
+using Goal.Seedwork.Domain.Aggregates;
+using Goal.Seedwork.Infra.Http.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

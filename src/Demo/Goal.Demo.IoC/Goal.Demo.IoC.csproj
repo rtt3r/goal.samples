@@ -22,17 +22,17 @@
 		<PackageReference Include="Goal.Infra.Crosscutting">
 			<Version>0.2.3</Version>
 		</PackageReference>
-		<PackageReference Include="Goal.Domain.Seedwork">
-			<Version>0.2.3</Version>
+		<PackageReference Include="Goal.Seedwork.Domain">
+			<Version>0.0.2</Version>
 		</PackageReference>
 		<PackageReference Include="Goal.Application.Seedwork">
 			<Version>0.2.3</Version>
 		</PackageReference>
-		<PackageReference Include="Goal.Infra.Data.Seedwork">
-			<Version>0.2.3</Version>
+		<PackageReference Include="Goal.Seedwork.Infra.Data">
+			<Version>0.0.2</Version>
 		</PackageReference>
-		<PackageReference Include="Goal.Infra.Http.Seedwork">
-			<Version>0.2.3</Version>
+		<PackageReference Include="Goal.Seedwork.Infra.Http">
+			<Version>0.0.1</Version>
 		</PackageReference>
 	</ItemGroup>
 

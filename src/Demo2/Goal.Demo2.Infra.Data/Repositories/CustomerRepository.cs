@@ -1,5 +1,5 @@
 using Goal.Demo2.Domain.Aggregates.Customers;
-using Goal.Infra.Data.Seedwork;
+using Goal.Seedwork.Infra.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace Goal.Demo2.Infra.Data.Repositories

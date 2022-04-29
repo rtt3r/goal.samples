@@ -3,9 +3,9 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Goal.Demo.Domain.Aggregates.People;
-using Goal.Infra.Crosscutting.Collections;
-using Goal.Infra.Crosscutting.Extensions;
-using Goal.Infra.Data.Seedwork;
+using Goal.Seedwork.Infra.Crosscutting.Collections;
+using Goal.Seedwork.Infra.Crosscutting.Extensions;
+using Goal.Seedwork.Infra.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace Goal.Demo.Infra.Data.Repositories

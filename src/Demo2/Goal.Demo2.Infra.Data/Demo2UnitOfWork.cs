@@ -1,4 +1,4 @@
-using Goal.Infra.Data.Seedwork;
+using Goal.Seedwork.Infra.Data;
 
 namespace Goal.Demo2.Infra.Data
 {

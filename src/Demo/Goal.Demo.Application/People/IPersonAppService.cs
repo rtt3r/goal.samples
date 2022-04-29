@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
-using Goal.Application.Seedwork.Services;
 using Goal.Demo.Application.DTO.People.Requests;
 using Goal.Demo.Application.DTO.People.Responses;
-using Goal.Infra.Crosscutting.Collections;
+using Goal.Seedwork.Application.Services;
+using Goal.Seedwork.Infra.Crosscutting.Collections;
 
 namespace Goal.Demo.Application.People
 {

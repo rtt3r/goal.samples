@@ -1,4 +1,4 @@
-using Goal.Infra.Crosscutting.Specifications;
+using Goal.Seedwork.Infra.Crosscutting.Specifications;
 
 namespace Goal.Demo.Domain.Aggregates.People
 {

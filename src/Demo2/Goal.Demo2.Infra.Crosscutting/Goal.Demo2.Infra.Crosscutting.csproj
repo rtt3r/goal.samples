@@ -8,8 +8,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Goal.Infra.Crosscutting">
-			<Version>0.2.3</Version>
+		<PackageReference Include="Goal.Seedwork.Infra.Crosscutting">
+			<Version>0.0.2</Version>
 		</PackageReference>
 		<PackageReference Include="Serilog.AspNetCore">
 			<Version>5.0.0</Version>

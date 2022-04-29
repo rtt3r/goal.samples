@@ -25,8 +25,8 @@
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Design">
 			<Version>1.1.6</Version>
 		</PackageReference>
-		<PackageReference Include="Goal.Infra.Data.Seedwork">
-			<Version>0.2.3</Version>
+		<PackageReference Include="Goal.Seedwork.Infra.Data">
+			<Version>0.0.2</Version>
 		</PackageReference>
 	</ItemGroup>
 

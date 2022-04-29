@@ -10,8 +10,8 @@
 		<PackageReference Include="AutoMapper">
 			<Version>11.0.1</Version>
 		</PackageReference>
-		<PackageReference Include="Goal.Infra.Crosscutting">
-			<Version>0.2.3</Version>
+		<PackageReference Include="Goal.Seedwork.Infra.Crosscutting">
+			<Version>0.0.2</Version>
 		</PackageReference>
 	</ItemGroup>
 

@@ -1,5 +1,5 @@
 using FluentValidation;
-using Goal.Infra.Crosscutting.Validations;
+using Goal.Seedwork.Infra.Crosscutting.Validations;
 
 namespace Goal.Demo.Application.DTO.People.Requests.Validators
 {

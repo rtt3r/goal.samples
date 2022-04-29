@@ -1,5 +1,5 @@
 using AutoMapper;
-using Goal.Infra.Crosscutting.Adapters;
+using Goal.Seedwork.Infra.Crosscutting.Adapters;
 
 namespace Goal.Demo.Application.Adapters
 {

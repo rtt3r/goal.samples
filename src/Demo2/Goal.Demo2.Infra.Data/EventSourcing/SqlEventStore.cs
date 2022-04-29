@@ -1,5 +1,5 @@
 using System.Text.Json;
-using Goal.Domain.Seedwork.Events;
+using Goal.Seedwork.Domain.Events;
 
 namespace Goal.Demo2.Infra.Data.EventSourcing
 {

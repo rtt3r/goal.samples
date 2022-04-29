@@ -1,4 +1,4 @@
-﻿using Goal.Domain.Seedwork.Aggregates;
+﻿using Goal.Seedwork.Domain.Aggregates;
 
 namespace Goal.Demo2.Domain.Aggregates.Customers
 {

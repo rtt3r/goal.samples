@@ -1,4 +1,4 @@
-using Goal.Infra.Data.Seedwork.Auditing;
+using Goal.Seedwork.Infra.Data.Auditing;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Raven.Client.Documents.Session;

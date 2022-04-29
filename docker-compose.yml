@@ -46,7 +46,7 @@ services:
     restart: on-failure
     build:
       context: .
-      dockerfile: src/Demo2/Goal.Demo2.Api/Dockerfile
+      dockerfile: src/Demo2/Goal.Demo2/Dockerfile
     depends_on:
       - mssql
       - seq

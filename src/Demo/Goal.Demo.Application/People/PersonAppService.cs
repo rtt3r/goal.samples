@@ -1,16 +1,16 @@
 using System.Linq;
 using System.Threading.Tasks;
 using FluentValidation.Results;
-using Goal.Application.Seedwork.Extensions;
-using Goal.Application.Seedwork.Services;
 using Goal.Demo.Application.DTO.People.Requests;
 using Goal.Demo.Application.DTO.People.Requests.Validators;
 using Goal.Demo.Application.DTO.People.Responses;
 using Goal.Demo.Domain.Aggregates.People;
-using Goal.Domain.Seedwork;
-using Goal.Infra.Crosscutting.Adapters;
-using Goal.Infra.Crosscutting.Collections;
-using Goal.Infra.Crosscutting.Exceptions;
+using Goal.Seedwork.Application.Extensions;
+using Goal.Seedwork.Application.Services;
+using Goal.Seedwork.Domain;
+using Goal.Seedwork.Infra.Crosscutting.Adapters;
+using Goal.Seedwork.Infra.Crosscutting.Collections;
+using Goal.Seedwork.Infra.Crosscutting.Exceptions;
 
 namespace Goal.Demo.Application.People
 {

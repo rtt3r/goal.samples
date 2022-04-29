@@ -1,10 +1,10 @@
 using Goal.Demo.Application.DTO.People.Requests;
 using Goal.Demo.Application.DTO.People.Responses;
 using Goal.Demo.Application.People;
-using Goal.Infra.Http.Seedwork.Controllers;
-using Goal.Infra.Http.Seedwork.Controllers.Requests;
-using Goal.Infra.Http.Seedwork.Controllers.Results;
-using Goal.Infra.Http.Seedwork.Extensions;
+using Goal.Seedwork.Infra.Http.Controllers;
+using Goal.Seedwork.Infra.Http.Controllers.Requests;
+using Goal.Seedwork.Infra.Http.Controllers.Results;
+using Goal.Seedwork.Infra.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Goal.Demo.Api.Controllers

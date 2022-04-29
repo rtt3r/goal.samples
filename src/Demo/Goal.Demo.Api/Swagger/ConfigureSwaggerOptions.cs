@@ -1,5 +1,5 @@
 using System.Reflection;
-using Goal.Infra.Http.Seedwork.Swagger;
+using Goal.Seedwork.Infra.Http.Swagger;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;

@@ -3,7 +3,7 @@ using System.Reflection;
 using Goal.Demo.Api.Extensions;
 using Goal.Demo.Api.Swagger;
 using Goal.Demo.IoC;
-using Goal.Infra.Crosscutting.Localization;
+using Goal.Seedwork.Infra.Crosscutting.Localization;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Options;
 using Serilog;

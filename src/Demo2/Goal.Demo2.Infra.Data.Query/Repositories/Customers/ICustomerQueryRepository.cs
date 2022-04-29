@@ -1,5 +1,5 @@
 using Goal.Demo2.Model.Customers;
-using Goal.Infra.Data.Query.Seedwork;
+using Goal.Seedwork.Infra.Data.Query;
 
 namespace Goal.Demo2.Infra.Data.Query.Repositories.Customers
 {

@@ -1,5 +1,5 @@
 using Goal.Demo2.Domain.Aggregates.Customers;
-using Goal.Domain.Seedwork.Events;
+using Goal.Seedwork.Domain.Events;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

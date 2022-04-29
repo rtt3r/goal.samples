@@ -1,6 +1,6 @@
-using Goal.Infra.Crosscutting.Collections;
-using Goal.Infra.Crosscutting.Extensions;
-using Goal.Infra.Data.Query.Seedwork;
+using Goal.Seedwork.Infra.Crosscutting.Collections;
+using Goal.Seedwork.Infra.Crosscutting.Extensions;
+using Goal.Seedwork.Infra.Data.Query;
 using Raven.Client.Documents;
 using Raven.Client.Documents.Session;
 

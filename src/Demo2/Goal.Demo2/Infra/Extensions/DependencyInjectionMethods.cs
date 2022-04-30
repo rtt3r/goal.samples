@@ -1,4 +1,5 @@
 using Goal.Demo2.Application.Bus;
+using Goal.Demo2.Infra.Crosscutting;
 using Goal.Demo2.Infra.Data;
 using Goal.Demo2.Infra.Data.Auditing;
 using Goal.Demo2.Infra.Data.EventSourcing;
@@ -22,8 +23,25 @@ namespace Goal.Demo2.Infra.Extensions
             string connectionString = configuration.GetConnectionString("DefaultConnection");
 
             services.AddHttpContextAccessor();
-            services.AddScoped<Demo2AuditChangesInterceptor>();
+            services.AddScoped(provider => provider.GetService<IHttpContextAccessor>().HttpContext.User);
+            services.AddScoped<AppState>();
 
+            services.AddDbContexts(connectionString);
+            services.AddRavenDb(configuration);
+
+            services.AddScoped<IBusHandler, InMemoryBusHandler>();
+            services.AddScoped<IEventStore, SqlEventStore>();
+            services.AddScoped<INotificationHandler, NotificationHandler>();
+            services.AddScoped<IUnitOfWork, Demo2UnitOfWork>();
+
+            services.RegisterAllTypesOf<IRepository>(typeof(CustomerRepository).Assembly);
+            services.RegisterAllTypesOf<IQueryRepository>(typeof(CustomerQueryRepository).Assembly);
+
+            return services;
+        }
+
+        private static IServiceCollection AddDbContexts(this IServiceCollection services, string connectionString)
+        {
             services
                 .AddDbContext<EventSourcingContext>((provider, options) =>
                 {
@@ -46,6 +64,11 @@ namespace Goal.Demo2.Infra.Extensions
                     options.AddInterceptors(provider.GetRequiredService<Demo2AuditChangesInterceptor>());
                 });
 
+            return services;
+        }
+
+        private static IServiceCollection AddRavenDb(this IServiceCollection services, IConfiguration configuration)
+        {
             services.Configure<RavenSettings>(configuration.GetSection("RavenSettings"));
 
             services.AddRavenDbDocStore(opts =>
@@ -62,14 +85,6 @@ namespace Goal.Demo2.Infra.Extensions
 
             services.AddRavenDbAsyncSession();
             services.AddRavenDbSession();
-
-            services.AddScoped<IBusHandler, InMemoryBusHandler>();
-            services.AddScoped<IEventStore, SqlEventStore>();
-            services.AddScoped<INotificationHandler, NotificationHandler>();
-            services.AddScoped<IUnitOfWork, Demo2UnitOfWork>();
-
-            services.RegisterAllTypesOf<IRepository>(typeof(CustomerRepository).Assembly);
-            services.RegisterAllTypesOf<IQueryRepository>(typeof(CustomerQueryRepository).Assembly);
 
             return services;
         }

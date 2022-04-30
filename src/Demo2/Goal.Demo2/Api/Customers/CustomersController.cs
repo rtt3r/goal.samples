@@ -124,11 +124,11 @@ namespace Goal.Demo2.Api.Customers
         }
 
         [HttpPatch]
-        [Route("{id:Guid}")]
+        [Route("{id}")]
         [ProducesResponseType(StatusCodes.Status202Accepted)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<CustomerModel>> Patch([FromRoute] Guid id, [FromBody] UpdateCustomerRequest request)
+        public async Task<ActionResult<CustomerModel>> Patch([FromRoute] string id, [FromBody] UpdateCustomerRequest request)
         {
             var command = new UpdateCustomerCommand(
                 id,
@@ -154,10 +154,10 @@ namespace Goal.Demo2.Api.Customers
         }
 
         [HttpDelete]
-        [Route("{id:Guid}")]
+        [Route("{id}")]
         [ProducesResponseType(StatusCodes.Status202Accepted)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult> Delete([FromRoute] Guid id)
+        public async Task<ActionResult> Delete([FromRoute] string id)
         {
             ICommandResult result = await busHandler.SendCommand(new RemoveCustomerCommand(id));
 

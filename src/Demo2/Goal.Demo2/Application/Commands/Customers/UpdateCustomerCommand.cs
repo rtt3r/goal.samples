@@ -4,9 +4,11 @@ namespace Goal.Demo2.Application.Commands.Customers
 {
     public class UpdateCustomerCommand : CustomerCommand<ICommandResult>
     {
-        public UpdateCustomerCommand(Guid id, string name, DateTime birthDate)
+        public string CustomerId { get; set; }
+
+        public UpdateCustomerCommand(string customerId, string name, DateTime birthDate)
         {
-            AggregateId = id;
+            CustomerId = customerId;
             Name = name;
             BirthDate = birthDate;
         }

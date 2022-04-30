@@ -23,16 +23,16 @@
 			<Version>0.2.3</Version>
 		</PackageReference>
 		<PackageReference Include="Goal.Seedwork.Domain">
-			<Version>0.0.2</Version>
+			<Version>0.0.4</Version>
 		</PackageReference>
 		<PackageReference Include="Goal.Application.Seedwork">
 			<Version>0.2.3</Version>
 		</PackageReference>
 		<PackageReference Include="Goal.Seedwork.Infra.Data">
-			<Version>0.0.2</Version>
+			<Version>0.0.4</Version>
 		</PackageReference>
 		<PackageReference Include="Goal.Seedwork.Infra.Http">
-			<Version>0.0.2</Version>
+			<Version>0.0.4</Version>
 		</PackageReference>
 	</ItemGroup>
 

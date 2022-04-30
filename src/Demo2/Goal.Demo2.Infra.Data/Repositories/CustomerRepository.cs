@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Goal.Demo2.Infra.Data.Repositories
 {
-    public class CustomerRepository : Repository<Customer>, ICustomerRepository
+    public class CustomerRepository : Repository<Customer, string>, ICustomerRepository
     {
         public CustomerRepository(Demo2Context context)
             : base(context)

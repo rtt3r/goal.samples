@@ -25,12 +25,13 @@
 			<Version>6.0.4</Version>
 		</PackageReference>
 		<PackageReference Include="Goal.Seedwork.Infra.Data">
-			<Version>0.0.2</Version>
+			<Version>0.0.4</Version>
 		</PackageReference>
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\Goal.Demo2.Domain\Goal.Demo2.Domain.csproj" />
+		<ProjectReference Include="..\Goal.Demo2.Infra.Crosscutting\Goal.Demo2.Infra.Crosscutting.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

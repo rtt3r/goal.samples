@@ -2,10 +2,11 @@ using Goal.Seedwork.Domain.Aggregates;
 
 namespace Goal.Demo2.Domain.Aggregates.Customers
 {
-    public class Customer : Entity
+    public class Customer : Entity<string>
     {
         public Customer(string name, string email, DateTime birthDate)
         {
+            Id = Guid.NewGuid().ToString();
             Name = name;
             Email = email;
             BirthDate = birthDate;

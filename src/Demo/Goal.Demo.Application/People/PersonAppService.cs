@@ -5,12 +5,12 @@ using Goal.Demo.Application.DTO.People.Requests;
 using Goal.Demo.Application.DTO.People.Requests.Validators;
 using Goal.Demo.Application.DTO.People.Responses;
 using Goal.Demo.Domain.Aggregates.People;
+using Goal.Infra.Crosscutting.Exceptions;
 using Goal.Seedwork.Application.Extensions;
 using Goal.Seedwork.Application.Services;
 using Goal.Seedwork.Domain;
 using Goal.Seedwork.Infra.Crosscutting.Adapters;
 using Goal.Seedwork.Infra.Crosscutting.Collections;
-using Goal.Seedwork.Infra.Crosscutting.Exceptions;
 
 namespace Goal.Demo.Application.People
 {

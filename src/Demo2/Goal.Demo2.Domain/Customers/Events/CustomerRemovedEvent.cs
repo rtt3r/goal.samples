@@ -4,9 +4,9 @@ namespace Goal.Demo2.Application.Events
 {
     public class CustomerRemovedEvent : Event
     {
-        public CustomerRemovedEvent(Guid id)
+        public CustomerRemovedEvent(string aggregateId)
         {
-            AggregateId = $"{id}";
+            AggregateId = aggregateId;
         }
     }
 }

@@ -1,16 +1,13 @@
 using FluentValidation;
-using Goal.Demo2.Application.Commands.Customers;
 using Goal.Demo2.Infra.Crosscutting.Constants;
 
-namespace Goal.Demo2.Application.Validations.Customers
+namespace Goal.Demo2.Application.Customers.Commands.Validators
 {
-    public class UpdateCustomerCommandValidator : CustomerValidator<UpdateCustomerCommand>
+    public class RemoveCustomerCommandValidator : CustomerValidator<RemoveCustomerCommand>
     {
-        public UpdateCustomerCommandValidator()
+        public RemoveCustomerCommandValidator()
         {
             ValidateId();
-            ValidateName();
-            ValidateBirthDate();
         }
 
         protected void ValidateId()

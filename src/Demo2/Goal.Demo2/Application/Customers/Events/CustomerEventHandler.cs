@@ -1,9 +1,9 @@
-using Goal.Demo2.Application.Events;
+using Goal.Demo2.Domain.Customers.Events;
 using Goal.Demo2.Infra.Data.Query.Repositories.Customers;
 using Goal.Demo2.Model.Customers;
 using MediatR;
 
-namespace Goal.Demo2.Application.EventHandlers
+namespace Goal.Demo2.Application.Customers.Events
 {
     public class CustomerEventHandler :
         INotificationHandler<CustomerRegisteredEvent>,

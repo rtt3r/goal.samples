@@ -1,7 +1,8 @@
+using System.Security.Claims;
 using System.Security.Principal;
 using IdentityModel;
 
-namespace System.Security.Claims
+namespace Goal.Demo2.Infra.Crosscutting.Extensions
 {
     public static class ClaimsPrincipalExtensions
     {

@@ -1,8 +1,7 @@
 using FluentValidation.Results;
-using Goal.Demo2.Application.Commands.Customers;
-using Goal.Demo2.Application.Events;
-using Goal.Demo2.Application.Validations.Customers;
-using Goal.Demo2.Domain.Aggregates.Customers;
+using Goal.Demo2.Application.Customers.Commands.Validators;
+using Goal.Demo2.Domain.Customers.Aggregates;
+using Goal.Demo2.Domain.Customers.Events;
 using Goal.Demo2.Infra.Crosscutting.Constants;
 using Goal.Demo2.Model.Customers;
 using Goal.Seedwork.Application.Extensions;
@@ -11,7 +10,7 @@ using Goal.Seedwork.Domain;
 using Goal.Seedwork.Domain.Commands;
 using Goal.Seedwork.Infra.Crosscutting.Adapters;
 
-namespace Goal.Demo2.Application.CommandHandlers
+namespace Goal.Demo2.Application.Customers.Commands
 {
     public class CustomerCommandHandler : CommandHandler,
         ICommandHandler<RegisterNewCustomerCommand, ICommandResult<CustomerModel>>,

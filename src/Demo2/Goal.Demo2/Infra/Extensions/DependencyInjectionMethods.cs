@@ -1,4 +1,4 @@
-using Goal.Demo2.Application.Bus;
+using Goal.Demo2.Infra.Bus;
 using Goal.Demo2.Infra.Crosscutting;
 using Goal.Demo2.Infra.Data;
 using Goal.Demo2.Infra.Data.EventSourcing;
@@ -28,7 +28,7 @@ namespace Goal.Demo2.Infra.Extensions
             services.AddDbContexts(connectionString);
             services.AddRavenDb(configuration);
 
-            services.AddScoped<IBusHandler, InMemoryBusHandler>();
+            services.AddScoped<IBusHandler, MediatorBusHandler>();
             services.AddScoped<IEventStore, SqlEventStore>();
             services.AddScoped<INotificationHandler, NotificationHandler>();
             services.AddScoped<IUnitOfWork, Demo2UnitOfWork>();

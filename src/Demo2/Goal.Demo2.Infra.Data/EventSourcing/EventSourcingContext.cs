@@ -1,5 +1,4 @@
 using Goal.Demo2.Infra.Data.Configurations;
-using Goal.Seedwork.Domain.Events;
 using Microsoft.EntityFrameworkCore;
 
 namespace Goal.Demo2.Infra.Data.EventSourcing

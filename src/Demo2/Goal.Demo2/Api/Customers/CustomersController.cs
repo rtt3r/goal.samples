@@ -1,4 +1,4 @@
-using Goal.Demo2.Application.Commands.Customers;
+using Goal.Demo2.Application.Customers.Commands;
 using Goal.Demo2.Infra.Data.Query.Repositories.Customers;
 using Goal.Demo2.Model.Customers;
 using Goal.Seedwork.Application.Handlers;

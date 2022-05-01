@@ -1,4 +1,4 @@
-using Goal.Demo2.Domain.Aggregates.Customers;
+using Goal.Demo2.Domain.Customers.Aggregates;
 using Goal.Demo2.Infra.Data.Configurations;
 using Microsoft.EntityFrameworkCore;
 

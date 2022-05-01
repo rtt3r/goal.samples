@@ -3,14 +3,14 @@ using Goal.Seedwork.Domain.Commands;
 using Goal.Seedwork.Domain.Events;
 using MediatR;
 
-namespace Goal.Demo2.Application.Bus
+namespace Goal.Demo2.Infra.Bus
 {
-    public sealed class InMemoryBusHandler : IBusHandler
+    public sealed class MediatorBusHandler : IBusHandler
     {
         private readonly IMediator _mediator;
         private readonly IEventStore _eventStore;
 
-        public InMemoryBusHandler(IEventStore eventStore, IMediator mediator)
+        public MediatorBusHandler(IEventStore eventStore, IMediator mediator)
         {
             _eventStore = eventStore;
             _mediator = mediator;

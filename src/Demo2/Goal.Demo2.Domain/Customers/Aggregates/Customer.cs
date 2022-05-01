@@ -1,6 +1,6 @@
 using Goal.Seedwork.Domain.Aggregates;
 
-namespace Goal.Demo2.Domain.Aggregates.Customers
+namespace Goal.Demo2.Domain.Customers.Aggregates
 {
     public class Customer : Entity<string>
     {

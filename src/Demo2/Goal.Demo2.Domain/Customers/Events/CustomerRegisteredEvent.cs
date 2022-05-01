@@ -1,6 +1,6 @@
 using Goal.Seedwork.Domain.Events;
 
-namespace Goal.Demo2.Application.Events
+namespace Goal.Demo2.Domain.Customers.Events
 {
     public class CustomerRegisteredEvent : Event
     {

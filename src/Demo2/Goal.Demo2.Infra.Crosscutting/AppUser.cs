@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using Goal.Demo2.Infra.Crosscutting.Extensions;
 
 namespace Goal.Demo2.Infra.Crosscutting
 {

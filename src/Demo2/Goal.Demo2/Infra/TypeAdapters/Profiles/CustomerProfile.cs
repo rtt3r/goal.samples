@@ -1,5 +1,5 @@
 using AutoMapper;
-using Goal.Demo2.Domain.Aggregates.Customers;
+using Goal.Demo2.Domain.Customers.Aggregates;
 using Goal.Demo2.Model.Customers;
 
 namespace Goal.Demo2.Infra.TypeAdapters.Profiles

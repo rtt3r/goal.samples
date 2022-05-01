@@ -1,4 +1,4 @@
-using Goal.Demo2.Domain.Aggregates.Customers;
+using Goal.Demo2.Domain.Customers.Aggregates;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

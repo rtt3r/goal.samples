@@ -1,7 +1,6 @@
 using Goal.Demo2.Application.Bus;
 using Goal.Demo2.Infra.Crosscutting;
 using Goal.Demo2.Infra.Data;
-using Goal.Demo2.Infra.Data.Auditing;
 using Goal.Demo2.Infra.Data.EventSourcing;
 using Goal.Demo2.Infra.Data.Query.Repositories.Customers;
 using Goal.Demo2.Infra.Data.Repositories;
@@ -60,8 +59,6 @@ namespace Goal.Demo2.Infra.Extensions
                             connectionString,
                             opts => opts.MigrationsAssembly(typeof(Demo2Context).Assembly.GetName().Name))
                         .EnableSensitiveDataLogging();
-
-                    options.AddInterceptors(provider.GetRequiredService<Demo2AuditChangesInterceptor>());
                 });
 
             return services;

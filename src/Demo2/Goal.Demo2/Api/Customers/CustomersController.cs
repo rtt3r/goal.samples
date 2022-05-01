@@ -1,11 +1,8 @@
-using System.Net;
-using System.Text.Json;
 using Goal.Demo2.Application.Commands.Customers;
 using Goal.Demo2.Infra.Data.Query.Repositories.Customers;
 using Goal.Demo2.Model.Customers;
 using Goal.Seedwork.Application.Handlers;
 using Goal.Seedwork.Domain.Commands;
-using Goal.Seedwork.Domain.Notifications;
 using Goal.Seedwork.Infra.Http.Controllers;
 using Goal.Seedwork.Infra.Http.Controllers.Requests;
 using Goal.Seedwork.Infra.Http.Controllers.Results;
@@ -14,9 +11,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Goal.Demo2.Api.Customers
 {
-    /// <summary>
-    /// Everything about Customers
-    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     public class CustomersController : ApiController
@@ -24,18 +18,15 @@ namespace Goal.Demo2.Api.Customers
         private readonly ICustomerQueryRepository customerRepository;
         private readonly IBusHandler busHandler;
         private readonly INotificationHandler notificationHandler;
-        private readonly ILogger<CustomersController> logger;
 
         public CustomersController(
             ICustomerQueryRepository customerRepository,
             IBusHandler busHandler,
-            INotificationHandler notificationHandler,
-            ILogger<CustomersController> logger)
+            INotificationHandler notificationHandler)
         {
             this.customerRepository = customerRepository;
             this.busHandler = busHandler;
             this.notificationHandler = notificationHandler;
-            this.logger = logger;
         }
 
         [HttpGet]
@@ -63,59 +54,23 @@ namespace Goal.Demo2.Api.Customers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<CustomerModel>> Post([FromBody] RegisterNewCustomerRequest request)
         {
-            logger.LogTrace(
-                "Executing action {ActionName} with payload: {Payload}",
-                ControllerContext.ActionDescriptor.DisplayName,
-                JsonSerializer.Serialize(request));
-
             var command = new RegisterNewCustomerCommand(
                 request.Name,
                 request.Email,
                 request.BirthDate);
 
-            logger.LogTrace(
-                "Sending command {Name} to handler: {Command}",
-                nameof(RegisterNewCustomerRequest),
-                JsonSerializer.Serialize(command));
-
             ICommandResult<CustomerModel> result = await busHandler
                 .SendCommand<RegisterNewCustomerCommand, CustomerModel>(command);
 
-            logger.LogTrace(
-                "Command handle result: {Result}",
-                JsonSerializer.Serialize(result));
-
-            if (result.IsValidationError())
+            if (result.IsContractViolation())
             {
-                IEnumerable<Notification> notifications = notificationHandler.GetNotifications();
-
-                logger.LogTrace(
-                    "Action result: {StatusCode} ({StatusCodeDescription}) => {Data}",
-                    StatusCodes.Status400BadRequest,
-                    $"{HttpStatusCode.BadRequest}",
-                    JsonSerializer.Serialize(notifications));
-
-                return BadRequest(notifications);
+                return BadRequest(notificationHandler.GetNotifications());
             }
 
-            if (result.IsDomainError())
+            if (result.IsDomainViolation())
             {
-                IEnumerable<Notification> notifications = notificationHandler.GetNotifications();
-
-                logger.LogTrace(
-                    "Action result: {StatusCode} ({StatusCodeDescription}) => {Data}",
-                    StatusCodes.Status422UnprocessableEntity,
-                    $"{HttpStatusCode.UnprocessableEntity}",
-                    JsonSerializer.Serialize(notifications));
-
                 return UnprocessableEntity(notificationHandler.GetNotifications());
             }
-
-            logger.LogTrace(
-                "Action result: {StatusCode} ({StatusCodeDescription}) => {Data}",
-                StatusCodes.Status201Created,
-                $"{HttpStatusCode.Created}",
-                JsonSerializer.Serialize(result.Data));
 
             return CreatedAtRoute(
                 nameof(GetById),
@@ -137,12 +92,12 @@ namespace Goal.Demo2.Api.Customers
 
             ICommandResult result = await busHandler.SendCommand(command);
 
-            if (result.IsValidationError())
+            if (result.IsContractViolation())
             {
                 return BadRequest();
             }
 
-            if (result.IsDomainError())
+            if (result.IsDomainViolation())
             {
                 return UnprocessableEntity();
             }
@@ -161,12 +116,12 @@ namespace Goal.Demo2.Api.Customers
         {
             ICommandResult result = await busHandler.SendCommand(new RemoveCustomerCommand(id));
 
-            if (result.IsValidationError())
+            if (result.IsContractViolation())
             {
                 return BadRequest();
             }
 
-            if (result.IsDomainError())
+            if (result.IsDomainViolation())
             {
                 return UnprocessableEntity();
             }

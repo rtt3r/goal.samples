@@ -9,22 +9,18 @@ using Goal.Seedwork.Application.Extensions;
 using Goal.Seedwork.Application.Handlers;
 using Goal.Seedwork.Domain;
 using Goal.Seedwork.Domain.Commands;
-using Goal.Seedwork.Domain.Notifications;
 using Goal.Seedwork.Infra.Crosscutting.Adapters;
 
 namespace Goal.Demo2.Application.CommandHandlers
 {
-    public class CustomerCommandHandler :
+    public class CustomerCommandHandler : CommandHandler,
         ICommandHandler<RegisterNewCustomerCommand, ICommandResult<CustomerModel>>,
         ICommandHandler<UpdateCustomerCommand, ICommandResult>,
         ICommandHandler<RemoveCustomerCommand, ICommandResult>
     {
         private readonly ICustomerRepository customerRepository;
         private readonly IUnitOfWork unitOfWork;
-        private readonly IBusHandler busHandler;
-        private readonly INotificationHandler notificationHandler;
         private readonly ITypeAdapter typeAdapter;
-        private readonly ILogger<CustomerCommandHandler> logger;
 
         public CustomerCommandHandler(
             ICustomerRepository customerRepository,
@@ -33,13 +29,11 @@ namespace Goal.Demo2.Application.CommandHandlers
             INotificationHandler notificationHandler,
             ITypeAdapter typeAdapter,
             ILogger<CustomerCommandHandler> logger)
+            : base(notificationHandler, busHandler, logger)
         {
             this.customerRepository = customerRepository;
             this.unitOfWork = unitOfWork;
-            this.busHandler = busHandler;
-            this.notificationHandler = notificationHandler;
             this.typeAdapter = typeAdapter;
-            this.logger = logger;
         }
 
         public async Task<ICommandResult<CustomerModel>> Handle(RegisterNewCustomerCommand command, CancellationToken cancellationToken)
@@ -50,34 +44,33 @@ namespace Goal.Demo2.Application.CommandHandlers
 
             if (!validationResult.IsValid)
             {
-                await NotifyViolations(validationResult, cancellationToken);
-                return CommandResult.ValidationError<CustomerModel>(default);
+                await NotifyContractViolations(validationResult, cancellationToken);
+                return CommandResult.ContractViolation<CustomerModel>(default);
             }
 
             var customer = new Customer(command.Name, command.Email, command.BirthDate);
 
             if (await customerRepository.GetByEmail(customer.Email) != null)
             {
-                await notificationHandler.Handle(
-                    Notification.Violation(
-                        ApplicationConstants.ErrorCodes.CustomerEmailDuplicated,
-                        ApplicationConstants.Messages.CustomerEmailDuplicated),
+                await NotifyDomainViolation(
+                    ApplicationConstants.ErrorCodes.CustomerEmailDuplicated,
+                    ApplicationConstants.Messages.CustomerEmailDuplicated,
                     cancellationToken);
 
-                return CommandResult.DomainError<CustomerModel>(default);
+                return CommandResult.DomainViolation<CustomerModel>(default);
             }
 
             await customerRepository.AddAsync(customer, cancellationToken);
 
             if (await Commit(cancellationToken))
             {
-                await busHandler.RaiseEvent(new CustomerRegisteredEvent(customer.Id, customer.Name, customer.Email, customer.BirthDate));
+                await RaiseEvent(new CustomerRegisteredEvent(customer.Id, customer.Name, customer.Email, customer.BirthDate));
 
                 return CommandResult.Success(
                     typeAdapter.ProjectAs<CustomerModel>(customer));
             }
 
-            return CommandResult.DomainError<CustomerModel>(default);
+            return CommandResult.DomainViolation<CustomerModel>(default);
         }
 
         public async Task<ICommandResult> Handle(UpdateCustomerCommand command, CancellationToken cancellationToken)
@@ -88,34 +81,32 @@ namespace Goal.Demo2.Application.CommandHandlers
 
             if (!validationResult.IsValid)
             {
-                await NotifyViolations(validationResult, cancellationToken);
-                return CommandResult.ValidationError();
+                await NotifyContractViolations(validationResult, cancellationToken);
+                return CommandResult.ContractViolation();
             }
 
             Customer customer = await customerRepository.LoadAsync(command.CustomerId, cancellationToken);
 
             if (customer is null)
             {
-                await notificationHandler.Handle(
-                    Notification.Violation(
-                        ApplicationConstants.ErrorCodes.CustomerNotFound,
-                        ApplicationConstants.Messages.CustomerNotFound),
+                await NotifyDomainViolation(
+                    ApplicationConstants.ErrorCodes.CustomerNotFound,
+                    ApplicationConstants.Messages.CustomerNotFound,
                     cancellationToken);
 
-                return CommandResult.DomainError();
+                return CommandResult.DomainViolation();
             }
 
             Customer existingCustomer = await customerRepository.GetByEmail(customer.Email);
 
-            if (existingCustomer != null && !existingCustomer.Equals(customer))
+            if (existingCustomer != null && existingCustomer != customer)
             {
-                await notificationHandler.Handle(
-                    Notification.Violation(
-                        ApplicationConstants.ErrorCodes.CustomerEmailDuplicated,
-                        ApplicationConstants.Messages.CustomerEmailDuplicated),
+                await NotifyDomainViolation(
+                    ApplicationConstants.ErrorCodes.CustomerEmailDuplicated,
+                    ApplicationConstants.Messages.CustomerEmailDuplicated,
                     cancellationToken);
 
-                return CommandResult.DomainError();
+                return CommandResult.DomainViolation();
             }
 
             customer.UpdateName(command.Name);
@@ -129,7 +120,7 @@ namespace Goal.Demo2.Application.CommandHandlers
                 return CommandResult.Success();
             }
 
-            return CommandResult.DomainError();
+            return CommandResult.DomainViolation();
         }
 
         public async Task<ICommandResult> Handle(RemoveCustomerCommand command, CancellationToken cancellationToken)
@@ -140,21 +131,20 @@ namespace Goal.Demo2.Application.CommandHandlers
 
             if (!validationResult.IsValid)
             {
-                await NotifyViolations(validationResult, cancellationToken);
-                return CommandResult.ValidationError();
+                await NotifyContractViolations(validationResult, cancellationToken);
+                return CommandResult.ContractViolation();
             }
 
             Customer customer = await customerRepository.LoadAsync(command.CustomerId, cancellationToken);
 
             if (customer is null)
             {
-                await notificationHandler.Handle(
-                    Notification.Violation(
-                        ApplicationConstants.ErrorCodes.CustomerNotFound,
-                        ApplicationConstants.Messages.CustomerNotFound),
+                await NotifyDomainViolation(
+                    ApplicationConstants.ErrorCodes.CustomerNotFound,
+                    ApplicationConstants.Messages.CustomerNotFound,
                     cancellationToken);
 
-                return CommandResult.DomainError();
+                return CommandResult.DomainViolation();
             }
 
             customerRepository.Remove(customer);
@@ -165,19 +155,7 @@ namespace Goal.Demo2.Application.CommandHandlers
                 return CommandResult.Success();
             }
 
-            return CommandResult.DomainError();
-        }
-
-        private async Task NotifyViolations(
-            ValidationResult validationResult,
-            CancellationToken cancellationToken = new CancellationToken())
-        {
-            foreach (ValidationFailure error in validationResult.Errors)
-            {
-                await notificationHandler.Handle(
-                    Notification.Violation(error.ErrorCode, error.ErrorMessage, error.PropertyName),
-                    cancellationToken);
-            }
+            return CommandResult.DomainViolation();
         }
 
         private async Task<bool> Commit(CancellationToken cancellationToken = new CancellationToken())
@@ -187,10 +165,9 @@ namespace Goal.Demo2.Application.CommandHandlers
                 return true;
             }
 
-            await notificationHandler.Handle(
-                Notification.Fail(
-                    ApplicationConstants.ErrorCodes.SaveDataFailed,
-                    ApplicationConstants.Messages.SaveDataFailed),
+            await NotifyFail(
+                ApplicationConstants.ErrorCodes.SaveDataFailed,
+                ApplicationConstants.Messages.SaveDataFailed,
                 cancellationToken);
 
             return false;

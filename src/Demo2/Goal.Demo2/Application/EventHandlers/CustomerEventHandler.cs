@@ -19,15 +19,14 @@ namespace Goal.Demo2.Application.EventHandlers
 
         public async Task Handle(CustomerUpdatedEvent message, CancellationToken cancellationToken)
         {
-            CustomerModel customer = await customerRepository.LoadAsync(message.AggregateId.ToString(), cancellationToken);
+            CustomerModel customer = await customerRepository.LoadAsync(message.AggregateId, cancellationToken);
 
-            customer.CustomerId = message.AggregateId.ToString();
             customer.Name = message.Name;
             customer.BirthDate = message.BirthDate;
             customer.Email = message.Email;
 
             await customerRepository.StoreAsync(
-                message.AggregateId.ToString(),
+                message.AggregateId,
                 customer,
                 cancellationToken);
         }
@@ -35,10 +34,10 @@ namespace Goal.Demo2.Application.EventHandlers
         public async Task Handle(CustomerRegisteredEvent message, CancellationToken cancellationToken)
         {
             await customerRepository.StoreAsync(
-                message.AggregateId.ToString(),
+                message.AggregateId,
                 new CustomerModel
                 {
-                    CustomerId = message.AggregateId.ToString(),
+                    CustomerId = message.AggregateId,
                     Name = message.Name,
                     BirthDate = message.BirthDate,
                     Email = message.Email,
@@ -47,6 +46,6 @@ namespace Goal.Demo2.Application.EventHandlers
         }
 
         public async Task Handle(CustomerRemovedEvent message, CancellationToken cancellationToken)
-            => await customerRepository.RemoveAsync(message.AggregateId.ToString(), cancellationToken);
+            => await customerRepository.RemoveAsync(message.AggregateId, cancellationToken);
     }
 }

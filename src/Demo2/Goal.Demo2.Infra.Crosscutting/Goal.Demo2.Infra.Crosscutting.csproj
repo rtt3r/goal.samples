@@ -9,7 +9,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Goal.Seedwork.Infra.Crosscutting">
-			<Version>0.0.9</Version>
+			<Version>0.0.10</Version>
 		</PackageReference>
 		<PackageReference Include="IdentityModel" Version="6.0.0" />
 		<PackageReference Include="Serilog.AspNetCore">

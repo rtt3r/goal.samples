@@ -8,7 +8,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Goal.Seedwork.Infra.Data.Query">
-			<Version>0.0.10</Version>
+			<Version>0.1.11</Version>
 		</PackageReference>
 	</ItemGroup>
 

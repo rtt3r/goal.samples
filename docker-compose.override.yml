@@ -13,6 +13,7 @@ services:
         - ASPNETCORE_RavenSettings__DatabaseName=Demo2
         - ASPNETCORE_RavenSettings__CertFilePath=
         - ASPNETCORE_RavenSettings__CertPassword=
+        - ASPNETCORE_EventBusSettings__HostAddress=amqp://guest:guest@rabbitmq:5672
     ports:
         - "8002:80"
         - "4432:443"

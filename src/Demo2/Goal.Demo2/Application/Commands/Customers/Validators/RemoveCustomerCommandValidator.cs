@@ -1,7 +1,8 @@
 using FluentValidation;
+using Goal.Demo2.Application.Commands.Customers;
 using Goal.Demo2.Infra.Crosscutting.Constants;
 
-namespace Goal.Demo2.Application.Customers.Commands.Validators
+namespace Goal.Demo2.Application.Commands.Customers.Validators
 {
     public class RemoveCustomerCommandValidator : CustomerValidator<RemoveCustomerCommand>
     {

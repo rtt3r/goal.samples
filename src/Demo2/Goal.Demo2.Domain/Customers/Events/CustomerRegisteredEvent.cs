@@ -1,8 +1,9 @@
 using Goal.Seedwork.Domain.Events;
+using MediatR;
 
 namespace Goal.Demo2.Domain.Customers.Events
 {
-    public class CustomerRegisteredEvent : Event
+    public class CustomerRegisteredEvent : Event, INotification
     {
         public CustomerRegisteredEvent(string aggregateId, string name, string email, DateTime birthDate)
         {

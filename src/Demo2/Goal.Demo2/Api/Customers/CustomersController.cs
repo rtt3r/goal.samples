@@ -1,12 +1,13 @@
-using Goal.Demo2.Application.Customers.Commands;
+using Goal.Demo2.Application.Commands.Customers;
 using Goal.Demo2.Infra.Data.Query.Repositories.Customers;
 using Goal.Demo2.Model.Customers;
-using Goal.Seedwork.Application.Handlers;
 using Goal.Seedwork.Domain.Commands;
+using Goal.Seedwork.Infra.Crosscutting.Notifications;
 using Goal.Seedwork.Infra.Http.Controllers;
 using Goal.Seedwork.Infra.Http.Controllers.Requests;
 using Goal.Seedwork.Infra.Http.Controllers.Results;
 using Goal.Seedwork.Infra.Http.Extensions;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Goal.Demo2.Api.Customers
@@ -16,16 +17,16 @@ namespace Goal.Demo2.Api.Customers
     public class CustomersController : ApiController
     {
         private readonly ICustomerQueryRepository customerRepository;
-        private readonly IBusHandler busHandler;
+        private readonly IMediator mediator;
         private readonly INotificationHandler notificationHandler;
 
         public CustomersController(
             ICustomerQueryRepository customerRepository,
-            IBusHandler busHandler,
+            IMediator mediator,
             INotificationHandler notificationHandler)
         {
             this.customerRepository = customerRepository;
-            this.busHandler = busHandler;
+            this.mediator = mediator;
             this.notificationHandler = notificationHandler;
         }
 
@@ -59,23 +60,33 @@ namespace Goal.Demo2.Api.Customers
                 request.Email,
                 request.BirthDate);
 
-            ICommandResult<CustomerModel> result = await busHandler
-                .SendCommand<RegisterNewCustomerCommand, CustomerModel>(command);
+            ICommandResult<CustomerModel> result = await mediator
+                .Send<ICommandResult<CustomerModel>>(command);
 
-            if (result.IsContractViolation())
+            if (result.IsSucceeded)
+            {
+                return CreatedAtRoute(
+                    nameof(GetById),
+                    new { id = result.Data.CustomerId },
+                    result.Data);
+            }
+
+            if (notificationHandler.HasInputValidation())
             {
                 return BadRequest(notificationHandler.GetNotifications());
             }
 
-            if (result.IsDomainViolation())
+            if (notificationHandler.HasDomainViolation())
             {
                 return UnprocessableEntity(notificationHandler.GetNotifications());
             }
 
-            return CreatedAtRoute(
-                nameof(GetById),
-                new { id = result.Data.CustomerId },
-                result.Data);
+            if (notificationHandler.HasExternalError())
+            {
+                return StatusCode(StatusCodes.Status503ServiceUnavailable, notificationHandler.GetNotifications());
+            }
+
+            return InternalServerError(notificationHandler.GetNotifications());
         }
 
         [HttpPatch]
@@ -90,22 +101,32 @@ namespace Goal.Demo2.Api.Customers
                 request.Name,
                 request.BirthDate);
 
-            ICommandResult result = await busHandler.SendCommand(command);
+            ICommandResult result = await mediator.Send(command);
 
-            if (result.IsContractViolation())
+            if (result.IsSucceeded)
             {
-                return BadRequest();
+                return AcceptedAtAction(
+                    nameof(GetById),
+                    new { id },
+                    null);
             }
 
-            if (result.IsDomainViolation())
+            if (notificationHandler.HasInputValidation())
             {
-                return UnprocessableEntity();
+                return BadRequest(notificationHandler.GetNotifications());
             }
 
-            return AcceptedAtAction(
-                nameof(GetById),
-                new { id },
-                null);
+            if (notificationHandler.HasDomainViolation())
+            {
+                return UnprocessableEntity(notificationHandler.GetNotifications());
+            }
+
+            if (notificationHandler.HasExternalError())
+            {
+                return StatusCode(StatusCodes.Status503ServiceUnavailable, notificationHandler.GetNotifications());
+            }
+
+            return InternalServerError(notificationHandler.GetNotifications());
         }
 
         [HttpDelete]
@@ -114,19 +135,29 @@ namespace Goal.Demo2.Api.Customers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> Delete([FromRoute] string id)
         {
-            ICommandResult result = await busHandler.SendCommand(new RemoveCustomerCommand(id));
+            ICommandResult result = await mediator.Send(new RemoveCustomerCommand(id));
 
-            if (result.IsContractViolation())
+            if (result.IsSucceeded)
             {
-                return BadRequest();
+                return Accepted();
             }
 
-            if (result.IsDomainViolation())
+            if (notificationHandler.HasInputValidation())
             {
-                return UnprocessableEntity();
+                return BadRequest(notificationHandler.GetNotifications());
             }
 
-            return Accepted();
+            if (notificationHandler.HasDomainViolation())
+            {
+                return UnprocessableEntity(notificationHandler.GetNotifications());
+            }
+
+            if (notificationHandler.HasExternalError())
+            {
+                return StatusCode(StatusCodes.Status503ServiceUnavailable, notificationHandler.GetNotifications());
+            }
+
+            return InternalServerError(notificationHandler.GetNotifications());
         }
     }
 }

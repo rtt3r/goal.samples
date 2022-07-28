@@ -1,15 +1,15 @@
-using Goal.Demo2.Infra.Bus;
+using Goal.Demo2.Application.Bus.Customers;
 using Goal.Demo2.Infra.Crosscutting;
 using Goal.Demo2.Infra.Data;
 using Goal.Demo2.Infra.Data.EventSourcing;
 using Goal.Demo2.Infra.Data.Query.Repositories.Customers;
 using Goal.Demo2.Infra.Data.Repositories;
-using Goal.Seedwork.Application.Handlers;
 using Goal.Seedwork.Domain;
 using Goal.Seedwork.Domain.Aggregates;
 using Goal.Seedwork.Domain.Events;
 using Goal.Seedwork.Infra.Data.Query;
 using Goal.Seedwork.Infra.Http.DependencyInjection;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Raven.DependencyInjection;
 
@@ -22,16 +22,26 @@ namespace Goal.Demo2.Infra.Extensions
             string connectionString = configuration.GetConnectionString("DefaultConnection");
 
             services.AddHttpContextAccessor();
-            services.AddScoped(provider => provider.GetService<IHttpContextAccessor>().HttpContext.User);
+            services.AddScoped(provider => provider.GetService<IHttpContextAccessor>()?.HttpContext?.User);
             services.AddScoped<AppState>();
 
             services.AddDbContexts(connectionString);
             services.AddRavenDb(configuration);
 
-            services.AddScoped<IBusHandler, MediatorBusHandler>();
-            services.AddScoped<IEventStore, SqlEventStore>();
-            services.AddScoped<INotificationHandler, NotificationHandler>();
             services.AddScoped<IUnitOfWork, Demo2UnitOfWork>();
+            services.AddScoped<IEventStore, SqlEventStore>();
+            services.AddDefaultNotificationHandler();
+
+            services.AddMassTransit(config =>
+            {
+                config.AddConsumer<CustomerBusConsumer>();
+
+                config.UsingRabbitMq((ctx, cfg) =>
+                {
+                    cfg.Host(configuration["EventBusSettings:HostAddress"]);
+                    cfg.ConfigureEndpoints(ctx);
+                });
+            });
 
             services.RegisterAllTypesOf<IRepository>(typeof(CustomerRepository).Assembly);
             services.RegisterAllTypesOf<IQueryRepository>(typeof(CustomerQueryRepository).Assembly);

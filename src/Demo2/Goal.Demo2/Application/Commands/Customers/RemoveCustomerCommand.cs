@@ -1,6 +1,6 @@
 using Goal.Seedwork.Domain.Commands;
 
-namespace Goal.Demo2.Application.Customers.Commands
+namespace Goal.Demo2.Application.Commands.Customers
 {
     public class RemoveCustomerCommand : CustomerCommand<ICommandResult>
     {

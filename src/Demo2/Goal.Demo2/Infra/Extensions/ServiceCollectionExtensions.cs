@@ -1,5 +1,5 @@
 using Goal.Demo2.Infra.TypeAdapters;
-using Goal.Seedwork.Infra.Http.Extensions;
+using Goal.Seedwork.Infra.Http.DependencyInjection;
 
 namespace Goal.Demo2.Infra.Extensions
 {

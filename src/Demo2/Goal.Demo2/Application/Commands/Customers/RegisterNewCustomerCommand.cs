@@ -1,7 +1,7 @@
 using Goal.Demo2.Model.Customers;
 using Goal.Seedwork.Domain.Commands;
 
-namespace Goal.Demo2.Application.Customers.Commands
+namespace Goal.Demo2.Application.Commands.Customers
 {
     public class RegisterNewCustomerCommand : CustomerCommand<ICommandResult<CustomerModel>>
     {

@@ -1,4 +1,5 @@
 using FluentValidation;
+using Goal.Seedwork.Infra.Crosscutting.Validations.Fluent;
 
 namespace Goal.Demo.Application.DTO.People.Requests.Validators
 {

@@ -12,7 +12,15 @@ services:
       - RAVEN_Security_UnsecuredAccessAllowed='PublicNetwork'
       - RAVEN_License_Eula_Accepted=true
     volumes:
-      - ravendb-data:/opt/RavenDB/Server/RavenData
+      - ravendb-data:/opt/RavenDB/Server/RavenData 
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: ritter.co-goal-rabbitmq
+    restart: unless-stopped
+    ports:
+        - 5672:5672
+        - 15672:15672
 
   seq:
     image: datalust/seq:latest

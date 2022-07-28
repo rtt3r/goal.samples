@@ -1,6 +1,6 @@
 using Elasticsearch.Net;
 using Goal.Demo.Application.Adapters;
-using Goal.Seedwork.Infra.Http.Extensions;
+using Goal.Seedwork.Infra.Http.DependencyInjection;
 using Nest;
 using Nest.JsonNetSerializer;
 

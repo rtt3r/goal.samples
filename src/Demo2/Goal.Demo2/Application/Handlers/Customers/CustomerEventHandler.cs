@@ -1,14 +1,14 @@
 using Goal.Demo2.Domain.Customers.Events;
 using Goal.Demo2.Infra.Data.Query.Repositories.Customers;
 using Goal.Demo2.Model.Customers;
-using MediatR;
+using Goal.Seedwork.Domain.Events;
 
-namespace Goal.Demo2.Application.Customers.Events
+namespace Goal.Demo2.Application.Handlers.Customers
 {
     public class CustomerEventHandler :
-        INotificationHandler<CustomerRegisteredEvent>,
-        INotificationHandler<CustomerUpdatedEvent>,
-        INotificationHandler<CustomerRemovedEvent>
+        IEventHandler<CustomerRegisteredEvent>,
+        IEventHandler<CustomerUpdatedEvent>,
+        IEventHandler<CustomerRemovedEvent>
     {
         private readonly ICustomerQueryRepository customerRepository;
 

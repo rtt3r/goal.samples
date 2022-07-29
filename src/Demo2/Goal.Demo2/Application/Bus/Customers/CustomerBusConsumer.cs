@@ -5,38 +5,25 @@ using MediatR;
 
 namespace Goal.Demo2.Application.Bus.Customers
 {
-    public class CustomerBusConsumer :
+    internal class CustomerBusConsumer : EventBusConsumer,
         IConsumer<CustomerRegisteredEvent>,
         IConsumer<CustomerRemovedEvent>,
         IConsumer<CustomerUpdatedEvent>
     {
-        private readonly IMediator mediator;
-        private readonly IEventStore eventStore;
-
         public CustomerBusConsumer(
             IMediator mediator,
             IEventStore eventStore)
+            : base(mediator, eventStore)
         {
-            this.mediator = mediator;
-            this.eventStore = eventStore;
         }
 
         public async Task Consume(ConsumeContext<CustomerRegisteredEvent> context)
-        {
-            eventStore.Save(context.Message);
-            await mediator.Publish(context.Message);
-        }
+            => await ConsumeEvent(context.Message);
 
         public async Task Consume(ConsumeContext<CustomerRemovedEvent> context)
-        {
-            eventStore.Save(context.Message);
-            await mediator.Publish(context.Message);
-        }
+            => await ConsumeEvent(context.Message);
 
         public async Task Consume(ConsumeContext<CustomerUpdatedEvent> context)
-        {
-            eventStore.Save(context.Message);
-            await mediator.Publish(context.Message);
-        }
+            => await ConsumeEvent(context.Message);
     }
 }

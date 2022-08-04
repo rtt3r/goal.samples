@@ -10,7 +10,7 @@ namespace Goal.Demo2.Application.Commands.Customers.Validators
         {
             ValidateId();
             ValidateName();
-            ValidateBirthDate();
+            ValidateBirthdate();
         }
 
         protected void ValidateId()

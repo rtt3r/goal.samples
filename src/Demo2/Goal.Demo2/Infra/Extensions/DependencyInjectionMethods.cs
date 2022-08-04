@@ -1,5 +1,6 @@
 using Goal.Demo2.Application.Bus.Customers;
 using Goal.Demo2.Infra.Crosscutting;
+using Goal.Demo2.Infra.Crosscutting.Constants;
 using Goal.Demo2.Infra.Data;
 using Goal.Demo2.Infra.Data.EventSourcing;
 using Goal.Demo2.Infra.Data.Query.Repositories.Customers;
@@ -32,12 +33,19 @@ namespace Goal.Demo2.Infra.Extensions
             services.AddScoped<IEventStore, SqlEventStore>();
             services.AddDefaultNotificationHandler();
 
+            //services.AddScoped<CustomerBusConsumer>();
+
             services.AddMassTransit(config =>
             {
                 config.AddConsumer<CustomerBusConsumer>();
 
                 config.UsingRabbitMq((ctx, cfg) =>
                 {
+                    cfg.ReceiveEndpoint(ApplicationConstants.EventBus.CustomerRegisteredQueue, c =>
+                    {
+                        c.ConfigureConsumer<CustomerBusConsumer>(ctx);
+                    });
+
                     cfg.Host(configuration["EventBusSettings:HostAddress"]);
                     cfg.ConfigureEndpoints(ctx);
                 });

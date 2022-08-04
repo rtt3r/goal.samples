@@ -4,6 +4,7 @@ using Goal.Demo2.Infra.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Goal.Demo2.Infra.Data.Migrations.Demo2Context
 {
     [DbContext(typeof(Goal.Demo2.Infra.Data.Demo2Context))]
-    partial class Demo2ContextModelSnapshot : ModelSnapshot
+    [Migration("20220729231604_UpdateBirthDate")]
+    partial class UpdateBirthDate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

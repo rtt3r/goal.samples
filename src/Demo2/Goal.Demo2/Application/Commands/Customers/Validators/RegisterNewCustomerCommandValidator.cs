@@ -9,7 +9,7 @@ namespace Goal.Demo2.Application.Commands.Customers.Validators
         public RegisterNewCustomerCommandValidator()
         {
             ValidateName();
-            ValidateBirthDate();
+            ValidateBirthdate();
             ValidateEmail();
         }
 

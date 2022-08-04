@@ -6,11 +6,11 @@ namespace Goal.Demo2.Application.Commands.Customers
     {
         public string CustomerId { get; set; }
 
-        public UpdateCustomerCommand(string customerId, string name, DateTime birthDate)
+        public UpdateCustomerCommand(string customerId, string name, DateTime birthdate)
         {
             CustomerId = customerId;
             Name = name;
-            BirthDate = birthDate;
+            Birthdate = birthdate;
         }
     }
 }

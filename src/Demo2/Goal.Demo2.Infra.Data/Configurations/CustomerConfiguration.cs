@@ -22,7 +22,7 @@ namespace Goal.Demo2.Infra.Data.Configurations
                 .HasMaxLength(256)
                 .IsRequired();
 
-            builder.Property(p => p.BirthDate)
+            builder.Property(p => p.Birthdate)
                 .IsRequired();
         }
     }

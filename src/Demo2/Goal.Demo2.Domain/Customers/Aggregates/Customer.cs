@@ -4,12 +4,12 @@ namespace Goal.Demo2.Domain.Customers.Aggregates
 {
     public class Customer : Entity<string>
     {
-        public Customer(string name, string email, DateTime birthDate)
+        public Customer(string name, string email, DateTime birthdate)
         {
             Id = Guid.NewGuid().ToString();
             Name = name;
             Email = email;
-            BirthDate = birthDate;
+            Birthdate = birthdate;
         }
 
         // Empty constructor for EF
@@ -19,10 +19,10 @@ namespace Goal.Demo2.Domain.Customers.Aggregates
 
         public string Email { get; private set; }
 
-        public DateTime BirthDate { get; private set; }
+        public DateTime Birthdate { get; private set; }
 
         public void UpdateName(string name) => Name = name;
 
-        public void UpdateBirthDate(DateTime birthDate) => BirthDate = birthDate;
+        public void UpdateBirthdate(DateTime birthdate) => Birthdate = birthdate;
     }
 }

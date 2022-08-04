@@ -7,11 +7,11 @@ namespace Goal.Demo2.Application.Commands.Customers
     {
         public string Email { get; set; }
 
-        public RegisterNewCustomerCommand(string name, string email, DateTime birthDate)
+        public RegisterNewCustomerCommand(string name, string email, DateTime birthdate)
         {
             Name = name;
             Email = email;
-            BirthDate = birthDate;
+            Birthdate = birthdate;
         }
     }
 }

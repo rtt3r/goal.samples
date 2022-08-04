@@ -63,7 +63,7 @@ namespace Goal.Demo2.Application.Handlers.Customers
                 return CommandResult.Fail<CustomerModel>(default);
             }
 
-            var customer = new Customer(command.Name, command.Email, command.BirthDate);
+            var customer = new Customer(command.Name, command.Email, command.Birthdate);
 
             if (await customerRepository.GetByEmail(customer.Email) != null)
             {
@@ -86,7 +86,7 @@ namespace Goal.Demo2.Application.Handlers.Customers
                         customer.Id,
                         customer.Name,
                         customer.Email,
-                        customer.BirthDate),
+                        customer.Birthdate),
                     cancellationToken);
 
                 return CommandResult.Success(
@@ -145,7 +145,7 @@ namespace Goal.Demo2.Application.Handlers.Customers
             }
 
             customer.UpdateName(command.Name);
-            customer.UpdateBirthDate(command.BirthDate);
+            customer.UpdateBirthdate(command.Birthdate);
 
             customerRepository.Update(existingCustomer);
 
@@ -156,7 +156,7 @@ namespace Goal.Demo2.Application.Handlers.Customers
                         customer.Id,
                         customer.Name,
                         customer.Email,
-                        customer.BirthDate),
+                        customer.Birthdate),
                     cancellationToken);
 
                 return CommandResult.Success();

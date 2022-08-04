@@ -22,7 +22,7 @@ namespace Goal.Demo2.Application.Handlers.Customers
             CustomerModel customer = await customerRepository.LoadAsync(message.AggregateId, cancellationToken);
 
             customer.Name = message.Name;
-            customer.BirthDate = message.BirthDate;
+            customer.Birthdate = message.Birthdate;
             customer.Email = message.Email;
 
             await customerRepository.StoreAsync(
@@ -39,7 +39,7 @@ namespace Goal.Demo2.Application.Handlers.Customers
                 {
                     CustomerId = message.AggregateId,
                     Name = message.Name,
-                    BirthDate = message.BirthDate,
+                    Birthdate = message.Birthdate,
                     Email = message.Email,
                 },
                 cancellationToken);

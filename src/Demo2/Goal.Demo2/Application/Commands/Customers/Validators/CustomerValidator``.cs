@@ -1,5 +1,4 @@
-using Goal.Demo2.Application.Commands.Customers;
-using Goal.Seedwork.Domain.Commands;
+using Goal.Seedwork.Application.Commands;
 
 namespace Goal.Demo2.Application.Commands.Customers.Validators
 {

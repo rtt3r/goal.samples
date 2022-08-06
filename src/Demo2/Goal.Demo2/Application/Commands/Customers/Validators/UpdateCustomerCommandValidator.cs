@@ -1,5 +1,4 @@
 using FluentValidation;
-using Goal.Demo2.Application.Commands.Customers;
 using Goal.Demo2.Infra.Crosscutting.Constants;
 
 namespace Goal.Demo2.Application.Commands.Customers.Validators
@@ -17,8 +16,8 @@ namespace Goal.Demo2.Application.Commands.Customers.Validators
         {
             RuleFor(c => c.CustomerId)
                 .NotEmpty()
-                    .WithMessage(ApplicationConstants.Messages.CustomerIdRequired)
-                    .WithErrorCode(ApplicationConstants.ErrorCodes.CustomerIdRequired);
+                    .WithMessage(ApplicationConstants.Messages.CUSTOMER_ID_REQUIRED)
+                    .WithErrorCode(nameof(ApplicationConstants.Messages.CUSTOMER_ID_REQUIRED));
         }
     }
 }

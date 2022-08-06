@@ -16,7 +16,7 @@
 			<Version>6.0.7</Version>
 		</PackageReference>
 		<PackageReference Include="Goal.Seedwork.Infra.Data">
-			<Version>0.1.11</Version>
+			<Version>0.1.18</Version>
 		</PackageReference>
 	</ItemGroup>
 

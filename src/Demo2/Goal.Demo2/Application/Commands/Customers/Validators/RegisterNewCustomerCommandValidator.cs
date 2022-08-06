@@ -1,5 +1,4 @@
 using FluentValidation;
-using Goal.Demo2.Application.Commands.Customers;
 using Goal.Demo2.Infra.Crosscutting.Constants;
 
 namespace Goal.Demo2.Application.Commands.Customers.Validators
@@ -17,11 +16,11 @@ namespace Goal.Demo2.Application.Commands.Customers.Validators
         {
             RuleFor(c => c.Email)
                 .NotEmpty()
-                    .WithMessage(ApplicationConstants.Messages.CustomerEmailRequired)
-                    .WithErrorCode(ApplicationConstants.ErrorCodes.CustomerEmailRequired)
+                    .WithMessage(ApplicationConstants.Messages.CUSTOMER_EMAIL_REQUIRED)
+                    .WithErrorCode(nameof(ApplicationConstants.Messages.CUSTOMER_EMAIL_REQUIRED))
                 .EmailAddress()
-                    .WithMessage(ApplicationConstants.Messages.CustomerEmailAddressInvalid)
-                    .WithErrorCode(ApplicationConstants.ErrorCodes.CustomerEmailAddressInvalid);
+                    .WithMessage(ApplicationConstants.Messages.CUSTOMER_EMAIL_INVALID)
+                    .WithErrorCode(nameof(ApplicationConstants.Messages.CUSTOMER_EMAIL_INVALID));
         }
     }
 }

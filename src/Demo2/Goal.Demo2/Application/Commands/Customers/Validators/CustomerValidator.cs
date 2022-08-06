@@ -1,5 +1,4 @@
 using FluentValidation;
-using Goal.Demo2.Application.Commands.Customers;
 using Goal.Demo2.Infra.Crosscutting.Constants;
 
 namespace Goal.Demo2.Application.Commands.Customers.Validators
@@ -11,22 +10,22 @@ namespace Goal.Demo2.Application.Commands.Customers.Validators
         {
             RuleFor(c => c.Name)
                 .NotEmpty()
-                    .WithMessage(ApplicationConstants.Messages.CustomerNameRequired)
-                    .WithErrorCode(ApplicationConstants.ErrorCodes.CustomerNameRequired)
+                    .WithMessage(ApplicationConstants.Messages.CUSTOMER_NAME_REQUIRED)
+                    .WithErrorCode(nameof(ApplicationConstants.Messages.CUSTOMER_NAME_REQUIRED))
                 .Length(2, 150)
-                    .WithMessage(ApplicationConstants.Messages.CustomerNameLengthInvalid)
-                    .WithErrorCode(ApplicationConstants.ErrorCodes.CustomerNameLengthInvalid);
+                    .WithMessage(ApplicationConstants.Messages.CUSTOMER_NAME_LENGTH_INVALID)
+                    .WithErrorCode(nameof(ApplicationConstants.Messages.CUSTOMER_NAME_LENGTH_INVALID));
         }
 
         protected void ValidateBirthdate()
         {
             RuleFor(c => c.Birthdate)
                 .NotEmpty()
-                    .WithMessage(ApplicationConstants.Messages.CustomerBirthdateRequired)
-                    .WithErrorCode(ApplicationConstants.ErrorCodes.CustomerBirthdateRequired)
+                    .WithMessage(ApplicationConstants.Messages.CUSTOMER_BIRTHDATE_REQUIRED)
+                    .WithErrorCode(nameof(ApplicationConstants.Messages.CUSTOMER_BIRTHDATE_REQUIRED))
                 .Must(HaveMinimumAge)
-                    .WithMessage(ApplicationConstants.Messages.CustomerBirthdateLengthInvalid)
-                    .WithErrorCode(ApplicationConstants.ErrorCodes.CustomerBirthdateLengthInvalid);
+                    .WithMessage(ApplicationConstants.Messages.CUSTOMER_BIRTHDATE_LENGTH_INVALID)
+                    .WithErrorCode(nameof(ApplicationConstants.Messages.CUSTOMER_BIRTHDATE_LENGTH_INVALID));
         }
 
         protected static bool HaveMinimumAge(DateTime Birthdate)

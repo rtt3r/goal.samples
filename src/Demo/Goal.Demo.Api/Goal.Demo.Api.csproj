@@ -37,7 +37,7 @@
 			<Version>0.2.3</Version>
 		</PackageReference>
 		<PackageReference Include="Goal.Seedwork.Infra.Http">
-			<Version>0.1.11</Version>
+			<Version>0.1.18</Version>
 		</PackageReference>
 	</ItemGroup>
 

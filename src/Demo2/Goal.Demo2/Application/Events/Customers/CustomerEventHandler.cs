@@ -1,9 +1,8 @@
-using Goal.Demo2.Domain.Customers.Events;
 using Goal.Demo2.Infra.Data.Query.Repositories.Customers;
 using Goal.Demo2.Model.Customers;
 using Goal.Seedwork.Domain.Events;
 
-namespace Goal.Demo2.Application.Handlers.Customers
+namespace Goal.Demo2.Application.Events.Customers
 {
     public class CustomerEventHandler :
         IEventHandler<CustomerRegisteredEvent>,

@@ -1,4 +1,4 @@
-using Goal.Demo2.Domain.Customers.Events;
+using Goal.Demo2.Application.Events.Customers;
 using Goal.Seedwork.Domain.Events;
 using MassTransit;
 using MediatR;

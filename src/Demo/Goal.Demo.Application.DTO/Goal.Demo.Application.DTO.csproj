@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
+		<TargetFramework>net7.0</TargetFramework>
 		<IsPackable>false</IsPackable>
 		<LangVersion>latest</LangVersion>
 	</PropertyGroup>
@@ -13,10 +13,6 @@
 		<PackageReference Include="Goal.Infra.Crosscutting">
 			<Version>0.2.3</Version>
 		</PackageReference>
-	</ItemGroup>
-
-	<ItemGroup>
-		<ProjectReference Include="..\Goal.Demo.Domain\Goal.Demo.Domain.csproj" />
 	</ItemGroup>
 
 </Project>

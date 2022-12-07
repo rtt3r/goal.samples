@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
+		<TargetFramework>net7.0</TargetFramework>
 		<IsPackable>false</IsPackable>
 		<LangVersion>latest</LangVersion>
 	</PropertyGroup>
@@ -19,11 +19,6 @@
 		<PackageReference Include="Goal.Seedwork.Application">
 			<Version>0.1.18</Version>
 		</PackageReference>
-	</ItemGroup>
-
-	<ItemGroup>
-		<ProjectReference Include="..\Goal.Demo.Application.DTO\Goal.Demo.Application.DTO.csproj" />
-		<ProjectReference Include="..\Goal.Demo.Domain\Goal.Demo.Domain.csproj" />
 	</ItemGroup>
 
 </Project>

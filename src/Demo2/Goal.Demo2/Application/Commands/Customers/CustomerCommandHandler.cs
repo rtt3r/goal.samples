@@ -3,6 +3,7 @@ using Goal.Demo2.Application.Commands.Customers.Validators;
 using Goal.Demo2.Application.Events.Customers;
 using Goal.Demo2.Domain.Customers.Aggregates;
 using Goal.Demo2.Infra.Crosscutting.Constants;
+using Goal.Demo2.Infra.Data;
 using Goal.Demo2.Model.Customers;
 using Goal.Seedwork.Application.Commands;
 using Goal.Seedwork.Application.Extensions;
@@ -18,22 +19,19 @@ namespace Goal.Demo2.Application.Commands.Customers
         ICommandHandler<UpdateCustomerCommand, ICommandResult>,
         ICommandHandler<RemoveCustomerCommand, ICommandResult>
     {
-        private readonly ICustomerRepository customerRepository;
-        private readonly IUnitOfWork unitOfWork;
+        private readonly IDemo2UnitOfWork unitOfWork;
         private readonly IPublishEndpoint publishEndpoint;
         private readonly IDefaultNotificationHandler notificationHandler;
         private readonly ITypeAdapter typeAdapter;
         private readonly ILogger<CustomerCommandHandler> logger;
 
         public CustomerCommandHandler(
-            ICustomerRepository customerRepository,
-            IUnitOfWork unitOfWork,
+            IDemo2UnitOfWork unitOfWork,
             IPublishEndpoint publishEndpoint,
             IDefaultNotificationHandler notificationHandler,
             ITypeAdapter typeAdapter,
             ILogger<CustomerCommandHandler> logger)
         {
-            this.customerRepository = customerRepository;
             this.unitOfWork = unitOfWork;
             this.publishEndpoint = publishEndpoint;
             this.notificationHandler = notificationHandler;
@@ -64,7 +62,7 @@ namespace Goal.Demo2.Application.Commands.Customers
 
             var customer = new Customer(command.Name, command.Email, command.Birthdate);
 
-            if (await customerRepository.GetByEmail(customer.Email) != null)
+            if (await unitOfWork.Customers.GetByEmail(customer.Email) != null)
             {
                 await notificationHandler.HandleAsync(
                     Notification.DomainViolation(
@@ -76,9 +74,9 @@ namespace Goal.Demo2.Application.Commands.Customers
                 return CommandResult.Failure<CustomerModel>(default, notificationHandler.GetNotifications());
             }
 
-            await customerRepository.AddAsync(customer, cancellationToken);
+            await unitOfWork.Customers.AddAsync(customer, cancellationToken);
 
-            if (await Commit(cancellationToken))
+            if (await SaveChangesAsync(cancellationToken))
             {
                 await publishEndpoint.Publish(
                     new CustomerRegisteredEvent(
@@ -116,7 +114,7 @@ namespace Goal.Demo2.Application.Commands.Customers
                 return CommandResult.Failure<CustomerModel>(default, notificationHandler.GetNotifications());
             }
 
-            Customer customer = await customerRepository.LoadAsync(command.CustomerId, cancellationToken);
+            Customer customer = await unitOfWork.Customers.LoadAsync(command.CustomerId, cancellationToken);
 
             if (customer is null)
             {
@@ -129,7 +127,7 @@ namespace Goal.Demo2.Application.Commands.Customers
                 return CommandResult.Failure<CustomerModel>(default, notificationHandler.GetNotifications());
             }
 
-            Customer existingCustomer = await customerRepository.GetByEmail(customer.Email);
+            Customer existingCustomer = await unitOfWork.Customers.GetByEmail(customer.Email);
 
             if (existingCustomer != null && existingCustomer != customer)
             {
@@ -146,9 +144,9 @@ namespace Goal.Demo2.Application.Commands.Customers
             customer.UpdateName(command.Name);
             customer.UpdateBirthdate(command.Birthdate);
 
-            customerRepository.Update(existingCustomer);
+            unitOfWork.Customers.Update(existingCustomer);
 
-            if (await Commit(cancellationToken))
+            if (await SaveChangesAsync(cancellationToken))
             {
                 await publishEndpoint.Publish(
                     new CustomerUpdatedEvent(
@@ -185,7 +183,7 @@ namespace Goal.Demo2.Application.Commands.Customers
                 return CommandResult.Failure<CustomerModel>(default, notificationHandler.GetNotifications());
             }
 
-            Customer customer = await customerRepository.LoadAsync(command.CustomerId, cancellationToken);
+            Customer customer = await unitOfWork.Customers.LoadAsync(command.CustomerId, cancellationToken);
 
             if (customer is null)
             {
@@ -199,9 +197,9 @@ namespace Goal.Demo2.Application.Commands.Customers
                 return CommandResult.Failure<CustomerModel>(default, notificationHandler.GetNotifications());
             }
 
-            customerRepository.Remove(customer);
+            unitOfWork.Customers.Remove(customer);
 
-            if (await Commit(cancellationToken))
+            if (await SaveChangesAsync(cancellationToken))
             {
                 await publishEndpoint.Publish(
                     new CustomerRemovedEvent(command.CustomerId),
@@ -213,9 +211,9 @@ namespace Goal.Demo2.Application.Commands.Customers
             return CommandResult.Failure<CustomerModel>(default, notificationHandler.GetNotifications());
         }
 
-        private async Task<bool> Commit(CancellationToken cancellationToken = new CancellationToken())
+        private async Task<bool> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
-            if (unitOfWork.Commit())
+            if (await unitOfWork.SaveAsync())
             {
                 return true;
             }

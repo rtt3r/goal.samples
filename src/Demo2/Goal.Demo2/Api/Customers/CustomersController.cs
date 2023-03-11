@@ -28,8 +28,8 @@ namespace Goal.Demo2.Api.Customers
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<PagedResponse<CustomerModel>>> Get([FromQuery] PaginationRequest request)
-            => Paged(await customerRepository.QueryAsync(request.ToPagination()));
+        public async Task<ActionResult<PagedResponse<CustomerModel>>> Get([FromQuery] PageSearchRequest request)
+            => Paged(await customerRepository.QueryAsync(request.ToPageSearch()));
 
         [HttpGet("{id}", Name = nameof(GetById))]
         [ProducesResponseType(StatusCodes.Status200OK)]

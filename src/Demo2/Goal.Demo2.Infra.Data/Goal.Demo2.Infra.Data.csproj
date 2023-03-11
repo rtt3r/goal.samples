@@ -7,16 +7,16 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.0">
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.3">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
 			<TreatAsUsed>true</TreatAsUsed>
 		</PackageReference>
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer">
-			<Version>7.0.0</Version>
+			<Version>7.0.3</Version>
 		</PackageReference>
 		<PackageReference Include="Goal.Seedwork.Infra.Data">
-			<Version>0.2.1</Version>
+			<Version>0.3.8</Version>
 		</PackageReference>
 	</ItemGroup>
 

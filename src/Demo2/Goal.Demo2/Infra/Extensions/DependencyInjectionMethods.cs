@@ -12,6 +12,7 @@ using Goal.Seedwork.Infra.Data.Query;
 using Goal.Seedwork.Infra.Http.DependencyInjection;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using RabbitMQ.Client;
 using Raven.DependencyInjection;
 
 namespace Goal.Demo2.Infra.Extensions
@@ -29,11 +30,9 @@ namespace Goal.Demo2.Infra.Extensions
             services.AddDbContexts(connectionString);
             services.AddRavenDb(configuration);
 
-            services.AddScoped<IUnitOfWork, Demo2UnitOfWork>();
+            services.AddScoped<IDemo2UnitOfWork, Demo2UnitOfWork>();
             services.AddScoped<IEventStore, SqlEventStore>();
             services.AddDefaultNotificationHandler();
-
-            //services.AddScoped<CustomerBusConsumer>();
 
             services.AddMassTransit(config =>
             {

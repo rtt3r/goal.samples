@@ -7,7 +7,6 @@ using Goal.Demo2.Infra.Data;
 using Goal.Demo2.Model.Customers;
 using Goal.Seedwork.Application.Commands;
 using Goal.Seedwork.Application.Extensions;
-using Goal.Seedwork.Domain;
 using Goal.Seedwork.Infra.Crosscutting.Adapters;
 using Goal.Seedwork.Infra.Crosscutting.Notifications;
 using MassTransit;
@@ -19,24 +18,21 @@ namespace Goal.Demo2.Application.Commands.Customers
         ICommandHandler<UpdateCustomerCommand, ICommandResult>,
         ICommandHandler<RemoveCustomerCommand, ICommandResult>
     {
-        private readonly IDemo2UnitOfWork unitOfWork;
+        private readonly IDemo2UnitOfWork uow;
         private readonly IPublishEndpoint publishEndpoint;
         private readonly IDefaultNotificationHandler notificationHandler;
         private readonly ITypeAdapter typeAdapter;
-        private readonly ILogger<CustomerCommandHandler> logger;
 
         public CustomerCommandHandler(
-            IDemo2UnitOfWork unitOfWork,
+            IDemo2UnitOfWork uow,
             IPublishEndpoint publishEndpoint,
             IDefaultNotificationHandler notificationHandler,
-            ITypeAdapter typeAdapter,
-            ILogger<CustomerCommandHandler> logger)
+            ITypeAdapter typeAdapter)
         {
-            this.unitOfWork = unitOfWork;
+            this.uow = uow;
             this.publishEndpoint = publishEndpoint;
             this.notificationHandler = notificationHandler;
             this.typeAdapter = typeAdapter;
-            this.logger = logger;
         }
 
         public async Task<ICommandResult<CustomerModel>> Handle(RegisterNewCustomerCommand command, CancellationToken cancellationToken)
@@ -62,7 +58,7 @@ namespace Goal.Demo2.Application.Commands.Customers
 
             var customer = new Customer(command.Name, command.Email, command.Birthdate);
 
-            if (await unitOfWork.Customers.GetByEmail(customer.Email) != null)
+            if (await uow.Customers.GetByEmail(customer.Email) != null)
             {
                 await notificationHandler.HandleAsync(
                     Notification.DomainViolation(
@@ -74,7 +70,7 @@ namespace Goal.Demo2.Application.Commands.Customers
                 return CommandResult.Failure<CustomerModel>(default, notificationHandler.GetNotifications());
             }
 
-            await unitOfWork.Customers.AddAsync(customer, cancellationToken);
+            await uow.Customers.AddAsync(customer, cancellationToken);
 
             if (await SaveChangesAsync(cancellationToken))
             {
@@ -114,7 +110,7 @@ namespace Goal.Demo2.Application.Commands.Customers
                 return CommandResult.Failure<CustomerModel>(default, notificationHandler.GetNotifications());
             }
 
-            Customer customer = await unitOfWork.Customers.LoadAsync(command.CustomerId, cancellationToken);
+            Customer customer = await uow.Customers.LoadAsync(command.CustomerId, cancellationToken);
 
             if (customer is null)
             {
@@ -127,7 +123,7 @@ namespace Goal.Demo2.Application.Commands.Customers
                 return CommandResult.Failure<CustomerModel>(default, notificationHandler.GetNotifications());
             }
 
-            Customer existingCustomer = await unitOfWork.Customers.GetByEmail(customer.Email);
+            Customer existingCustomer = await uow.Customers.GetByEmail(customer.Email);
 
             if (existingCustomer != null && existingCustomer != customer)
             {
@@ -144,7 +140,7 @@ namespace Goal.Demo2.Application.Commands.Customers
             customer.UpdateName(command.Name);
             customer.UpdateBirthdate(command.Birthdate);
 
-            unitOfWork.Customers.Update(existingCustomer);
+            uow.Customers.Update(existingCustomer);
 
             if (await SaveChangesAsync(cancellationToken))
             {
@@ -183,7 +179,7 @@ namespace Goal.Demo2.Application.Commands.Customers
                 return CommandResult.Failure<CustomerModel>(default, notificationHandler.GetNotifications());
             }
 
-            Customer customer = await unitOfWork.Customers.LoadAsync(command.CustomerId, cancellationToken);
+            Customer customer = await uow.Customers.LoadAsync(command.CustomerId, cancellationToken);
 
             if (customer is null)
             {
@@ -197,7 +193,7 @@ namespace Goal.Demo2.Application.Commands.Customers
                 return CommandResult.Failure<CustomerModel>(default, notificationHandler.GetNotifications());
             }
 
-            unitOfWork.Customers.Remove(customer);
+            uow.Customers.Remove(customer);
 
             if (await SaveChangesAsync(cancellationToken))
             {
@@ -213,7 +209,7 @@ namespace Goal.Demo2.Application.Commands.Customers
 
         private async Task<bool> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
-            if (await unitOfWork.SaveAsync())
+            if (await uow.SaveAsync(cancellationToken))
             {
                 return true;
             }
@@ -221,8 +217,7 @@ namespace Goal.Demo2.Application.Commands.Customers
             await notificationHandler.HandleAsync(
                 Notification.InternalError(
                     nameof(ApplicationConstants.Messages.SAVING_DATA_FAILURE),
-                    ApplicationConstants.Messages.SAVING_DATA_FAILURE
-                ),
+                    ApplicationConstants.Messages.SAVING_DATA_FAILURE),
                 cancellationToken);
 
             return false;

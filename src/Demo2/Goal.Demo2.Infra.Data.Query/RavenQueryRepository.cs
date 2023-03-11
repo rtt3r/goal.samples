@@ -30,11 +30,11 @@ namespace Goal.Demo2.Infra.Data.Query
                 .ToListAsync(cancellationToken);
         }
 
-        public override async Task<IPagedCollection<TEntity>> QueryAsync(IPagination pagination, CancellationToken cancellationToken = new CancellationToken())
+        public override async Task<IPagedCollection<TEntity>> QueryAsync(IPageSearch pageSearch, CancellationToken cancellationToken = new CancellationToken())
         {
             return await dbSession
                 .Query<TEntity>()
-                .PaginateListAsync(pagination, cancellationToken);
+                .PaginateListAsync(pageSearch, cancellationToken);
         }
 
         public override async Task StoreAsync(string id, TEntity entity, CancellationToken cancellationToken = new CancellationToken())

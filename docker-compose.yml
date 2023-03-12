@@ -12,7 +12,7 @@ services:
       - RAVEN_Security_UnsecuredAccessAllowed='PublicNetwork'
       - RAVEN_License_Eula_Accepted=true
     volumes:
-      - ravendb-data:/opt/RavenDB/Server/RavenData 
+      - ravendb-data:/opt/RavenDB/Server/RavenData
 
   rabbitmq:
     image: rabbitmq:3-management-alpine
@@ -48,13 +48,13 @@ services:
     volumes:
       - mssql:/var/opt/mssql
 
-  demo2:
-    image: ${REGISTRY:-ritter.co}/goal/demo2:${PLATFORM:-windows}-${TAG:-latest}
-    container_name: ritter.co-goal-demo2
+  cqrs-sample:
+    image: ${REGISTRY:-ritter.co}/goal/cqrs-sample:${PLATFORM:-windows}-${TAG:-latest}
+    container_name: ritter.co-goal-cqrs-sample
     restart: on-failure
     build:
       context: .
-      dockerfile: src/Demo2/Goal.Demo2/Dockerfile
+      dockerfile: src/Goal.Samples.CQRS/Goal.Samples.CQRS.Api/Dockerfile
     depends_on:
       - mssql
       - seq

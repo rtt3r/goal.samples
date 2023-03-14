@@ -1,7 +1,8 @@
 using FluentValidation;
+using Goal.Samples.CQRS.Api.Application.Commands.Customers;
 using Goal.Samples.CQRS.Infra.Crosscutting.Constants;
 
-namespace Goal.Samples.CQRS.Application.Commands.Customers.Validators
+namespace Goal.Samples.CQRS.Api.Application.Commands.Customers.Validators
 {
     public class RegisterNewCustomerCommandValidator : CustomerValidator<RegisterNewCustomerCommand>
     {

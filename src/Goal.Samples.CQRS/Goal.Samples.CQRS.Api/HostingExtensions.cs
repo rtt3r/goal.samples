@@ -1,8 +1,8 @@
 using System.Globalization;
 using System.Text.Json.Serialization;
+using Goal.Samples.CQRS.Api.Infra.Extensions;
+using Goal.Samples.CQRS.Api.Infra.Swagger;
 using Goal.Samples.CQRS.Infra.Crosscutting.Extensions;
-using Goal.Samples.CQRS.Infra.Extensions;
-using Goal.Samples.CQRS.Infra.Swagger;
 using Goal.Seedwork.Infra.Crosscutting.Localization;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Options;

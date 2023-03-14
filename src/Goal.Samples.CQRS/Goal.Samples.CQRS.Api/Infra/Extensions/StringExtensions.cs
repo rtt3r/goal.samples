@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace Goal.Samples.CQRS.Infra.Extensions
+namespace Goal.Samples.CQRS.Api.Infra.Extensions
 {
     public static class StringExtensions
     {
@@ -59,7 +59,7 @@ namespace Goal.Samples.CQRS.Infra.Extensions
                         isPreviousNumber ||
                         isNextLower ||
                         isNextSpace ||
-                        (isNextLower && !isPreviousSpace)))
+                        isNextLower && !isPreviousSpace))
                         {
                             stringBuilder.Append(_separator);
                         }

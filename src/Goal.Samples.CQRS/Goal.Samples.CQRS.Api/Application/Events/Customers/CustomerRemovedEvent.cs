@@ -1,6 +1,6 @@
 using Goal.Seedwork.Domain.Events;
 
-namespace Goal.Samples.CQRS.Application.Events.Customers
+namespace Goal.Samples.CQRS.Api.Application.Events.Customers
 {
     public class CustomerRemovedEvent : Event
     {

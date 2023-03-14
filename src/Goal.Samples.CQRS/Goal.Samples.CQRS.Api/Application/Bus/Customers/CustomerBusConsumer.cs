@@ -1,9 +1,9 @@
-using Goal.Samples.CQRS.Application.Events.Customers;
+using Goal.Samples.CQRS.Api.Application.Events.Customers;
 using Goal.Seedwork.Domain.Events;
 using MassTransit;
 using MediatR;
 
-namespace Goal.Samples.CQRS.Application.Bus.Customers
+namespace Goal.Samples.CQRS.Api.Application.Bus.Customers
 {
     internal class CustomerBusConsumer : EventBusConsumer,
         IConsumer<CustomerRegisteredEvent>,

@@ -1,4 +1,4 @@
-using Goal.Samples.CQRS.Application.Bus.Customers;
+using Goal.Samples.CQRS.Api.Application.Bus.Customers;
 using Goal.Samples.CQRS.Infra.Crosscutting;
 using Goal.Samples.CQRS.Infra.Crosscutting.Constants;
 using Goal.Samples.CQRS.Infra.Data;
@@ -15,7 +15,7 @@ using Microsoft.EntityFrameworkCore;
 using RabbitMQ.Client;
 using Raven.DependencyInjection;
 
-namespace Goal.Samples.CQRS.Infra.Extensions
+namespace Goal.Samples.CQRS.Api.Infra.Extensions
 {
     public static class DependencyInjectionMethods
     {

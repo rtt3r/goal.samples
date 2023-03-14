@@ -11,7 +11,7 @@ using Goal.Seedwork.Infra.Crosscutting.Adapters;
 using Goal.Seedwork.Infra.Crosscutting.Notifications;
 using MassTransit;
 
-namespace Goal.Samples.CQRS.Application.Commands.Customers
+namespace Goal.Samples.CQRS.Api.Application.Commands.Customers
 {
     public class CustomerCommandHandler :
         ICommandHandler<RegisterNewCustomerCommand, ICommandResult<CustomerModel>>,

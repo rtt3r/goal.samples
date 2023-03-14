@@ -1,7 +1,7 @@
 using Goal.Seedwork.Domain.Events;
 using MediatR;
 
-namespace Goal.Samples.CQRS.Application.Bus
+namespace Goal.Samples.CQRS.Api.Application.Bus
 {
     internal abstract class EventBusConsumer
     {

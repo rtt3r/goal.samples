@@ -1,7 +1,7 @@
-using Goal.Samples.CQRS.Infra.TypeAdapters;
+using Goal.Samples.CQRS.Api.Infra.TypeAdapters;
 using Goal.Seedwork.Infra.Http.DependencyInjection;
 
-namespace Goal.Samples.CQRS.Infra.Extensions
+namespace Goal.Samples.CQRS.Api.Infra.Extensions
 {
     public static class ServiceCollectionExtensions
     {

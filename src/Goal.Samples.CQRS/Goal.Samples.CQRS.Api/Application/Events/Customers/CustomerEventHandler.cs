@@ -2,7 +2,7 @@ using Goal.Samples.CQRS.Infra.Data.Query.Repositories.Customers;
 using Goal.Samples.CQRS.Model.Customers;
 using Goal.Seedwork.Domain.Events;
 
-namespace Goal.Samples.CQRS.Application.Events.Customers
+namespace Goal.Samples.CQRS.Api.Application.Events.Customers
 {
     public class CustomerEventHandler :
         IEventHandler<CustomerRegisteredEvent>,

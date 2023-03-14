@@ -1,7 +1,7 @@
 using Goal.Seedwork.Domain.Events;
 using MediatR;
 
-namespace Goal.Samples.CQRS.Application.Events.Customers
+namespace Goal.Samples.CQRS.Api.Application.Events.Customers
 {
     public class CustomerRegisteredEvent : Event, INotification
     {

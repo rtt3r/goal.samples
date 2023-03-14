@@ -1,7 +1,7 @@
 using Goal.Samples.CQRS.Model.Customers;
 using Goal.Seedwork.Application.Commands;
 
-namespace Goal.Samples.CQRS.Application.Commands.Customers
+namespace Goal.Samples.CQRS.Api.Application.Commands.Customers
 {
     public class RegisterNewCustomerCommand : CustomerCommand<ICommandResult<CustomerModel>>
     {

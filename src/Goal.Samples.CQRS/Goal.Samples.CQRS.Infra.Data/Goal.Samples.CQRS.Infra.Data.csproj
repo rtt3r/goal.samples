@@ -22,7 +22,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Goal.Samples.CQRS.Domain\Goal.Samples.CQRS.Domain.csproj" />
-		<ProjectReference Include="..\Goal.Samples.CQRS.Infra.Crosscutting\Goal.Samples.CQRS.Infra.Crosscutting.csproj" />
+		<ProjectReference Include="..\Goal.Samples.CQRS.Infra.Crosscutting\Goal.Samples.Infra.Crosscutting.csproj" />
 	</ItemGroup>
 
 </Project>

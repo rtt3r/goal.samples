@@ -28,8 +28,4 @@
 		</PackageReference>
 		<PackageReference Include="Goal.Seedwork.Infra.Data" Version="0.3.2" />
 	</ItemGroup>
-
-	<ItemGroup>
-		<ProjectReference Include="..\..\Infra\Ritter.Starter.Infra.Crosscutting\Ritter.Starter.Infra.Crosscutting.csproj" />
-	</ItemGroup>
 </Project>

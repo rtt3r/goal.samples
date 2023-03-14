@@ -36,7 +36,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Goal.Samples.CQRS.Infra.Crosscutting\Goal.Samples.CQRS.Infra.Crosscutting.csproj" />
+		<ProjectReference Include="..\Goal.Samples.CQRS.Infra.Crosscutting\Goal.Samples.Infra.Crosscutting.csproj" />
 		<ProjectReference Include="..\Goal.Samples.CQRS.Infra.Data.Query\Goal.Samples.CQRS.Infra.Data.Query.csproj" />
 		<ProjectReference Include="..\Goal.Samples.CQRS.Infra.Data\Goal.Samples.CQRS.Infra.Data.csproj" />
 		<ProjectReference Include="..\Goal.Samples.CQRS.Model\Goal.Samples.CQRS.Model.csproj" />

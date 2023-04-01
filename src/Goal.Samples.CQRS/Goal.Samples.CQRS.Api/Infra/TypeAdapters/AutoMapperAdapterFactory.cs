@@ -1,5 +1,4 @@
 using AutoMapper;
-using Goal.Samples.CQRS.Infra.TypeAdapters;
 using Goal.Seedwork.Infra.Crosscutting.Adapters;
 
 namespace Goal.Samples.CQRS.Api.Infra.TypeAdapters

@@ -2,7 +2,7 @@ using System.Security.Claims;
 using System.Security.Principal;
 using IdentityModel;
 
-namespace Goal.Samples.CQRS.Infra.Crosscutting.Extensions
+namespace Goal.Samples.Infra.Crosscutting.Extensions
 {
     public static class ClaimsPrincipalExtensions
     {

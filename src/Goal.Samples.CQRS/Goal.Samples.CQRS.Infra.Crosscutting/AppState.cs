@@ -1,6 +1,6 @@
 using System.Security.Claims;
 
-namespace Goal.Samples.CQRS.Infra.Crosscutting
+namespace Goal.Samples.Infra.Crosscutting
 {
     public sealed class AppState
     {

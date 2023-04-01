@@ -4,11 +4,11 @@ using Serilog;
 using Serilog.Exceptions;
 using Serilog.Sinks.SystemConsole.Themes;
 
-namespace Goal.Samples.CQRS.Infra.Crosscutting.Extensions
+namespace Goal.Samples.Infra.Crosscutting.Extensions
 {
     public static class LoggingExtensions
     {
-        public static void ConfgureLogging(
+        public static void ConfigureLogging(
             this LoggerConfiguration logger,
             IConfiguration configuration,
             IWebHostEnvironment environment)

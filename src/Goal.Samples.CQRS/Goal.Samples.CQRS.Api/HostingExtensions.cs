@@ -2,7 +2,7 @@ using System.Globalization;
 using System.Text.Json.Serialization;
 using Goal.Samples.CQRS.Api.Infra.Extensions;
 using Goal.Samples.CQRS.Api.Infra.Swagger;
-using Goal.Samples.CQRS.Infra.Crosscutting.Extensions;
+using Goal.Samples.Infra.Crosscutting.Extensions;
 using Goal.Seedwork.Infra.Crosscutting.Localization;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Options;
@@ -13,7 +13,7 @@ public static class HostingExtensions
 {
     public static WebApplication ConfigureServices(this WebApplicationBuilder builder)
     {
-        builder.Host.UseSerilog((ctx, lc) => lc.ConfgureLogging(builder.Configuration, builder.Environment));
+        builder.Host.UseSerilog((ctx, lc) => lc.ConfigureLogging(builder.Configuration, builder.Environment));
 
         builder.Services.AddServices(builder.Configuration, builder.Environment);
         builder.Services.AddAutoMapperTypeAdapter();

@@ -1,5 +1,5 @@
 using System.Text.Json;
-using Goal.Samples.CQRS.Infra.Crosscutting;
+using Goal.Samples.Infra.Crosscutting;
 using Goal.Seedwork.Domain.Events;
 
 namespace Goal.Samples.CQRS.Infra.Data.EventSourcing

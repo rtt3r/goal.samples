@@ -1,18 +1,16 @@
 using Goal.Samples.CQRS.Api.Application.Bus.Customers;
-using Goal.Samples.CQRS.Infra.Crosscutting;
 using Goal.Samples.CQRS.Infra.Crosscutting.Constants;
 using Goal.Samples.CQRS.Infra.Data;
 using Goal.Samples.CQRS.Infra.Data.EventSourcing;
 using Goal.Samples.CQRS.Infra.Data.Query.Repositories.Customers;
 using Goal.Samples.CQRS.Infra.Data.Repositories;
-using Goal.Seedwork.Domain;
+using Goal.Samples.Infra.Crosscutting;
 using Goal.Seedwork.Domain.Aggregates;
 using Goal.Seedwork.Domain.Events;
 using Goal.Seedwork.Infra.Data.Query;
 using Goal.Seedwork.Infra.Http.DependencyInjection;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using RabbitMQ.Client;
 using Raven.DependencyInjection;
 
 namespace Goal.Samples.CQRS.Api.Infra.Extensions

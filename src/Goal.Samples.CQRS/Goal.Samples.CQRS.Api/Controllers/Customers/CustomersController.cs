@@ -1,4 +1,4 @@
-using Goal.Samples.CQRS.Application.Commands.Customers;
+using Goal.Samples.CQRS.Api.Application.Commands.Customers;
 using Goal.Samples.CQRS.Infra.Data.Query.Repositories.Customers;
 using Goal.Samples.CQRS.Model.Customers;
 using Goal.Seedwork.Application.Commands;
@@ -28,7 +28,7 @@ namespace Goal.Samples.CQRS.Api.Controllers.Customers
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<PagedResponse<CustomerModel>>> Get([FromQuery] PageSearchRequest request)
+        public async Task<ActionResult<PagedResponse>> Get([FromQuery] PageSearchRequest request)
             => Paged(await customerRepository.QueryAsync(request.ToPageSearch()));
 
         [HttpGet("{id}", Name = nameof(GetById))]

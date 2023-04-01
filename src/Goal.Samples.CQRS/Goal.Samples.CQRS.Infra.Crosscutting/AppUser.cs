@@ -1,7 +1,7 @@
 using System.Security.Claims;
-using Goal.Samples.CQRS.Infra.Crosscutting.Extensions;
+using Goal.Samples.Infra.Crosscutting.Extensions;
 
-namespace Goal.Samples.CQRS.Infra.Crosscutting
+namespace Goal.Samples.Infra.Crosscutting
 {
     public sealed class AppUser
     {

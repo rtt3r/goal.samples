@@ -1,12 +1,12 @@
 {
   "profiles": {
-    "SelfHost": {
+    "Goal.Samples.CQRS.Domain": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "https://localhost:5001"
+      "applicationUrl": "https://localhost:56589;http://localhost:56590"
     }
   }
 }

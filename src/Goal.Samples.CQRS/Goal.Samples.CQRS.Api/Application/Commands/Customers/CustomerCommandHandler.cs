@@ -1,6 +1,6 @@
 using FluentValidation.Results;
-using Goal.Samples.CQRS.Application.Commands.Customers.Validators;
-using Goal.Samples.CQRS.Application.Events.Customers;
+using Goal.Samples.CQRS.Api.Application.Commands.Customers.Validators;
+using Goal.Samples.CQRS.Api.Application.Events.Customers;
 using Goal.Samples.CQRS.Domain.Customers.Aggregates;
 using Goal.Samples.CQRS.Infra.Crosscutting.Constants;
 using Goal.Samples.CQRS.Infra.Data;

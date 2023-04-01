@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Goal.Samples.CQRS.Model": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:56591;http://localhost:56592"
+    }
+  }
+}

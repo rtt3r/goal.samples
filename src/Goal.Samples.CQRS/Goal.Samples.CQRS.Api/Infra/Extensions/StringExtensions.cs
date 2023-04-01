@@ -59,7 +59,7 @@ namespace Goal.Samples.CQRS.Api.Infra.Extensions
                         isPreviousNumber ||
                         isNextLower ||
                         isNextSpace ||
-                        isNextLower && !isPreviousSpace))
+                        (isNextLower && !isPreviousSpace)))
                         {
                             stringBuilder.Append(_separator);
                         }

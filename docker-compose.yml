@@ -62,8 +62,8 @@ services:
 
 volumes:
   mssql:
-    name: mssql-vol
+    name: goal-mssql-vol
   ravendb-data:
-    name: ravendb-vol
+    name: goal-ravendb-vol
   seq-volume:
-    name: seq-1-volume
+    name: goal-seq-volume

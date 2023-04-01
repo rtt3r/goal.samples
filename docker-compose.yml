@@ -12,15 +12,20 @@ services:
       - RAVEN_Security_UnsecuredAccessAllowed='PublicNetwork'
       - RAVEN_License_Eula_Accepted=true
     volumes:
+      - ravendb-config:/opt/RavenDB/config
       - ravendb-data:/opt/RavenDB/Server/RavenData
 
   rabbitmq:
+    hostname: 'mabbit'
     image: rabbitmq:3-management-alpine
     container_name: ritter.co-goal-rabbitmq
     restart: unless-stopped
     ports:
-        - 5672:5672
-        - 15672:15672
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq/
+      - rabbitmq-mnesia:/var/lib/rabbitmq/mnesia/
 
   seq:
     image: datalust/seq:latest
@@ -33,12 +38,10 @@ services:
       - ACCEPT_EULA=Y
       - SEQ_FIRSTRUN_ADMINPASSWORDHASH=FCYqICbqbAUjB9UmVl3ddA5EOeqd6d51jNwW+SgPK1wmajiQoQ==
     volumes:
-      - type: volume
-        source: seq-volume
-        target: /data
+      - seq-data:/var/lib/seq/data/
 
   mssql:
-    image: "mcr.microsoft.com/mssql/server:2019-CU14-ubuntu-20.04"
+    image: "mcr.microsoft.com/mssql/server"
     container_name: ritter.co-goal-mssql
     ports:
       - "11433:1433"
@@ -46,7 +49,7 @@ services:
       SA_PASSWORD: "pxh4P8w3"
       ACCEPT_EULA: "Y"
     volumes:
-      - mssql:/var/opt/mssql
+      - mssql-data:/var/opt/mssql
 
   cqrs-sample:
     image: ${REGISTRY:-ritter.co}/goal/cqrs-sample:${PLATFORM:-windows}-${TAG:-latest}
@@ -59,11 +62,18 @@ services:
       - mssql
       - seq
       - ravendb
+      - rabbitmq
 
 volumes:
-  mssql:
-    name: goal-mssql-vol
+  mssql-data:
+    name: ritter.co-goal-mssql-vol
+  ravendb-config:
+    name: ritter.co-goal-ravendb-config-vol
   ravendb-data:
-    name: goal-ravendb-vol
-  seq-volume:
-    name: goal-seq-volume
+    name: ritter.co-goal-ravendb-data-vol
+  seq-data:
+    name: ritter.co-goal-seq-vol
+  rabbitmq-data:
+    name: ritter.co-goal-rabbitmq-data-vol
+  rabbitmq-mnesia:
+    name: ritter.co-goal-rabbitmq-mnesia-vol

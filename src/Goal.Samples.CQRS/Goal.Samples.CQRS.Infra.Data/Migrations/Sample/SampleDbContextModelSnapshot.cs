@@ -4,25 +4,23 @@ using Goal.Samples.CQRS.Infra.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Goal.Samples.CQRS.Infra.Data.Migrations.Demo2Context
+namespace Goal.Samples.CQRS.Infra.Data.Migrations.Sample
 {
-    [DbContext(typeof(Goal.Samples.CQRS.Infra.Data.Demo2Context))]
-    [Migration("20220729231604_UpdateBirthDate")]
-    partial class UpdateBirthDate
+    [DbContext(typeof(SampleDbContext))]
+    partial class SampleDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.7")
+                .HasAnnotation("ProductVersion", "7.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("Goal.Samples.CQRS.Domain.Customers.Aggregates.Customer", b =>
                 {

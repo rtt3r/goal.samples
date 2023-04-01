@@ -18,13 +18,13 @@ namespace Goal.Samples.CQRS.Api.Application.Commands.Customers
         ICommandHandler<UpdateCustomerCommand, ICommandResult>,
         ICommandHandler<RemoveCustomerCommand, ICommandResult>
     {
-        private readonly IDemo2UnitOfWork uow;
+        private readonly ISampleUnitOfWork uow;
         private readonly IPublishEndpoint publishEndpoint;
         private readonly IDefaultNotificationHandler notificationHandler;
         private readonly ITypeAdapter typeAdapter;
 
         public CustomerCommandHandler(
-            IDemo2UnitOfWork uow,
+            ISampleUnitOfWork uow,
             IPublishEndpoint publishEndpoint,
             IDefaultNotificationHandler notificationHandler,
             ITypeAdapter typeAdapter)

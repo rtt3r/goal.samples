@@ -4,6 +4,7 @@
 		<TargetFramework>net7.0</TargetFramework>
 		<IsPackable>false</IsPackable>
 		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>disable</Nullable>
 		<UserSecretsId>f2746e36-9eba-4e11-8d44-c113e4ec5bf5</UserSecretsId>
 		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 		<DockerfileContext>..\..\..</DockerfileContext>

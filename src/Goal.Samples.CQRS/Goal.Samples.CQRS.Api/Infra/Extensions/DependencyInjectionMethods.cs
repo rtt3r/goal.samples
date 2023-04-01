@@ -28,7 +28,7 @@ namespace Goal.Samples.CQRS.Api.Infra.Extensions
             services.AddDbContexts(connectionString);
             services.AddRavenDb(configuration);
 
-            services.AddScoped<IDemo2UnitOfWork, Demo2UnitOfWork>();
+            services.AddScoped<ISampleUnitOfWork, SampleUnitOfWork>();
             services.AddScoped<IEventStore, SqlEventStore>();
             services.AddDefaultNotificationHandler();
 
@@ -57,22 +57,22 @@ namespace Goal.Samples.CQRS.Api.Infra.Extensions
         private static IServiceCollection AddDbContexts(this IServiceCollection services, string connectionString)
         {
             services
-                .AddDbContext<EventSourcingContext>((provider, options) =>
+                .AddDbContext<EventSourcingDbContext>((provider, options) =>
                 {
                     options
                         .UseSqlServer(
                             connectionString,
-                            opts => opts.MigrationsAssembly(typeof(EventSourcingContext).Assembly.GetName().Name))
+                            opts => opts.MigrationsAssembly(typeof(EventSourcingDbContext).Assembly.GetName().Name))
                         .EnableSensitiveDataLogging();
                 });
 
             services
-                .AddDbContext<Demo2Context>((provider, options) =>
+                .AddDbContext<SampleDbContext>((provider, options) =>
                 {
                     options
                         .UseSqlServer(
                             connectionString,
-                            opts => opts.MigrationsAssembly(typeof(Demo2Context).Assembly.GetName().Name))
+                            opts => opts.MigrationsAssembly(typeof(SampleDbContext).Assembly.GetName().Name))
                         .EnableSensitiveDataLogging();
                 });
 

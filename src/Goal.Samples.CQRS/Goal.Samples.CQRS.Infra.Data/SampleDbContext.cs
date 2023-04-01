@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Goal.Samples.CQRS.Infra.Data
 {
-    public class Demo2Context : DbContext
+    public class SampleDbContext : DbContext
     {
         public DbSet<Customer> Customers { get; set; }
 
-        public Demo2Context(DbContextOptions<Demo2Context> options)
+        public SampleDbContext(DbContextOptions<SampleDbContext> options)
             : base(options)
         { }
 

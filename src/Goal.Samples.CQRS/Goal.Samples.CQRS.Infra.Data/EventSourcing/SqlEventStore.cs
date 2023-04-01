@@ -6,11 +6,11 @@ namespace Goal.Samples.CQRS.Infra.Data.EventSourcing
 {
     public class SqlEventStore : IEventStore
     {
-        private readonly EventSourcingContext dbContext;
+        private readonly EventSourcingDbContext dbContext;
         private readonly AppState appState;
 
         public SqlEventStore(
-            EventSourcingContext dbContext,
+            EventSourcingDbContext dbContext,
             AppState appState)
         {
             this.dbContext = dbContext;

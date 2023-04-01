@@ -10,7 +10,7 @@ services:
         - ASPNETCORE_URLS=https://+;http://+
         - ASPNETCORE_HTTPS_PORT=4431
         - ASPNETCORE_RavenSettings__Urls=http://ravendb:8080,
-        - ASPNETCORE_RavenSettings__DatabaseName=Demo2
+        - ASPNETCORE_RavenSettings__DatabaseName=Sample
         - ASPNETCORE_RavenSettings__CertFilePath=
         - ASPNETCORE_RavenSettings__CertPassword=
         - ASPNETCORE_EventBusSettings__HostAddress=amqp://guest:guest@rabbitmq:5672

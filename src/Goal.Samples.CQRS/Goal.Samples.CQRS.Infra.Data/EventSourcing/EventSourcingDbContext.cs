@@ -3,11 +3,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Goal.Samples.CQRS.Infra.Data.EventSourcing
 {
-    public class EventSourcingContext : DbContext
+    public class EventSourcingDbContext : DbContext
     {
         public DbSet<StoredEvent> StoredEvents { get; set; }
 
-        public EventSourcingContext(DbContextOptions<EventSourcingContext> options)
+        public EventSourcingDbContext(DbContextOptions<EventSourcingDbContext> options)
             : base(options)
         { }
 

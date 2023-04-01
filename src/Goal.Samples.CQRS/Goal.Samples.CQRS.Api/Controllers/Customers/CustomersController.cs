@@ -15,28 +15,28 @@ namespace Goal.Samples.CQRS.Api.Controllers.Customers
     [Route("api/[controller]")]
     public class CustomersController : ApiControllerBase
     {
-        private readonly ICustomerQueryRepository customerRepository;
+        private readonly ICustomerQueryRepository customerQueryRepository;
         private readonly IMediator mediator;
 
         public CustomersController(
-            ICustomerQueryRepository customerRepository,
+            ICustomerQueryRepository customerQueryRepository,
             IMediator mediator)
         {
-            this.customerRepository = customerRepository;
+            this.customerQueryRepository = customerQueryRepository;
             this.mediator = mediator;
         }
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<PagedResponse>> Get([FromQuery] PageSearchRequest request)
-            => Paged(await customerRepository.QueryAsync(request.ToPageSearch()));
+            => Paged(await customerQueryRepository.QueryAsync(request.ToPageSearch()));
 
         [HttpGet("{id}", Name = nameof(GetById))]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ApiResponse))]
         public async Task<ActionResult<CustomerModel>> GetById([FromRoute] string id)
         {
-            CustomerModel customer = await customerRepository.LoadAsync(id);
+            CustomerModel customer = await customerQueryRepository.LoadAsync(id);
 
             if (customer is null)
             {

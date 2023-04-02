@@ -1,4 +1,4 @@
-using Goal.Samples.CQRS.Api.Application.Commands.Customers;
+using Goal.Samples.CQRS.Application.Commands.Customers;
 using Goal.Samples.CQRS.Infra.Data.Query.Repositories.Customers;
 using Goal.Samples.CQRS.Model.Customers;
 using Goal.Seedwork.Application.Commands;

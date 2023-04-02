@@ -1,7 +1,7 @@
 using System.Globalization;
 using System.Text.Json.Serialization;
-using Goal.Samples.CQRS.Api.Infra.Extensions;
 using Goal.Samples.CQRS.Api.Infra.Swagger;
+using Goal.Samples.CQRS.Infra.IoC.Extensions;
 using Goal.Samples.Infra.Crosscutting.Extensions;
 using Goal.Seedwork.Infra.Crosscutting.Localization;
 using Microsoft.AspNetCore.Localization;
@@ -17,9 +17,7 @@ namespace Goal.Samples.CQRS.Api
         {
             builder.Host.UseSerilog((ctx, lc) => lc.ConfigureLogging(builder.Configuration, builder.Environment));
 
-            builder.Services.AddServices(builder.Configuration, builder.Environment);
-            builder.Services.AddAutoMapperTypeAdapter();
-            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.GetAssemblies()));
+            builder.Services.ConfigureApiServices(builder.Configuration, builder.Environment);
 
             builder.Services
                 .AddRouting(options =>
@@ -70,13 +68,13 @@ namespace Goal.Samples.CQRS.Api
             {
                 DefaultRequestCulture = new RequestCulture(ApplicationCultures.Portugues, ApplicationCultures.Portugues),
                 SupportedCultures = new List<CultureInfo>
-            {
-                ApplicationCultures.Portugues,
-            },
+                {
+                    ApplicationCultures.Portugues,
+                },
                 SupportedUICultures = new List<CultureInfo>
-            {
-                ApplicationCultures.Portugues,
-            }
+                {
+                    ApplicationCultures.Portugues,
+                }
             });
 
             app.MapControllers()

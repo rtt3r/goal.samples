@@ -51,13 +51,26 @@ services:
     volumes:
       - mssql-data:/var/opt/mssql
 
-  cqrs-sample:
-    image: ${REGISTRY:-ritter.co}/goal/cqrs-sample:${PLATFORM:-windows}-${TAG:-latest}
-    container_name: ritter.co-goal-cqrs-sample
+  cqrs-api:
+    image: ${REGISTRY:-ritter.co}/goal/cqrs-api:${PLATFORM:-windows}-${TAG:-latest}
+    container_name: ritter.co-goal-cqrs-api
     restart: on-failure
     build:
       context: .
       dockerfile: src/Goal.Samples.CQRS/Goal.Samples.CQRS.Api/Dockerfile
+    depends_on:
+      - mssql
+      - seq
+      - ravendb
+      - rabbitmq
+
+  cqrs-worker:
+    image: ${REGISTRY:-ritter.co}/goal/cqrs-worker:${PLATFORM:-windows}-${TAG:-latest}
+    container_name: ritter.co-goal-cqrs-worker
+    restart: on-failure
+    build:
+      context: .
+      dockerfile: src/Goal.Samples.CQRS/Goal.Samples.CQRS.Worker/Dockerfile
     depends_on:
       - mssql
       - seq

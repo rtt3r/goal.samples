@@ -1,4 +1,3 @@
-using Goal.Samples.CQRS.Application.Bus;
 using Goal.Samples.CQRS.Application.Events.Customers;
 using Goal.Seedwork.Domain.Events;
 using MassTransit;

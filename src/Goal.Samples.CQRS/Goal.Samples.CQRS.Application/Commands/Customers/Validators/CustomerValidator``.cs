@@ -1,4 +1,3 @@
-using Goal.Samples.CQRS.Application.Commands.Customers;
 using Goal.Seedwork.Application.Commands;
 
 namespace Goal.Samples.CQRS.Application.Commands.Customers.Validators

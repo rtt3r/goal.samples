@@ -62,7 +62,6 @@ namespace Goal.Samples.CQRS.Api
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
-            app.UseAuthorization();
 
             app.UseRequestLocalization(new RequestLocalizationOptions
             {
@@ -77,8 +76,7 @@ namespace Goal.Samples.CQRS.Api
                 }
             });
 
-            app.MapControllers()
-                .RequireAuthorization();
+            app.MapControllers();
 
             return app;
         }

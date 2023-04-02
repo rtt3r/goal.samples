@@ -8,7 +8,7 @@ namespace Goal.Samples.CQRS.Api.Controllers
         public ApiResponse(bool isSucceeded, params ApiResponseMessage[] messages)
         {
             IsSucceeded = isSucceeded;
-            Messages = messages;
+            Messages = messages ?? Array.Empty<ApiResponseMessage>();
         }
 
         public ApiResponse(bool isSucceeded, params Notification[] notifications)
@@ -17,7 +17,7 @@ namespace Goal.Samples.CQRS.Api.Controllers
         }
 
         public bool IsSucceeded { get; private set; }
-        public IEnumerable<ApiResponseMessage> Messages { get; private set; } = new List<ApiResponseMessage>();
+        public IEnumerable<ApiResponseMessage> Messages { get; private set; }
 
         public static ApiResponse Success()
             => new(true, Array.Empty<ApiResponseMessage>());

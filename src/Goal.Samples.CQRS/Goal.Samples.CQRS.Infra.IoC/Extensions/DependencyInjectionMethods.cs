@@ -1,6 +1,5 @@
-using Goal.Samples.CQRS.Application.Bus.Customers;
+using Goal.Samples.CQRS.Application.Bus.Consumers;
 using Goal.Samples.CQRS.Application.TypeAdapters;
-using Goal.Samples.CQRS.Infra.Crosscutting.Constants;
 using Goal.Samples.CQRS.Infra.Data;
 using Goal.Samples.CQRS.Infra.Data.EventSourcing;
 using Goal.Samples.CQRS.Infra.Data.Query.Repositories.Customers;
@@ -32,6 +31,7 @@ namespace Goal.Samples.CQRS.Infra.IoC.Extensions
 
             services.AddAutoMapperTypeAdapter();
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.GetAssemblies()));
+            services.AddPublisherMassTransit(configuration);
 
             services.AddSampleDbContext(connectionString);
             services.AddRavenDb(configuration);
@@ -54,28 +54,53 @@ namespace Goal.Samples.CQRS.Infra.IoC.Extensions
             services.AddRavenDb(configuration);
             services.AddScoped<IEventStore, SqlEventStore>();
             services.AddDefaultNotificationHandler();
-            services.AddRabbitMq(configuration);
+            services.AddConsumerMassTransit(configuration);
 
             services.RegisterAllTypesOf<IQueryRepository>(typeof(CustomerQueryRepository).Assembly);
 
             return services;
         }
 
-        private static IServiceCollection AddRabbitMq(this IServiceCollection services, IConfiguration configuration)
+        private static IServiceCollection AddConsumerMassTransit(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddMassTransit(config =>
+            services.AddMassTransit(x =>
             {
-                config.AddConsumer<CustomerBusConsumer>();
+                x.AddDelayedMessageScheduler();
+                x.AddConsumer<CustomerRegisteredEventConsumer>(typeof(CustomerRegisteredEventConsumer.ConsumerDefinition));
+                x.AddConsumer<CustomerRemovedEventConsumer>(typeof(CustomerRemovedEventConsumer.ConsumerDefinition));
+                x.AddConsumer<CustomerUpdatedEventConsumer>(typeof(CustomerUpdatedEventConsumer.ConsumerDefinition));
 
-                config.UsingRabbitMq((ctx, cfg) =>
+                x.SetKebabCaseEndpointNameFormatter();
+
+                x.UsingRabbitMq((ctx, cfg) =>
                 {
-                    cfg.ReceiveEndpoint(ApplicationConstants.EventBus.CustomerRegisteredQueue, c =>
+                    cfg.Host(configuration.GetConnectionString("RabbitMq"));
+                    cfg.UseDelayedMessageScheduler();
+                    cfg.ServiceInstance(instance =>
                     {
-                        c.ConfigureConsumer<CustomerBusConsumer>(ctx);
+                        instance.ConfigureJobServiceEndpoints();
+                        instance.ConfigureEndpoints(ctx, new KebabCaseEndpointNameFormatter("dev", false));
                     });
+                });
+            });
 
-                    cfg.Host(configuration["EventBusSettings:HostAddress"]);
-                    cfg.ConfigureEndpoints(ctx);
+            return services;
+        }
+
+        private static IServiceCollection AddPublisherMassTransit(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddMassTransit(x =>
+            {
+                x.AddDelayedMessageScheduler();
+                x.SetKebabCaseEndpointNameFormatter();
+
+                x.UsingRabbitMq((ctx, cfg) =>
+                {
+                    cfg.Host(configuration.GetConnectionString("RabbitMq"));
+
+                    cfg.UseDelayedMessageScheduler();
+                    cfg.ConfigureEndpoints(ctx, new KebabCaseEndpointNameFormatter("dev", false));
+                    cfg.UseMessageRetry(retry => { retry.Interval(3, TimeSpan.FromSeconds(5)); });
                 });
             });
 

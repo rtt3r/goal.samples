@@ -41,7 +41,7 @@ services:
       - seq-data:/var/lib/seq/data/
 
   mssql:
-    image: "mcr.microsoft.com/mssql/server"
+    image: "mcr.microsoft.com/mssql/server:2022-latest"
     container_name: ritter.co-goal-mssql
     ports:
       - "11433:1433"

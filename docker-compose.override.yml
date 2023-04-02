@@ -5,7 +5,7 @@ services:
   cqrs-api:
     environment:
         - ASPNETCORE_ENVIRONMENT=Development
-        - ASPNETCORE_ConnectionStrings__DefaultConnection=Server=mssql;Initial Catalog=goal-dev;Persist Security Info=False;User ID=sa;Password=pxh4P8w3;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;
+        - ASPNETCORE_ConnectionStrings__DefaultConnection=Server=mssql;Initial Catalog=goal-dev;Persist Security Info=False;User ID=sa;Password=BeycL18545#f;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=True;MultiSubnetFailover=True;Connection Timeout=30;
         - ASPNETCORE_ConnectionStrings__Seq=http://seq:5341
         - ASPNETCORE_ConnectionStrings__RabbitMq=amqp://guest:guest@rabbitmq:5672
         - ASPNETCORE_URLS=https://+;http://+
@@ -23,7 +23,7 @@ services:
 
   cqrs-worker:
     environment:
-        - ConnectionStrings__DefaultConnection=Server=mssql;Initial Catalog=goal-dev;Persist Security Info=False;User ID=sa;Password=pxh4P8w3;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;
+        - ConnectionStrings__DefaultConnection=Server=mssql;Initial Catalog=goal-dev;Persist Security Info=False;User ID=sa;Password=BeycL18545#f;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=True;MultiSubnetFailover=True;Connection Timeout=30;
         - ConnectionStrings__Seq=http://seq:5341
         - ConnectionStrings__RabbitMq=amqp://guest:guest@rabbitmq:5672
         - RavenSettings__Urls=http://ravendb:8080,

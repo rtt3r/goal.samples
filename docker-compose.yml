@@ -41,13 +41,13 @@ services:
       - seq-data:/var/lib/seq/data/
 
   mssql:
-    image: "mcr.microsoft.com/mssql/server:2022-latest"
+    image: "mcr.microsoft.com/mssql/server:2019-CU14-ubuntu-20.04"
     container_name: ritter.co-goal-mssql
     ports:
-      - "11433:1433"
+      - "1433:1433"
     environment:
-      SA_PASSWORD: "pxh4P8w3"
-      ACCEPT_EULA: "Y"
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=BeycL18545#f
     volumes:
       - mssql-data:/var/opt/mssql
 

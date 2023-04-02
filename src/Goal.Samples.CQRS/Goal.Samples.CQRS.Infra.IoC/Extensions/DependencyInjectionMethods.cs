@@ -123,8 +123,13 @@ namespace Goal.Samples.CQRS.Infra.IoC.Extensions
                     options
                         .UseSqlServer(
                             connectionString,
-                            opts => opts.MigrationsAssembly(typeof(SampleDbContext).Assembly.GetName().Name))
-                        .EnableSensitiveDataLogging();
+                            opts =>
+                            {
+                                opts.MigrationsAssembly(typeof(SampleDbContext).Assembly.GetName().Name);
+                                opts.EnableRetryOnFailure();
+                            })
+                        .EnableSensitiveDataLogging()
+                        ;
                 });
 
             return services;

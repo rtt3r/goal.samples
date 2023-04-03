@@ -28,6 +28,7 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 			<TreatAsUsed>true</TreatAsUsed>
 		</PackageReference>
+		<PackageReference Include="MassTransit.RabbitMQ" Version="8.0.14" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -1,4 +1,3 @@
-using Goal.Samples.CQRS.Application.Bus.Consumers;
 using Goal.Samples.CQRS.Application.TypeAdapters;
 using Goal.Samples.CQRS.Infra.Data;
 using Goal.Samples.CQRS.Infra.Data.EventSourcing;
@@ -9,15 +8,13 @@ using Goal.Seedwork.Domain.Aggregates;
 using Goal.Seedwork.Domain.Events;
 using Goal.Seedwork.Infra.Data.Query;
 using Goal.Seedwork.Infra.Http.DependencyInjection;
-using MassTransit;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Raven.DependencyInjection;
 
-namespace Goal.Samples.CQRS.Infra.IoC.Extensions
+namespace Microsoft.Extensions.DependencyInjection
 {
     public static class DependencyInjectionMethods
     {
@@ -31,78 +28,36 @@ namespace Goal.Samples.CQRS.Infra.IoC.Extensions
 
             services.AddAutoMapperTypeAdapter();
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.GetAssemblies()));
-            services.AddPublisherMassTransit(configuration);
+
+            services.AddDefaultNotificationHandler();
+            services.AddRavenDb(configuration);
 
             services.AddSampleDbContext(connectionString);
-            services.AddRavenDb(configuration);
             services.AddScoped<ISampleUnitOfWork, SampleUnitOfWork>();
-            services.AddDefaultNotificationHandler();
-
             services.RegisterAllTypesOf<IRepository>(typeof(CustomerRepository).Assembly);
             services.RegisterAllTypesOf<IQueryRepository>(typeof(CustomerQueryRepository).Assembly);
 
             return services;
         }
 
-        public static IServiceCollection ConfigureWorkerServices(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection ConfigureWorkerServices(this IServiceCollection services, IConfiguration configuration, IWebHostEnvironment environment)
         {
             string connectionString = configuration.GetConnectionString("DefaultConnection");
 
-            services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.GetAssemblies()));
+            services.AddHttpContextAccessor();
+            services.AddScoped(provider => provider.GetService<IHttpContextAccessor>()?.HttpContext?.User);
+            services.AddScoped<AppState>();
+
+            services.AddAutoMapperTypeAdapter();
+            //services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.GetAssemblies()));
+
+            services.AddDefaultNotificationHandler();
+            services.AddRavenDb(configuration);
 
             services.AddEventSourcingDbContext(connectionString);
-            services.AddRavenDb(configuration);
             services.AddScoped<IEventStore, SqlEventStore>();
-            services.AddDefaultNotificationHandler();
-            services.AddConsumerMassTransit(configuration);
 
             services.RegisterAllTypesOf<IQueryRepository>(typeof(CustomerQueryRepository).Assembly);
-
-            return services;
-        }
-
-        private static IServiceCollection AddConsumerMassTransit(this IServiceCollection services, IConfiguration configuration)
-        {
-            services.AddMassTransit(x =>
-            {
-                x.AddDelayedMessageScheduler();
-                x.AddConsumer<CustomerRegisteredEventConsumer>(typeof(CustomerRegisteredEventConsumer.ConsumerDefinition));
-                x.AddConsumer<CustomerRemovedEventConsumer>(typeof(CustomerRemovedEventConsumer.ConsumerDefinition));
-                x.AddConsumer<CustomerUpdatedEventConsumer>(typeof(CustomerUpdatedEventConsumer.ConsumerDefinition));
-
-                x.SetKebabCaseEndpointNameFormatter();
-
-                x.UsingRabbitMq((ctx, cfg) =>
-                {
-                    cfg.Host(configuration.GetConnectionString("RabbitMq"));
-                    cfg.UseDelayedMessageScheduler();
-                    cfg.ServiceInstance(instance =>
-                    {
-                        instance.ConfigureJobServiceEndpoints();
-                        instance.ConfigureEndpoints(ctx, new KebabCaseEndpointNameFormatter("dev", false));
-                    });
-                });
-            });
-
-            return services;
-        }
-
-        private static IServiceCollection AddPublisherMassTransit(this IServiceCollection services, IConfiguration configuration)
-        {
-            services.AddMassTransit(x =>
-            {
-                x.AddDelayedMessageScheduler();
-                x.SetKebabCaseEndpointNameFormatter();
-
-                x.UsingRabbitMq((ctx, cfg) =>
-                {
-                    cfg.Host(configuration.GetConnectionString("RabbitMq"));
-
-                    cfg.UseDelayedMessageScheduler();
-                    cfg.ConfigureEndpoints(ctx, new KebabCaseEndpointNameFormatter("dev", false));
-                    cfg.UseMessageRetry(retry => { retry.Interval(3, TimeSpan.FromSeconds(5)); });
-                });
-            });
 
             return services;
         }

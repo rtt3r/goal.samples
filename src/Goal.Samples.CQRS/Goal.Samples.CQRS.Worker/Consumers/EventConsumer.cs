@@ -3,29 +3,24 @@ using Goal.Samples.CQRS.Application.Events.Customers;
 using Goal.Seedwork.Domain.Events;
 using MassTransit;
 using MassTransit.Metadata;
-using MediatR;
-using Microsoft.Extensions.Logging;
 
-namespace Goal.Samples.CQRS.Application.Bus
+namespace Goal.Samples.CQRS.Worker.Consumers
 {
-    public abstract class EventConsumer
+    public abstract class EventConsumer<TEvent> : IConsumer<TEvent>
+        where TEvent : class, IEvent
     {
-        private readonly IMediator mediator;
         private readonly IEventStore eventStore;
         private readonly ILogger logger;
 
         protected EventConsumer(
-            IMediator mediator,
             IEventStore eventStore,
             ILogger logger)
         {
-            this.mediator = mediator;
             this.eventStore = eventStore;
             this.logger = logger;
         }
 
-        protected virtual async Task ConsumeEvent<TEvent>(ConsumeContext<TEvent> context)
-            where TEvent : class, IEvent
+        public async Task Consume(ConsumeContext<TEvent> context)
         {
             var timer = Stopwatch.StartNew();
             string consumerType = TypeMetadataCache<CustomerRegisteredEvent>.ShortName;
@@ -34,9 +29,9 @@ namespace Goal.Samples.CQRS.Application.Bus
 
             try
             {
-                eventStore.Save(context.Message);
-                await mediator.Publish(context.Message);
+                await HandleEvent(context.Message);
 
+                eventStore.Save(context.Message);
                 await context.NotifyConsumed(timer.Elapsed, consumerType);
             }
             catch (Exception ex)
@@ -44,5 +39,7 @@ namespace Goal.Samples.CQRS.Application.Bus
                 await context.NotifyFaulted(timer.Elapsed, consumerType, ex);
             }
         }
+
+        protected abstract Task HandleEvent(TEvent @event, CancellationToken cancellationToken = default);
     }
 }

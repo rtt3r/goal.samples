@@ -1,15 +1,18 @@
 using System.Globalization;
 using System.Text.Json.Serialization;
-using Goal.Samples.CQRS.Api.Infra.Swagger;
+using Goal.Samples.CQRS.Infra.Data.EventSourcing;
+using Goal.Samples.CQRS.Worker.Consumers.Customers;
+using Goal.Samples.CQRS.Worker.Infra.Swagger;
 using Goal.Samples.Infra.Crosscutting.Extensions;
 using Goal.Seedwork.Infra.Crosscutting.Localization;
 using MassTransit;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Serilog;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace Goal.Samples.CQRS.Api
+namespace Goal.Samples.CQRS.Worker
 {
     public static class HostingExtensions
     {
@@ -17,20 +20,26 @@ namespace Goal.Samples.CQRS.Api
         {
             builder.Host.UseSerilog((ctx, lc) => lc.ConfigureLogging(builder.Configuration, builder.Environment));
 
-            builder.Services.ConfigureApiServices(builder.Configuration, builder.Environment);
+            builder.Services.ConfigureWorkerServices(builder.Configuration, builder.Environment);
 
-            builder.Services.AddMediatR(cfg => { cfg.RegisterServicesFromAssemblyContaining<Program>(); });
             builder.Services.AddMassTransit(x =>
             {
                 x.AddDelayedMessageScheduler();
+                x.AddConsumer<CustomerRegisteredEventConsumer>(typeof(CustomerRegisteredEventConsumer.ConsumerDefinition));
+                x.AddConsumer<CustomerRemovedEventConsumer>(typeof(CustomerRemovedEventConsumer.ConsumerDefinition));
+                x.AddConsumer<CustomerUpdatedEventConsumer>(typeof(CustomerUpdatedEventConsumer.ConsumerDefinition));
+
                 x.SetKebabCaseEndpointNameFormatter();
 
                 x.UsingRabbitMq((ctx, cfg) =>
                 {
                     cfg.Host(builder.Configuration.GetConnectionString("RabbitMq"));
                     cfg.UseDelayedMessageScheduler();
-                    cfg.ConfigureEndpoints(ctx, new KebabCaseEndpointNameFormatter("dev", false));
-                    cfg.UseMessageRetry(retry => { retry.Interval(3, TimeSpan.FromSeconds(5)); });
+                    cfg.ServiceInstance(instance =>
+                    {
+                        instance.ConfigureJobServiceEndpoints();
+                        instance.ConfigureEndpoints(ctx, new KebabCaseEndpointNameFormatter("dev", false));
+                    });
                 });
             });
 
@@ -62,13 +71,18 @@ namespace Goal.Samples.CQRS.Api
         {
             app.UseSerilogRequestLogging();
 
+            using (IServiceScope scope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                scope.ServiceProvider.GetRequiredService<EventSourcingDbContext>().Database.Migrate();
+            }
+
             if (app.Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c =>
                 {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Goal Samples CQRS Api v1");
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Goal Samples CQRS Worker v1");
                     c.DisplayRequestDuration();
                     c.RoutePrefix = string.Empty;
                 });

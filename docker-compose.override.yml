@@ -23,10 +23,17 @@ services:
 
   cqrs-worker:
     environment:
-        - ConnectionStrings__DefaultConnection=Server=mssql;Initial Catalog=goal-dev;Persist Security Info=False;User ID=sa;Password=BeycL18545#f;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=True;MultiSubnetFailover=True;Connection Timeout=30;
-        - ConnectionStrings__Seq=http://seq:5341
-        - ConnectionStrings__RabbitMq=amqp://guest:guest@rabbitmq:5672
-        - RavenSettings__Urls=http://ravendb:8080,
-        - RavenSettings__DatabaseName=Sample
-        - RavenSettings__CertFilePath=
-        - RavenSettings__CertPassword=
+        - ASPNETCORE_ENVIRONMENT=Development
+        - ASPNETCORE_ConnectionStrings__DefaultConnection=Server=mssql;Initial Catalog=goal-dev;Persist Security Info=False;User ID=sa;Password=BeycL18545#f;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=True;MultiSubnetFailover=True;Connection Timeout=30;
+        - ASPNETCORE_ConnectionStrings__Seq=http://seq:5341
+        - ASPNETCORE_ConnectionStrings__RabbitMq=amqp://guest:guest@rabbitmq:5672
+        - ASPNETCORE_RavenSettings__Urls=http://ravendb:8080,
+        - ASPNETCORE_RavenSettings__DatabaseName=Sample
+        - ASPNETCORE_RavenSettings__CertFilePath=
+        - ASPNETCORE_RavenSettings__CertPassword=
+    ports:
+        - "8003:80"
+        - "4433:443"
+    volumes:
+        - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+        - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro

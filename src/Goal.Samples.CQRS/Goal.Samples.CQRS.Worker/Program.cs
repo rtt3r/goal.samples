@@ -1,17 +1,9 @@
-using Goal.Samples.CQRS.Infra.IoC.Extensions;
-using Goal.Samples.Infra.Crosscutting.Extensions;
-using Microsoft.AspNetCore.Hosting;
-using Serilog;
+using Goal.Samples.CQRS.Worker;
 
-IHost host = Host.CreateDefaultBuilder(args)
-    .ConfigureServices((hostContext, services) =>
-    {
-        IConfiguration configuration = hostContext.Configuration;
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-        services.AddLogging(configure => configure.AddSerilog());
-        services.ConfigureWorkerServices(configuration);
-    })
-    .UseSerilog((ctx, lc) => lc.ConfigureLogging(ctx.Configuration, null))
-    .Build();
+WebApplication app = builder
+    .ConfigureServices()
+    .ConfigurePipeline();
 
-host.Run();
+app.Run();

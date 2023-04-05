@@ -34,7 +34,6 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Goal.Samples.CQRS.Application\Goal.Samples.CQRS.Application.csproj" />
 		<ProjectReference Include="..\Goal.Samples.CQRS.Model\Goal.Samples.CQRS.Model.csproj" />
-		<ProjectReference Include="..\Goal.Samples.CQRS.Infra.Crosscutting\Goal.Samples.Infra.Crosscutting.csproj" />
 		<ProjectReference Include="..\Goal.Samples.CQRS.Infra.Data.Query\Goal.Samples.CQRS.Infra.Data.Query.csproj" />
 		<ProjectReference Include="..\Goal.Samples.CQRS.Infra.IoC\Goal.Samples.CQRS.Infra.IoC.csproj" />
 	</ItemGroup>

@@ -1,7 +1,7 @@
 using Goal.Seedwork.Application.Commands;
 using Goal.Seedwork.Infra.Crosscutting.Notifications;
 
-namespace Goal.Samples.CQRS.Api.Controllers
+namespace Goal.Samples.Infra.Http.Controllers
 {
     public class ApiResponse
     {
@@ -48,41 +48,6 @@ namespace Goal.Samples.CQRS.Api.Controllers
             return (notifications ?? Enumerable.Empty<Notification>())
                 .Select(n => new ApiResponseMessage(n.Code, n.Message, n.ParamName))
                 .ToArray();
-        }
-    }
-
-    public class ApiResponse<TData> : ApiResponse
-    {
-        public ApiResponse(bool isSucceeded, TData data, params ApiResponseMessage[] messages)
-            : base(isSucceeded, messages)
-        {
-            Data = data;
-        }
-
-        public ApiResponse(bool isSucceeded, TData data, params Notification[] notifications)
-            : this(isSucceeded, data, notifications.Select(n => new ApiResponseMessage(n.Code, n.Message, n.ParamName)).ToArray())
-        {
-        }
-
-        public TData Data { get; private set; }
-    }
-
-    public class ApiResponseMessage
-    {
-        public string Code { get; private set; }
-        public string Message { get; private set; }
-        public string Param { get; private set; }
-
-        public ApiResponseMessage(string code, string message)
-        {
-            Code = code;
-            Message = message;
-        }
-
-        public ApiResponseMessage(string code, string message, string param)
-            : this(code, message)
-        {
-            Param = param;
         }
     }
 }

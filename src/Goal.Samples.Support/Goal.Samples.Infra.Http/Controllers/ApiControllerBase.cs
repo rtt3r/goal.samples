@@ -2,7 +2,7 @@ using Goal.Seedwork.Application.Commands;
 using Goal.Seedwork.Infra.Http.Controllers;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Goal.Samples.CQRS.Api.Controllers
+namespace Goal.Samples.Infra.Http.Controllers
 {
     public class ApiControllerBase : ApiController
     {

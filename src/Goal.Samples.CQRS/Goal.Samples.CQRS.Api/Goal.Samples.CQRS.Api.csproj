@@ -32,8 +32,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\..\Goal.Samples.Support\Goal.Samples.Infra.Http\Goal.Samples.Infra.Http.csproj" />
 		<ProjectReference Include="..\Goal.Samples.CQRS.Application\Goal.Samples.CQRS.Application.csproj" />
-		<ProjectReference Include="..\Goal.Samples.CQRS.Infra.Crosscutting\Goal.Samples.Infra.Crosscutting.csproj" />
 		<ProjectReference Include="..\Goal.Samples.CQRS.Infra.IoC\Goal.Samples.CQRS.Infra.IoC.csproj" />
 		<ProjectReference Include="..\Goal.Samples.CQRS.Model\Goal.Samples.CQRS.Model.csproj" />
 	</ItemGroup>

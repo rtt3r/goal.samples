@@ -1,6 +1,7 @@
 using Goal.Samples.CQRS.Application.Commands.Customers;
 using Goal.Samples.CQRS.Infra.Data.Query.Repositories.Customers;
 using Goal.Samples.CQRS.Model.Customers;
+using Goal.Samples.Infra.Http.Controllers;
 using Goal.Seedwork.Application.Commands;
 using Goal.Seedwork.Infra.Http.Controllers;
 using Goal.Seedwork.Infra.Http.Controllers.Requests;

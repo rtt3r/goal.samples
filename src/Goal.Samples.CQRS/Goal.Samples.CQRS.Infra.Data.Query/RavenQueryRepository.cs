@@ -34,7 +34,6 @@ public abstract class RavenQueryRepository<TEntity> : QueryRepository<TEntity, s
     {
         return await dbSession
             .Query<TEntity>()
-            .Statistics(out QueryStatistics stats)
             .ToPagedListAsync(pageSearch, cancellationToken);
     }
 

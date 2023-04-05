@@ -1,5 +1,5 @@
 using FluentValidation;
-using Goal.Samples.CQRS.Infra.Crosscutting.Constants;
+using Goal.Samples.Infra.Crosscutting.Constants;
 
 namespace Goal.Samples.CQRS.Application.Commands.Customers.Validators
 {

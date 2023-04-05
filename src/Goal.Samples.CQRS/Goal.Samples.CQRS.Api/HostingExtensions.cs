@@ -1,7 +1,10 @@
 using System.Globalization;
 using System.Text.Json.Serialization;
-using Goal.Samples.CQRS.Api.Infra.Swagger;
 using Goal.Samples.Infra.Crosscutting.Extensions;
+using Goal.Samples.Infra.Http.Filters;
+using Goal.Samples.Infra.Http.JsonNamePolicies;
+using Goal.Samples.Infra.Http.Swagger;
+using Goal.Samples.Infra.Http.ValueProviders;
 using Goal.Seedwork.Infra.Crosscutting.Localization;
 using MassTransit;
 using Microsoft.AspNetCore.Localization;
@@ -9,91 +12,94 @@ using Microsoft.Extensions.Options;
 using Serilog;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace Goal.Samples.CQRS.Api
+namespace Goal.Samples.CQRS.Api;
+
+public static class HostingExtensions
 {
-    public static class HostingExtensions
+    public static WebApplication ConfigureServices(this WebApplicationBuilder builder)
     {
-        public static WebApplication ConfigureServices(this WebApplicationBuilder builder)
+        builder.Host.UseSerilog((ctx, lc) => lc.ConfigureLogging(builder.Configuration, builder.Environment));
+
+        builder.Services.ConfigureApiServices(builder.Configuration, builder.Environment);
+
+        builder.Services.AddMediatR(cfg => { cfg.RegisterServicesFromAssemblyContaining<Program>(); });
+        builder.Services.AddMassTransit(x =>
         {
-            builder.Host.UseSerilog((ctx, lc) => lc.ConfigureLogging(builder.Configuration, builder.Environment));
+            x.AddDelayedMessageScheduler();
+            x.SetKebabCaseEndpointNameFormatter();
 
-            builder.Services.ConfigureApiServices(builder.Configuration, builder.Environment);
-
-            builder.Services.AddMediatR(cfg => { cfg.RegisterServicesFromAssemblyContaining<Program>(); });
-            builder.Services.AddMassTransit(x =>
+            x.UsingRabbitMq((ctx, cfg) =>
             {
-                x.AddDelayedMessageScheduler();
-                x.SetKebabCaseEndpointNameFormatter();
+                cfg.Host(builder.Configuration.GetConnectionString("RabbitMq"));
+                cfg.UseDelayedMessageScheduler();
+                cfg.ConfigureEndpoints(ctx, new KebabCaseEndpointNameFormatter("dev", false));
+                cfg.UseMessageRetry(retry => { retry.Interval(3, TimeSpan.FromSeconds(5)); });
+            });
+        });
 
-                x.UsingRabbitMq((ctx, cfg) =>
-                {
-                    cfg.Host(builder.Configuration.GetConnectionString("RabbitMq"));
-                    cfg.UseDelayedMessageScheduler();
-                    cfg.ConfigureEndpoints(ctx, new KebabCaseEndpointNameFormatter("dev", false));
-                    cfg.UseMessageRetry(retry => { retry.Interval(3, TimeSpan.FromSeconds(5)); });
-                });
+        builder.Services
+            .AddRouting(options =>
+            {
+                options.LowercaseUrls = true;
+            })
+            .AddControllers(options =>
+            {
+                options.EnableEndpointRouting = false;
+                options.Filters.Add<HttpExceptionFilter>();
+                options.ValueProviderFactories.Clear();
+                options.ValueProviderFactories.Add(new SnakeCaseQueryValueProviderFactory());
+            })
+            .AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.PropertyNamingPolicy = new JsonSnakeCaseNamingPolicy();
+                options.JsonSerializerOptions.NumberHandling = JsonNumberHandling.AllowReadingFromString;
+                options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
             });
 
-            builder.Services
-                .AddRouting(options =>
-                {
-                    options.LowercaseUrls = true;
-                })
-                .AddControllers(options =>
-                {
-                    options.EnableEndpointRouting = false;
-                })
-                .AddJsonOptions(options =>
-                {
-                    options.JsonSerializerOptions.NumberHandling = JsonNumberHandling.AllowReadingFromString;
-                    options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
-                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-                });
+        builder.Services.AddEndpointsApiExplorer();
 
-            builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
+        builder.Services.AddSwaggerGen();
 
-            builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
-            builder.Services.AddSwaggerGen();
+        return builder.Build();
+    }
 
-            return builder.Build();
+    public static WebApplication ConfigurePipeline(this WebApplication app)
+    {
+        app.UseSerilogRequestLogging();
+
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseDeveloperExceptionPage();
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Goal Samples CQRS Api v1");
+                c.DisplayRequestDuration();
+                c.RoutePrefix = string.Empty;
+            });
         }
 
-        public static WebApplication ConfigurePipeline(this WebApplication app)
-        {
-            app.UseSerilogRequestLogging();
+        app.UseHttpsRedirection();
+        app.UseStaticFiles();
+        app.UseRouting();
 
-            if (app.Environment.IsDevelopment())
+        app.UseRequestLocalization(new RequestLocalizationOptions
+        {
+            DefaultRequestCulture = new RequestCulture(ApplicationCultures.Portugues, ApplicationCultures.Portugues),
+            SupportedCultures = new List<CultureInfo>
             {
-                app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c =>
-                {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Goal Samples CQRS Api v1");
-                    c.DisplayRequestDuration();
-                    c.RoutePrefix = string.Empty;
-                });
+                ApplicationCultures.Portugues,
+            },
+            SupportedUICultures = new List<CultureInfo>
+            {
+                ApplicationCultures.Portugues,
             }
+        });
 
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
-            app.UseRouting();
+        app.MapControllers();
 
-            app.UseRequestLocalization(new RequestLocalizationOptions
-            {
-                DefaultRequestCulture = new RequestCulture(ApplicationCultures.Portugues, ApplicationCultures.Portugues),
-                SupportedCultures = new List<CultureInfo>
-                {
-                    ApplicationCultures.Portugues,
-                },
-                SupportedUICultures = new List<CultureInfo>
-                {
-                    ApplicationCultures.Portugues,
-                }
-            });
-
-            app.MapControllers();
-
-            return app;
-        }
+        return app;
     }
 }

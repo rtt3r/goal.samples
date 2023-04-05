@@ -4,7 +4,7 @@ using Goal.Seedwork.Infra.Data.Query;
 using Raven.Client.Documents;
 using Raven.Client.Documents.Session;
 
-namespace Goal.Samples.CQRS.Infra.Data.Query;
+namespace Goal.Samples.Infra.Data.Query;
 
 public abstract class RavenQueryRepository<TEntity> : QueryRepository<TEntity, string>
     where TEntity : class

@@ -1,4 +1,5 @@
 using Goal.Samples.CQRS.Model.Customers;
+using Goal.Samples.Infra.Data.Query;
 using Raven.Client.Documents.Session;
 
 namespace Goal.Samples.CQRS.Infra.Data.Query.Repositories.Customers

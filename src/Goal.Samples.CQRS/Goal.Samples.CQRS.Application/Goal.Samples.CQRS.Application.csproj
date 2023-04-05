@@ -15,7 +15,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\Goal.Samples.Support\Goal.Samples.Infra.Crosscutting\Goal.Samples.Infra.Crosscutting.csproj" />
+		<ProjectReference Include="..\..\Goal.Samples.Infra\Goal.Samples.Infra.Crosscutting\Goal.Samples.Infra.Crosscutting.csproj" />
 		<ProjectReference Include="..\Goal.Samples.CQRS.Domain\Goal.Samples.CQRS.Domain.csproj" />
 		<ProjectReference Include="..\Goal.Samples.CQRS.Infra.Data.Query\Goal.Samples.CQRS.Infra.Data.Query.csproj" />
 		<ProjectReference Include="..\Goal.Samples.CQRS.Infra.Data\Goal.Samples.CQRS.Infra.Data.csproj" />

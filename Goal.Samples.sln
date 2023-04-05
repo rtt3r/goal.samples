@@ -40,7 +40,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Goal.Samples.CQRS.Model", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Goal.Samples.CQRS.Api", "src\Goal.Samples.CQRS\Goal.Samples.CQRS.Api\Goal.Samples.CQRS.Api.csproj", "{A32BC576-16A7-4465-A917-0532BC2F29A7}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0. Support", "0. Support", "{345B6633-BCF1-46EC-BC8C-32F8DC578F27}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0. Infra", "0. Infra", "{345B6633-BCF1-46EC-BC8C-32F8DC578F27}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Goal.Samples.CQRS.Worker", "src\Goal.Samples.CQRS\Goal.Samples.CQRS.Worker\Goal.Samples.CQRS.Worker.csproj", "{7F212137-C252-46D2-9DCC-D5C13BD66D22}"
 EndProject
@@ -50,9 +50,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Goal.Samples.CQRS.Infra.IoC
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.1. Presentation", "1.1. Presentation", "{1C662D3B-2257-4036-A8B6-A1769861E1B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Goal.Samples.Infra.Http", "src\Goal.Samples.Support\Goal.Samples.Infra.Http\Goal.Samples.Infra.Http.csproj", "{5EA06EF6-D29F-4655-8E74-82A7E1760813}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Goal.Samples.Infra.Http", "src\Goal.Samples.Infra\Goal.Samples.Infra.Http\Goal.Samples.Infra.Http.csproj", "{5EA06EF6-D29F-4655-8E74-82A7E1760813}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Goal.Samples.Infra.Crosscutting", "src\Goal.Samples.Support\Goal.Samples.Infra.Crosscutting\Goal.Samples.Infra.Crosscutting.csproj", "{08E6CEE1-92AE-4D0B-8D88-A912EC4E4CA9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Goal.Samples.Infra.Crosscutting", "src\Goal.Samples.Infra\Goal.Samples.Infra.Crosscutting\Goal.Samples.Infra.Crosscutting.csproj", "{08E6CEE1-92AE-4D0B-8D88-A912EC4E4CA9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

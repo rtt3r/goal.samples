@@ -1,5 +1,6 @@
 using System.Globalization;
 using System.Text.Json.Serialization;
+using Goal.Samples.CQRS.Infra.IoC.Extensions;
 using Goal.Samples.Infra.Crosscutting.Extensions;
 using Goal.Samples.Infra.Http.Filters;
 using Goal.Samples.Infra.Http.JsonNamePolicies;
@@ -68,6 +69,7 @@ public static class HostingExtensions
     public static WebApplication ConfigurePipeline(this WebApplication app)
     {
         app.UseSerilogRequestLogging();
+        app.MigrateApiDbContext();
 
         if (app.Environment.IsDevelopment())
         {

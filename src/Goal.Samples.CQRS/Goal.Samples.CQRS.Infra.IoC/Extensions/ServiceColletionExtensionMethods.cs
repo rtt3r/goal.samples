@@ -16,7 +16,7 @@ using Raven.DependencyInjection;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
-    public static class DependencyInjectionMethods
+    public static class ServiceColletionExtensionMethods
     {
         public static IServiceCollection ConfigureApiServices(this IServiceCollection services, IConfiguration configuration, IWebHostEnvironment environment)
         {
@@ -49,7 +49,6 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<AppState>();
 
             services.AddAutoMapperTypeAdapter();
-            //services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.GetAssemblies()));
 
             services.AddDefaultNotificationHandler();
             services.AddRavenDb(configuration);

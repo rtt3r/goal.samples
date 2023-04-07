@@ -15,7 +15,6 @@ public class ConfigureSwaggerOptions : IConfigureOptions<SwaggerGenOptions>
         options.IncludeXmlComments(GetXmlCommentsFile());
         options.DocumentFilter<LowerCaseDocumentFilter>();
         options.OperationFilter<SnakeCaseQueryOperationFilter>();
-        //options.DescribeAllParametersInCamelCase();
     }
 
     private static string GetApiTitle()

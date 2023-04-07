@@ -38,8 +38,4 @@
 		<ProjectReference Include="..\Goal.Samples.CQRS.Infra.IoC\Goal.Samples.CQRS.Infra.IoC.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Handlers\" />
-	</ItemGroup>
-
 </Project>

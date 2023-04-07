@@ -23,7 +23,7 @@ public static class HostingExtensions
 
         builder.Services.ConfigureApiServices(builder.Configuration, builder.Environment);
 
-        builder.Services.AddMediatR(cfg => { cfg.RegisterServicesFromAssemblyContaining<Program>(); });
+        builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Program>());
         builder.Services.AddMassTransit(x =>
         {
             x.AddDelayedMessageScheduler();
@@ -34,15 +34,12 @@ public static class HostingExtensions
                 cfg.Host(builder.Configuration.GetConnectionString("RabbitMq"));
                 cfg.UseDelayedMessageScheduler();
                 cfg.ConfigureEndpoints(ctx, new KebabCaseEndpointNameFormatter("dev", false));
-                cfg.UseMessageRetry(retry => { retry.Interval(3, TimeSpan.FromSeconds(5)); });
+                cfg.UseMessageRetry(retry => retry.Interval(3, TimeSpan.FromSeconds(5)));
             });
         });
 
         builder.Services
-            .AddRouting(options =>
-            {
-                options.LowercaseUrls = true;
-            })
+            .AddRouting(options => options.LowercaseUrls = true)
             .AddControllers(options =>
             {
                 options.EnableEndpointRouting = false;

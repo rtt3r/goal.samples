@@ -1,4 +1,4 @@
-﻿using Goal.Samples.Infra.Crosscutting.Extensions;
+using Goal.Samples.Infra.Crosscutting.Extensions;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -8,9 +8,7 @@ public class SnakeCaseQueryOperationFilter : IOperationFilter
 {
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
     {
-        operation.Parameters ??= new List<OpenApiParameter>();
-
-        foreach (OpenApiParameter item in operation.Parameters)
+        foreach (OpenApiParameter item in operation.Parameters ?? new List<OpenApiParameter>())
         {
             item.Name = item.Name.ToSnakeCase();
         }

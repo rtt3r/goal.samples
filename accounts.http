@@ -1,0 +1,61 @@
+
+# @name authenticate
+POST https://localhost:4431/connect/token
+Content-Type: application/x-www-form-urlencoded
+# Authorization: Basic web-portal.client:secret
+Authorization: Basic d2ViLXBvcnRhbC5jbGllbnQ6c2VjcmV0
+
+grant_type=password
+&scope=openid profile hr.read hr.write manage
+&username=admin
+&password=Pass123$
+
+###
+
+@access_token = {{authenticate.response.body.token_type}} {{authenticate.response.body.access_token}}
+@refresh_token = {{authenticate.response.body.refresh_token}}
+
+###
+
+# @name refresh_token
+POST https://localhost:5001/connect/token
+Content-Type: application/x-www-form-urlencoded
+# Authorization: Basic orquestrador-chamados.client:EEFCE74C-3295-4B6C-B25D-EDD49ABF6953
+Authorization: Basic b3JxdWVzdHJhZG9yLWNoYW1hZG9zLmNsaWVudDpFRUZDRTc0Qy0zMjk1LTRCNkMtQjI1RC1FREQ0OUFCRjY5NTM=
+
+grant_type=refresh_token
+&refresh_token={{refresh_token}}
+
+###
+
+# @name get_chamados
+GET https://localhost:58724/api/chamados
+Content-Type: application/json
+# Authorization: {{access_token}}
+
+###
+
+POST https://localhost:58724/api/chamados
+Content-Type: application/json
+Authorization: {{access_token}}
+
+{
+  "tituloChamado": "string",
+  "detalheChamado": "string",
+  "numeroSerieTerminal": "string",
+  "unidadeNegocio": 0,
+  "tipoSolicitacao": 0,
+  "motivoId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "indisponibilidadeEquipamento": true,
+  "alternativaUso": true,
+  "obrigacaoFiscal": true,
+  "faturamentoParado": true,
+  "cliente": {
+    "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "numeroDocumento": "string",
+    "identificacao": "string",
+    "contatoTelefonico": "string",
+    "email": "string",
+    "contato": "string"
+  }
+}

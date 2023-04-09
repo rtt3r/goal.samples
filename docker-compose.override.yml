@@ -2,18 +2,40 @@ version: "3.8"
 
 services:
 
+  identity:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ConnectionStrings__DefaultConnection=Server=mssql;Initial Catalog=goal-dev;Persist Security Info=False;User ID=sa;Password=BeycL18545#f;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=True;MultiSubnetFailover=True;Connection Timeout=30;
+      - ASPNETCORE_ConnectionStrings__Seq=http://seq:5341
+      - ASPNETCORE_Certificates__SigninCredentials__Path=/root/.aspnet/https/ritter.starter.co.pfx
+      - ASPNETCORE_Certificates__SigninCredentials__Password=16a56c6b-bc2f-4eb0-841a-f943d811ec42
+      - ASPNETCORE_URLS=https://+;http://+
+      - ASPNETCORE_HTTPS_PORT=4431
+    ports:
+      - "8001:80"
+      - "4431:443"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - ${APPDATA}/ASP.NET/DataProtection-Keys:/root/.aspnet/DataProtection-Keys/
+
   cqrs-api:
     environment:
         - ASPNETCORE_ENVIRONMENT=Development
         - ASPNETCORE_ConnectionStrings__DefaultConnection=Server=mssql;Initial Catalog=goal-dev;Persist Security Info=False;User ID=sa;Password=BeycL18545#f;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=True;MultiSubnetFailover=True;Connection Timeout=30;
         - ASPNETCORE_ConnectionStrings__Seq=http://seq:5341
         - ASPNETCORE_ConnectionStrings__RabbitMq=amqp://guest:guest@rabbitmq:5672
-        - ASPNETCORE_URLS=https://+;http://+
-        - ASPNETCORE_HTTPS_PORT=4431
         - ASPNETCORE_RavenSettings__Urls=http://ravendb:8080,
         - ASPNETCORE_RavenSettings__DatabaseName=Sample
         - ASPNETCORE_RavenSettings__CertFilePath=
         - ASPNETCORE_RavenSettings__CertPassword=
+        - ASPNETCORE_Auth__Authority=http://kubernetes.docker.internal:8001
+        - ASPNETCORE_Auth__Scopes=openid profile goal.read goal.write manage
+        - ASPNETCORE_Auth__ClientId=goal.web
+        - ASPNETCORE_Auth__ClientSecret=secret
+        - ASPNETCORE_Cors__Origins=https://localhost:4432;http://localhost:8002;http://localhost:4200
+        - ASPNETCORE_URLS=https://+;http://+
+        - ASPNETCORE_HTTPS_PORT=4432
     ports:
         - "8002:80"
         - "4432:443"
@@ -31,6 +53,8 @@ services:
         - ASPNETCORE_RavenSettings__DatabaseName=Sample
         - ASPNETCORE_RavenSettings__CertFilePath=
         - ASPNETCORE_RavenSettings__CertPassword=
+        - ASPNETCORE_URLS=https://+;http://+
+        - ASPNETCORE_HTTPS_PORT=4432
     ports:
         - "8003:80"
         - "4433:443"

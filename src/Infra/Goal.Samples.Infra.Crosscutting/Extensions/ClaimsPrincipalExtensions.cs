@@ -6,14 +6,14 @@ namespace Goal.Samples.Infra.Crosscutting.Extensions;
 
 public static class ClaimsPrincipalExtensions
 {
-    public static string GetClaimValue(this ClaimsPrincipal principal, string claimName)
-        => principal?.GetClaimValues(claimName).FirstOrDefault();
+    public static string GetClaimValue(this ClaimsPrincipal principal, params string[] claimTypes)
+        => principal?.GetClaimValues(claimTypes).FirstOrDefault();
 
-    public static IEnumerable<string> GetClaimValues(this ClaimsPrincipal principal, string claimName)
+    public static IEnumerable<string> GetClaimValues(this ClaimsPrincipal principal, params string[] claimTypes)
     {
         var claimValues = principal
             .Claims
-            .Where(p => p.Type == claimName)
+            .Where(p => claimTypes.Contains(p.Type))
             .Select(p => p.Value)
             .ToList();
 
@@ -60,16 +60,22 @@ public static class ClaimsPrincipalExtensions
     }
 
     public static string GetUserId(this ClaimsPrincipal principal)
-        => principal.GetClaimValue(JwtClaimTypes.Subject);
+        => principal.GetClaimValue(JwtClaimTypes.Subject, ClaimTypes.NameIdentifier);
+
+    public static string GetEmail(this ClaimsPrincipal principal)
+        => principal?.GetClaimValue(JwtClaimTypes.Email, ClaimTypes.Email);
 
     public static string GetUserName(this ClaimsPrincipal principal)
-        => principal?.GetClaimValue(JwtClaimTypes.Name);
+        => principal?.GetClaimValue(JwtClaimTypes.Name, JwtClaimTypes.PreferredUserName, ClaimTypes.Name);
 
-    public static string GetUserGivenName(this ClaimsPrincipal principal)
-        => principal?.GetClaimValue(JwtClaimTypes.GivenName);
+    public static string GetGivenName(this ClaimsPrincipal principal)
+        => principal?.GetClaimValue(JwtClaimTypes.GivenName, ClaimTypes.GivenName);
 
     public static IEnumerable<string> GetRoles(this ClaimsPrincipal principal)
-        => principal?.GetClaimValues(JwtClaimTypes.Role);
+        => principal?.GetClaimValues(JwtClaimTypes.Role, ClaimTypes.Role);
+
+    public static IEnumerable<string> GetScopes(this ClaimsPrincipal principal)
+        => principal?.GetClaimValues(JwtClaimTypes.Scope);
 
     public static string GetClientId(this ClaimsPrincipal principal)
         => principal?.GetClaimValue(JwtClaimTypes.ClientId);

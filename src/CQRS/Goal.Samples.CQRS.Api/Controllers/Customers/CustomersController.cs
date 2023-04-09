@@ -8,12 +8,14 @@ using Goal.Seedwork.Infra.Http.Controllers.Requests;
 using Goal.Seedwork.Infra.Http.Controllers.Results;
 using Goal.Seedwork.Infra.Http.Extensions;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Goal.Samples.CQRS.Api.Controllers.Customers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [ApiVersion("1")]
+    [Route("v{version:apiVersion}/[controller]")]
     public class CustomersController : ApiControllerBase
     {
         private readonly ICustomerQueryRepository customerQueryRepository;
@@ -28,11 +30,13 @@ namespace Goal.Samples.CQRS.Api.Controllers.Customers
         }
 
         [HttpGet]
+        [Authorize(Policy = "goal.read")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<PagedResponse>> Get([FromQuery] PageSearchRequest request)
             => Paged(await customerQueryRepository.QueryAsync(request.ToPageSearch()));
 
         [HttpGet("{id}", Name = nameof(GetById))]
+        [Authorize(Policy = "goal.read")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ApiResponse))]
         public async Task<ActionResult<CustomerModel>> GetById([FromRoute] string id)
@@ -48,6 +52,7 @@ namespace Goal.Samples.CQRS.Api.Controllers.Customers
         }
 
         [HttpPost]
+        [Authorize(Policy = "goal.write")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ApiResponse))]
         [ProducesResponseType(StatusCodes.Status422UnprocessableEntity, Type = typeof(ApiResponse))]
@@ -76,6 +81,7 @@ namespace Goal.Samples.CQRS.Api.Controllers.Customers
 
         [HttpPatch]
         [Route("{id}")]
+        [Authorize(Policy = "goal.write")]
         [ProducesResponseType(StatusCodes.Status202Accepted)]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ApiResponse))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ApiResponse))]
@@ -104,6 +110,7 @@ namespace Goal.Samples.CQRS.Api.Controllers.Customers
 
         [HttpDelete]
         [Route("{id}")]
+        [Authorize(Policy = "goal.write")]
         [ProducesResponseType(StatusCodes.Status202Accepted)]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ApiResponse))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ApiResponse))]

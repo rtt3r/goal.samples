@@ -10,9 +10,9 @@
       "request": "launch",
       "preLaunchTask": "build",
       // If you have changed target frameworks, make sure to update the program path.
-      "program": "${workspaceFolder}/src/CQRS/Goal.Samples.CQRS.Api/bin/Debug/net7.0/Goal.Samples.CQRS.Api.dll",
+      "program": "${workspaceFolder}/src/Identity/Goal.Samples.Identity/bin/Debug/net7.0/Goal.Samples.Identity.dll",
       "args": [],
-      "cwd": "${workspaceFolder}/src/CQRS/Goal.Samples.CQRS.Api",
+      "cwd": "${workspaceFolder}/src/Identity/Goal.Samples.Identity",
       "stopAtEntry": false,
       // Enable launching a web browser when ASP.NET Core starts. For more information: https://aka.ms/VSCode-CS-LaunchJson-WebBrowser
       "serverReadyAction": {
@@ -34,9 +34,36 @@
       }
     },
     {
-      "name": ".NET Core Attach",
+      // Use IntelliSense to find out which attributes exist for C# debugging
+      // Use hover for the description of the existing attributes
+      // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
+      "name": ".NET Core Launch (identity)",
       "type": "coreclr",
-      "request": "attach"
-    }
+      "request": "launch",
+      "preLaunchTask": "build",
+      // If you have changed target frameworks, make sure to update the program path.
+      "program": "${workspaceFolder}/src/CQRS/Goal.Samples.CQRS.Identity/bin/Debug/net7.0/Goal.Samples.CQRS.Identity.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/src/CQRS/Goal.Samples.CQRS.Identity",
+      "stopAtEntry": false,
+      // Enable launching a web browser when ASP.NET Core starts. For more information: https://aka.ms/VSCode-CS-LaunchJson-WebBrowser
+      "serverReadyAction": {
+        "action": "openExternally",
+        "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+      },
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_ConnectionStrings__DefaultConnection": "Server=127.0.0.1;Initial Catalog=goal-dev;Persist Security Info=False;User ID=sa;Password=BeycL18545#f;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=True;MultiSubnetFailover=True;Connection Timeout=30;",
+        "ASPNETCORE_ConnectionStrings__Seq": "http://127.0.0.1:5341",
+        "ASPNETCORE_ConnectionStrings__RabbitMq": "amqp://guest:guest@127.0.0.1:5672",
+        "ASPNETCORE_RavenSettings__Urls": "http://127.0.0.1:8080,",
+        "ASPNETCORE_RavenSettings__DatabaseName": "Sample",
+        "ASPNETCORE_RavenSettings__CertFilePath": "",
+        "ASPNETCORE_RavenSettings__CertPassword": ""
+      },
+      "sourceFileMap": {
+        "/Views": "${workspaceFolder}/Views"
+      }
+    },
   ]
 }

@@ -1,0 +1,1 @@
+New-SelfsignedCertificate -KeyExportPolicy Exportable -Subject "CN=goal.samples.co" -KeySpec Signature -KeyAlgorithm RSA -KeyLength 2048 -HashAlgorithm SHA256 -CertStoreLocation "cert:\LocalMachine\My"

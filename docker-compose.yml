@@ -51,8 +51,21 @@ services:
     volumes:
       - mssql-data:/var/opt/mssql
 
+  identity:
+    image: ${REGISTRY:-ritter.co}/goal/identity:${PLATFORM:-linux}-${TAG:-latest}
+    container_name: ritter.co-goal-identity
+    restart: on-failure
+    build:
+      context: .
+      dockerfile: src/Identity/Goal.Samples.Identity/Dockerfile
+    depends_on:
+      - mssql
+      - seq
+      - ravendb
+      - rabbitmq
+
   cqrs-api:
-    image: ${REGISTRY:-ritter.co}/goal/cqrs-api:${PLATFORM:-windows}-${TAG:-latest}
+    image: ${REGISTRY:-ritter.co}/goal/cqrs-api:${PLATFORM:-linux}-${TAG:-latest}
     container_name: ritter.co-goal-cqrs-api
     restart: on-failure
     build:
@@ -65,7 +78,7 @@ services:
       - rabbitmq
 
   cqrs-worker:
-    image: ${REGISTRY:-ritter.co}/goal/cqrs-worker:${PLATFORM:-windows}-${TAG:-latest}
+    image: ${REGISTRY:-ritter.co}/goal/cqrs-worker:${PLATFORM:-linux}-${TAG:-latest}
     container_name: ritter.co-goal-cqrs-worker
     restart: on-failure
     build:

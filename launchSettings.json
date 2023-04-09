@@ -7,6 +7,7 @@
       "composeLaunchUrl": "{Scheme}://localhost:{ServicePort}",
       "commandVersion": "1.0",
       "serviceActions": {
+        "identity": "StartDebugging",
         "cqrs-api": "StartDebugging",
         "cqrs-worker": "StartDebugging",
         "mssql": "StartWithoutDebugging",

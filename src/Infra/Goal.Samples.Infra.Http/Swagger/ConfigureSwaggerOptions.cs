@@ -9,11 +9,12 @@ namespace Goal.Samples.Infra.Http.Swagger;
 
 public class ConfigureSwaggerOptions : IConfigureOptions<SwaggerGenOptions>
 {
-    public void Configure(SwaggerGenOptions options)
+    public virtual void Configure(SwaggerGenOptions options)
     {
         options.SwaggerDoc("v1", new OpenApiInfo { Title = GetApiTitle(), Version = "v1" });
         options.IncludeXmlComments(GetXmlCommentsFile());
         options.DocumentFilter<LowerCaseDocumentFilter>();
+        options.OperationFilter<AppendAuthorizeToSummaryOperationFilter>();
         options.OperationFilter<SnakeCaseQueryOperationFilter>();
     }
 

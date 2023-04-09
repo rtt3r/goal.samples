@@ -4,6 +4,7 @@ using Goal.Samples.CQRS.Application.Events.Customers;
 using Goal.Samples.CQRS.Domain.Customers.Aggregates;
 using Goal.Samples.CQRS.Infra.Data;
 using Goal.Samples.CQRS.Model.Customers;
+using Goal.Samples.Infra.Crosscutting;
 using Goal.Samples.Infra.Crosscutting.Constants;
 using Goal.Seedwork.Application.Commands;
 using Goal.Seedwork.Application.Extensions;
@@ -22,17 +23,20 @@ public class CustomerCommandHandler :
     private readonly IPublishEndpoint publishEndpoint;
     private readonly IDefaultNotificationHandler notificationHandler;
     private readonly ITypeAdapter typeAdapter;
+    private readonly AppState appState;
 
     public CustomerCommandHandler(
         ISampleUnitOfWork uow,
         IPublishEndpoint publishEndpoint,
         IDefaultNotificationHandler notificationHandler,
-        ITypeAdapter typeAdapter)
+        ITypeAdapter typeAdapter,
+        AppState appState)
     {
         this.uow = uow;
         this.publishEndpoint = publishEndpoint;
         this.notificationHandler = notificationHandler;
         this.typeAdapter = typeAdapter;
+        this.appState = appState;
     }
 
     public async Task<ICommandResult<CustomerModel>> Handle(RegisterNewCustomerCommand command, CancellationToken cancellationToken)

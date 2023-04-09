@@ -1,1 +1,0 @@
-New-SelfsignedCertificate -KeyExportPolicy Exportable -Subject "CN=ritter.stater.co" -KeySpec Signature -KeyAlgorithm RSA -KeyLength 2048 -HashAlgorithm SHA256 -CertStoreLocation "cert:\LocalMachine\My"

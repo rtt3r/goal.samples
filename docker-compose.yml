@@ -76,6 +76,7 @@ services:
       - seq
       - ravendb
       - rabbitmq
+      - identity
 
   cqrs-worker:
     image: ${REGISTRY:-ritter.co}/goal/cqrs-worker:${PLATFORM:-linux}-${TAG:-latest}

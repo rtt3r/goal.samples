@@ -232,7 +232,7 @@ namespace Goal.Samples.Identity
             }
             else
             {
-                Log.Information($"No pending migrations found.");
+                Log.Information("No pending migrations found.");
             }
         }
     }

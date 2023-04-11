@@ -2,19 +2,14 @@
   "version": "0.2.0",
   "configurations": [
     {
-      // Use IntelliSense to find out which attributes exist for C# debugging
-      // Use hover for the description of the existing attributes
-      // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
-      "name": ".NET Core Launch (api)",
+      "name": ".NET Core Launch (identity)",
       "type": "coreclr",
       "request": "launch",
-      "preLaunchTask": "build",
-      // If you have changed target frameworks, make sure to update the program path.
+      "preLaunchTask": "build-identity",
       "program": "${workspaceFolder}/src/Identity/Goal.Samples.Identity/bin/Debug/net7.0/Goal.Samples.Identity.dll",
       "args": [],
       "cwd": "${workspaceFolder}/src/Identity/Goal.Samples.Identity",
       "stopAtEntry": false,
-      // Enable launching a web browser when ASP.NET Core starts. For more information: https://aka.ms/VSCode-CS-LaunchJson-WebBrowser
       "serverReadyAction": {
         "action": "openExternally",
         "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
@@ -27,26 +22,23 @@
         "ASPNETCORE_RavenSettings__Urls": "http://127.0.0.1:8080,",
         "ASPNETCORE_RavenSettings__DatabaseName": "Sample",
         "ASPNETCORE_RavenSettings__CertFilePath": "",
-        "ASPNETCORE_RavenSettings__CertPassword": ""
+        "ASPNETCORE_RavenSettings__CertPassword": "",
+        "ASPNETCORE_Certificates__SigninCredentials__Thumbprint": "41DF17F46C8340344F9991392B0FE61C99E20FC1",
+        "ASPNETCORE_Certificates__SigninCredentials__Password": "16a56c6b-bc2f-4eb0-841a-f943d811ec42"
       },
       "sourceFileMap": {
         "/Views": "${workspaceFolder}/Views"
       }
     },
     {
-      // Use IntelliSense to find out which attributes exist for C# debugging
-      // Use hover for the description of the existing attributes
-      // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
-      "name": ".NET Core Launch (identity)",
+      "name": ".NET Core Launch (api)",
       "type": "coreclr",
       "request": "launch",
-      "preLaunchTask": "build",
-      // If you have changed target frameworks, make sure to update the program path.
-      "program": "${workspaceFolder}/src/CQRS/Goal.Samples.CQRS.Identity/bin/Debug/net7.0/Goal.Samples.CQRS.Identity.dll",
+      "preLaunchTask": "build-api",
+      "program": "${workspaceFolder}/src/CQRS/Goal.Samples.CQRS.Api/bin/Debug/net7.0/Goal.Samples.CQRS.Api.dll",
       "args": [],
-      "cwd": "${workspaceFolder}/src/CQRS/Goal.Samples.CQRS.Identity",
+      "cwd": "${workspaceFolder}/src/CQRS/Goal.Samples.CQRS.Api",
       "stopAtEntry": false,
-      // Enable launching a web browser when ASP.NET Core starts. For more information: https://aka.ms/VSCode-CS-LaunchJson-WebBrowser
       "serverReadyAction": {
         "action": "openExternally",
         "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
@@ -64,6 +56,6 @@
       "sourceFileMap": {
         "/Views": "${workspaceFolder}/Views"
       }
-    },
+    }
   ]
 }

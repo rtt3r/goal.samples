@@ -102,6 +102,30 @@ internal static class HostingExtensions
 
     private static IIdentityServerBuilder AddSigningCertificate(this IIdentityServerBuilder builder, IConfiguration configuration)
     {
+        X509Certificate2 certificate;
+
+        string certThumbprint = configuration["Certificates:SigninCredentials:Thumbprint"];
+
+        if (!string.IsNullOrWhiteSpace(certThumbprint))
+        {
+            using var certStore = new X509Store(StoreName.My, StoreLocation.CurrentUser);
+            certStore.Open(OpenFlags.ReadOnly);
+
+            X509Certificate2Collection certCollection = certStore.Certificates.Find(
+                X509FindType.FindByThumbprint,
+                certThumbprint,
+                false);
+
+            if (certCollection.Count > 0)
+            {
+                certificate = certCollection[0];
+                Log.Logger.Information($"Successfully loaded cert from registry: {certificate.Thumbprint}");
+
+                builder.AddSigningCredential(certificate);
+                return builder;
+            }
+        }
+
         string certPath = configuration["Certificates:SigninCredentials:Path"];
         string certPass = configuration["Certificates:SigninCredentials:Password"];
 
@@ -112,7 +136,7 @@ internal static class HostingExtensions
             throw new Exception($"Certificate not found at '{certPath}'.");
         }
 
-        var certificate = new X509Certificate2(certPath, certPass);
+        certificate = new X509Certificate2(certPath, certPass);
 
         if (certificate is null)
         {

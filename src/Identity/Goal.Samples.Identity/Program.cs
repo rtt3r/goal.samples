@@ -1,5 +1,4 @@
 using Goal.Samples.Identity;
-using Goal.Samples.Infra.Crosscutting.Extensions;
 using Serilog;
 
 Log.Logger = new LoggerConfiguration()

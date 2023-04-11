@@ -19,7 +19,7 @@
         "ASPNETCORE_ConnectionStrings__DefaultConnection": "Server=127.0.0.1;Initial Catalog=goal-dev;Persist Security Info=False;User ID=sa;Password=BeycL18545#f;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=True;MultiSubnetFailover=True;Connection Timeout=30;",
         "ASPNETCORE_ConnectionStrings__Seq": "http://127.0.0.1:5341",
         "ASPNETCORE_ConnectionStrings__RabbitMq": "amqp://guest:guest@127.0.0.1:5672",
-        "ASPNETCORE_RavenSettings__Urls": "http://127.0.0.1:8080,",
+        "ASPNETCORE_RavenSettings__Urls": "http://127.0.0.1:8080",
         "ASPNETCORE_RavenSettings__DatabaseName": "Sample",
         "ASPNETCORE_RavenSettings__CertFilePath": "",
         "ASPNETCORE_RavenSettings__CertPassword": "",
@@ -47,7 +47,7 @@
         "ASPNETCORE_ConnectionStrings__DefaultConnection": "Server=127.0.0.1;Initial Catalog=goal-dev;Persist Security Info=False;User ID=sa;Password=BeycL18545#f;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=True;MultiSubnetFailover=True;Connection Timeout=30;",
         "ASPNETCORE_ConnectionStrings__Seq": "http://127.0.0.1:5341",
         "ASPNETCORE_ConnectionStrings__RabbitMq": "amqp://guest:guest@127.0.0.1:5672",
-        "ASPNETCORE_RavenSettings__Urls": "http://127.0.0.1:8080,",
+        "ASPNETCORE_RavenSettings__Urls": "http://127.0.0.1:8080",
         "ASPNETCORE_RavenSettings__DatabaseName": "Sample",
         "ASPNETCORE_RavenSettings__CertFilePath": "",
         "ASPNETCORE_RavenSettings__CertPassword": ""

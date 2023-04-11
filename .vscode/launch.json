@@ -23,8 +23,7 @@
         "ASPNETCORE_RavenSettings__DatabaseName": "Sample",
         "ASPNETCORE_RavenSettings__CertFilePath": "",
         "ASPNETCORE_RavenSettings__CertPassword": "",
-        "ASPNETCORE_Certificates__SigninCredentials__Thumbprint": "41DF17F46C8340344F9991392B0FE61C99E20FC1",
-        "ASPNETCORE_Certificates__SigninCredentials__Password": "16a56c6b-bc2f-4eb0-841a-f943d811ec42"
+        "ASPNETCORE_SigninCredentials__Thumbprint": "41DF17F46C8340344F9991392B0FE61C99E20FC1"
       },
       "sourceFileMap": {
         "/Views": "${workspaceFolder}/Views"

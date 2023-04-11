@@ -2,6 +2,7 @@ using System.Security.Cryptography.X509Certificates;
 using Goal.Samples.Identity.Data;
 using Goal.Samples.Identity.Infra;
 using Goal.Samples.Identity.Models;
+using Goal.Samples.Identity.Settings;
 using Goal.Samples.Infra.Crosscutting.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -102,48 +103,44 @@ internal static class HostingExtensions
 
     private static IIdentityServerBuilder AddSigningCertificate(this IIdentityServerBuilder builder, IConfiguration configuration)
     {
-        X509Certificate2 certificate;
+        var signinCredentials = new SigninCredentialsSettings();
+        configuration.Bind("SigninCredentials", signinCredentials);
 
-        string certThumbprint = configuration["Certificates:SigninCredentials:Thumbprint"];
-
-        if (!string.IsNullOrWhiteSpace(certThumbprint))
-        {
-            using var certStore = new X509Store(StoreName.My, StoreLocation.CurrentUser);
-            certStore.Open(OpenFlags.ReadOnly);
-
-            X509Certificate2Collection certCollection = certStore.Certificates.Find(
-                X509FindType.FindByThumbprint,
-                certThumbprint,
-                false);
-
-            if (certCollection.Count > 0)
-            {
-                certificate = certCollection[0];
-                Log.Logger.Information($"Successfully loaded cert from registry: {certificate.Thumbprint}");
-
-                builder.AddSigningCredential(certificate);
-                return builder;
-            }
-        }
-
-        string certPath = configuration["Certificates:SigninCredentials:Path"];
-        string certPass = configuration["Certificates:SigninCredentials:Password"];
-
-        Log.Logger.Information($"Loadind certificate from path: '{certPath}'");
-
-        if (!File.Exists(certPath))
-        {
-            throw new Exception($"Certificate not found at '{certPath}'.");
-        }
-
-        certificate = new X509Certificate2(certPath, certPass);
-
-        if (certificate is null)
-        {
-            throw new Exception($"Certificate '{certPath}' was not found.");
-        }
+        X509Certificate2 certificate = signinCredentials.Thumbprint is not null
+            ? LoadCertificateFromStore(StoreName.My, StoreLocation.CurrentUser, signinCredentials.Thumbprint)
+            : LoadCertificateFromPath(signinCredentials.Path, signinCredentials.Password);
 
         builder.AddSigningCredential(certificate);
         return builder;
+    }
+
+    private static X509Certificate2 LoadCertificateFromStore(StoreName storeName, StoreLocation storeLocation, string thumbprint)
+    {
+        using var certStore = new X509Store(storeName, storeLocation);
+        certStore.Open(OpenFlags.ReadOnly);
+
+        X509Certificate2Collection certCollection = certStore.Certificates.Find(
+            X509FindType.FindByThumbprint,
+            thumbprint,
+            false);
+
+        var certificate = certCollection.FirstOrDefault();
+
+        if (certificate is not null)
+        {
+            return certificate;
+        }
+
+        throw new InvalidOperationException($"Fail to load certificate from registry: {thumbprint}");
+    }
+
+    private static X509Certificate2 LoadCertificateFromPath(string path, string password)
+    {
+        if (!File.Exists(path))
+        {
+            throw new InvalidOperationException($"Certificate not found at '{path}'.");
+        }
+
+        return new X509Certificate2(path, password);
     }
 }

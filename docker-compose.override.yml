@@ -7,8 +7,8 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_ConnectionStrings__DefaultConnection=Server=mssql;Initial Catalog=goal-dev;Persist Security Info=False;User ID=sa;Password=BeycL18545#f;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=True;MultiSubnetFailover=True;Connection Timeout=30;
       - ASPNETCORE_ConnectionStrings__Seq=http://seq:5341
-      - ASPNETCORE_Certificates__SigninCredentials__Path=/root/.aspnet/https/ritter.starter.co.pfx
-      - ASPNETCORE_Certificates__SigninCredentials__Password=16a56c6b-bc2f-4eb0-841a-f943d811ec42
+      - ASPNETCORE_SigninCredentials__Path=/root/.aspnet/https/ritter.starter.co.pfx
+      - ASPNETCORE_SigninCredentials__Password=16a56c6b-bc2f-4eb0-841a-f943d811ec42
       - ASPNETCORE_URLS=https://+;http://+
       - ASPNETCORE_HTTPS_PORT=4431
     ports:

@@ -48,48 +48,48 @@ services:
     environment:
       - ACCEPT_EULA=Y
       - MSSQL_SA_PASSWORD=BeycL18545#f
+    healthcheck:
+      test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-Usa", "-PBeycL18545#f", "-Q", "select 1"]
+      interval: 1s
+      retries: 20
     volumes:
       - mssql-data:/var/opt/mssql
 
   identity:
     image: ${REGISTRY:-ritter.co}/goal/identity:${PLATFORM:-linux}-${TAG:-latest}
     container_name: ritter.co-goal-identity
-    restart: on-failure
+    restart: always
     build:
       context: .
       dockerfile: src/Identity/Goal.Samples.Identity/Dockerfile
     depends_on:
-      - mssql
-      - seq
-      - ravendb
-      - rabbitmq
+      mssql:
+        condition: service_healthy
+        restart: true
 
   cqrs-api:
     image: ${REGISTRY:-ritter.co}/goal/cqrs-api:${PLATFORM:-linux}-${TAG:-latest}
     container_name: ritter.co-goal-cqrs-api
-    restart: on-failure
+    restart: always
     build:
       context: .
       dockerfile: src/CQRS/Goal.Samples.CQRS.Api/Dockerfile
     depends_on:
-      - mssql
-      - seq
-      - ravendb
-      - rabbitmq
-      - identity
+      mssql:
+        condition: service_healthy
+        restart: true
 
   cqrs-worker:
     image: ${REGISTRY:-ritter.co}/goal/cqrs-worker:${PLATFORM:-linux}-${TAG:-latest}
     container_name: ritter.co-goal-cqrs-worker
-    restart: on-failure
+    restart: always
     build:
       context: .
       dockerfile: src/CQRS/Goal.Samples.CQRS.Worker/Dockerfile
     depends_on:
-      - mssql
-      - seq
-      - ravendb
-      - rabbitmq
+      mssql:
+        condition: service_healthy
+        restart: true
 
 volumes:
   mssql-data:

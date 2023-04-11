@@ -19,7 +19,11 @@ services:
     hostname: 'mabbit'
     image: rabbitmq:3-management-alpine
     container_name: ritter.co-goal-rabbitmq
-    restart: unless-stopped
+    restart: always
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 1s
+      retries: 20
     ports:
       - 5672:5672
       - 15672:15672
@@ -30,7 +34,7 @@ services:
   seq:
     image: datalust/seq:latest
     container_name: ritter.co-goal-seq
-    restart: unless-stopped
+    restart: always
     ports:
       - 81:80
       - 5341:5341
@@ -62,6 +66,9 @@ services:
     build:
       context: .
       dockerfile: src/Identity/Goal.Samples.Identity/Dockerfile
+    ports:
+      - "8001:80"
+      - "4431:443"
     depends_on:
       mssql:
         condition: service_healthy
@@ -77,11 +84,17 @@ services:
     build:
       context: .
       dockerfile: src/CQRS/Goal.Samples.CQRS.Api/Dockerfile
+    ports:
+        - "8002:80"
+        - "4432:443"
     depends_on:
       mssql:
         condition: service_healthy
         restart: true
       ravendb:
+        condition: service_healthy
+        restart: true
+      rabbitmq:
         condition: service_healthy
         restart: true
 
@@ -92,11 +105,17 @@ services:
     build:
       context: .
       dockerfile: src/CQRS/Goal.Samples.CQRS.Worker/Dockerfile
+    ports:
+        - "8003:80"
+        - "4433:443"
     depends_on:
       mssql:
         condition: service_healthy
         restart: true
       ravendb:
+        condition: service_healthy
+        restart: true
+      rabbitmq:
         condition: service_healthy
         restart: true
 

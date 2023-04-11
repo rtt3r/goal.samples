@@ -26,6 +26,8 @@ internal static class HostingExtensions
             .AddScoped<CustomUserStore>()
             .AddScoped<IUserClaimsPrincipalFactory<User>, CustomClaimsPrincipalFactory>();
 
+        builder.Services.AddHealthChecks();
+
         builder.Services
             .AddIdentity<User, Role>(o =>
             {
@@ -97,6 +99,8 @@ internal static class HostingExtensions
 
         app.MapRazorPages()
             .RequireAuthorization();
+
+        app.MapHealthChecks("/health");
 
         return app;
     }

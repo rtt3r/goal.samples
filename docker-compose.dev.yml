@@ -13,9 +13,6 @@ services:
       - ASPNETCORE_HTTPS_PORT=4431
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/root/.aspnet/https/Development.pfx
       - ASPNETCORE_Kestrel__Certificates__Default__Password=fd7ccf84-1ff8-4817-9ecd-f0a2047ea262
-    ports:
-      - "8001:80"
-      - "4431:443"
     volumes:
       - ${APPDATA}\microsoft\UserSecrets\:/root/.microsoft/usersecrets
       - ${USERPROFILE}\.aspnet\https:/root/.aspnet/https/
@@ -40,9 +37,6 @@ services:
         - ASPNETCORE_Cors__Origins=https://localhost:4432;http://localhost:8002;http://localhost:4200
         - ASPNETCORE_Kestrel__Certificates__Default__Password=fd7ccf84-1ff8-4817-9ecd-f0a2047ea262
         - ASPNETCORE_Kestrel__Certificates__Default__Path=/root/.aspnet/https/Development.pfx
-    ports:
-        - "8002:80"
-        - "4432:443"
     volumes:
         - ${APPDATA}\microsoft\UserSecrets\:/root/.microsoft/usersecrets
         - ${USERPROFILE}\.aspnet\https:/root/.aspnet/https/
@@ -61,9 +55,6 @@ services:
         - ASPNETCORE_Cors__Origins=https://localhost:4432;http://localhost:8002;http://localhost:4200
         - ASPNETCORE_Kestrel__Certificates__Default__Password=fd7ccf84-1ff8-4817-9ecd-f0a2047ea262
         - ASPNETCORE_Kestrel__Certificates__Default__Path=/root/.aspnet/https/Development.pfx
-    ports:
-        - "8003:80"
-        - "4433:443"
     volumes:
         - ${APPDATA}\microsoft\UserSecrets\:/root/.microsoft/usersecrets
         - ${USERPROFILE}\.aspnet\https:/root/.aspnet/https/

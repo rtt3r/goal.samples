@@ -66,6 +66,9 @@ services:
       mssql:
         condition: service_healthy
         restart: true
+      ravendb:
+        condition: service_healthy
+        restart: true
 
   cqrs-api:
     image: ${REGISTRY:-ritter.co}/goal/cqrs-api:${PLATFORM:-linux}-${TAG:-latest}
@@ -78,6 +81,9 @@ services:
       mssql:
         condition: service_healthy
         restart: true
+      ravendb:
+        condition: service_healthy
+        restart: true
 
   cqrs-worker:
     image: ${REGISTRY:-ritter.co}/goal/cqrs-worker:${PLATFORM:-linux}-${TAG:-latest}
@@ -88,6 +94,9 @@ services:
       dockerfile: src/CQRS/Goal.Samples.CQRS.Worker/Dockerfile
     depends_on:
       mssql:
+        condition: service_healthy
+        restart: true
+      ravendb:
         condition: service_healthy
         restart: true
 

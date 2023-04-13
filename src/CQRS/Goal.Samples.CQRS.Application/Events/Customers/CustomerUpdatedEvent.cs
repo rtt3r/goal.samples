@@ -12,8 +12,8 @@ namespace Goal.Samples.CQRS.Application.Events.Customers
             Birthdate = birthdate;
         }
 
-        public string Name { get; private set; }
-        public string Email { get; private set; }
-        public DateTime Birthdate { get; private set; }
+        public string Name { get; protected set; }
+        public string Email { get; protected set; }
+        public DateTime Birthdate { get; protected set; }
     }
 }

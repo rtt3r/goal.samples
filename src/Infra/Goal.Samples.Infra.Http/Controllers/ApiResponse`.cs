@@ -15,5 +15,5 @@ public class ApiResponse<TData> : ApiResponse
     {
     }
 
-    public TData Data { get; private set; }
+    public TData Data { get; protected set; }
 }

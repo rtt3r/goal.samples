@@ -2,9 +2,9 @@
 {
     public class ApiResponseMessage
     {
-        public string Code { get; private set; }
-        public string Message { get; private set; }
-        public string Param { get; private set; }
+        public string Code { get; protected set; }
+        public string Message { get; protected set; }
+        public string Param { get; protected set; }
 
         public ApiResponseMessage(string code, string message)
         {

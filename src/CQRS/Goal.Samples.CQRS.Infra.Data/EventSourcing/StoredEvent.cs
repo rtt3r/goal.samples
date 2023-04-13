@@ -14,8 +14,8 @@ namespace Goal.Samples.CQRS.Infra.Data.EventSourcing
 
         protected StoredEvent() { }
 
-        public string Id { get; private set; } = Guid.NewGuid().ToString();
-        public string Data { get; private set; }
-        public string User { get; private set; }
+        public string Id { get; protected set; } = Guid.NewGuid().ToString();
+        public string Data { get; protected set; }
+        public string User { get; protected set; }
     }
 }

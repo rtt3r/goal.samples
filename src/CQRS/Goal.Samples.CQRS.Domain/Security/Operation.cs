@@ -4,14 +4,31 @@ namespace Goal.Samples.CQRS.Domain.Security;
 
 public class Operation : Entity<string>
 {
-    public string Name { get; private set; }
-    public string Description { get; private set; }
-
-    public ICollection<Permission> Permissions { get; private set; }
-
     protected Operation()
     {
         Id = Guid.NewGuid().ToString();
-        Permissions = new HashSet<Permission>();
+    }
+
+    public Operation(string name)
+        : this()
+    {
+        SetName(name);
+    }
+
+    public string Name { get; protected set; }
+    public string NormalizedName { get; protected set; }
+    public string Description { get; protected set; }
+    public string ApplicationId { get; protected set; }
+    public Application Application { get; protected set; }
+
+    public void SetName(string name)
+    {
+        Name = name ?? throw new ArgumentNullException(nameof(name));
+        NormalizedName = Name?.ToUpper();
+    }
+
+    public void Describe(string description)
+    {
+        Description = description?.Trim() ?? throw new ArgumentNullException(nameof(description));
     }
 }

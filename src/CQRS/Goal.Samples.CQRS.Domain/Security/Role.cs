@@ -4,44 +4,36 @@ namespace Goal.Samples.CQRS.Domain.Security;
 
 public class Role : Entity<string>
 {
-    public string Name { get; protected set; }
-    public string NormalizedName { get; protected set; }
-    public string ConcurrencyStamp { get; protected set; }
-    public string Description { get; protected set; }
-    public bool Active { get; protected set; } = true;
-    public ICollection<Authorization> Authorizations { get; protected set; }
-
     protected Role()
     {
         Id = Guid.NewGuid().ToString();
-        Active = true;
-        Authorizations = new HashSet<Authorization>();
     }
 
     public Role(string name)
         : this()
     {
-        UpdateName(name);
+        SetName(name);
     }
 
-    public void Activate()
-    {
-        Active = true;
-    }
+    public string Name { get; protected set; }
+    public string NormalizedName { get; protected set; }
+    public string ConcurrencyStamp { get; protected set; }
+    public string Description { get; protected set; }
+    public string ApplicationId { get; protected set; }
+    public Application Application { get; protected set; }
+    public ICollection<User> UserMembers { get; protected set; } = new List<User>();
+    public ICollection<Role> RoleMembers { get; protected set; } = new List<Role>();
+    public ICollection<Role> MemberOf { get; protected set; } = new List<Role>();
+    public ICollection<Authorization> Authorizations { get; protected set; } = new List<Authorization>();
 
-    public void Deactivate()
+    public void SetName(string name)
     {
-        Active = false;
-    }
-
-    public void UpdateDescription(string description)
-    {
-        Description = description?.Trim();
-    }
-
-    public void UpdateName(string name)
-    {
-        Name = name?.Trim();
+        Name = name?.Trim() ?? throw new ArgumentNullException(nameof(name));
         NormalizedName = Name?.ToUpper();
+    }
+
+    public void Describe(string description)
+    {
+        Description = description?.Trim() ?? throw new ArgumentNullException(nameof(description));
     }
 }

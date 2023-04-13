@@ -16,8 +16,8 @@ namespace Goal.Samples.Infra.Http.Controllers
         {
         }
 
-        public bool IsSucceeded { get; private set; }
-        public IEnumerable<ApiResponseMessage> Messages { get; private set; }
+        public bool IsSucceeded { get; protected set; }
+        public IEnumerable<ApiResponseMessage> Messages { get; protected set; }
 
         public static ApiResponse Success()
             => new(true, Array.Empty<ApiResponseMessage>());

@@ -4,6 +4,18 @@ namespace Goal.Samples.CQRS.Domain.Security;
 
 public class User : Entity<string>
 {
+    protected User()
+    {
+        Id = Guid.NewGuid().ToString();
+    }
+
+    public User(string userName, string name)
+        : this()
+    {
+        SetName(name);
+        UpdateUserName(userName);
+    }
+
     public string Name { get; protected set; }
     public string NormalizedName { get; protected set; }
     public string UserName { get; protected set; }
@@ -11,49 +23,18 @@ public class User : Entity<string>
     public string Email { get; protected set; }
     public string NormalizedEmail { get; protected set; }
     public string ConcurrencyStamp { get; protected set; }
-    public bool Active { get; protected set; }
+    public IEnumerable<Role> MemberOf { get; protected set; } = new List<Role>();
+    public IEnumerable<Authorization> Authorizations { get; protected set; } = new List<Authorization>();
 
-    protected User()
+    public void SetName(string name)
     {
-        Id = Guid.NewGuid().ToString();
-        Active = true;
-    }
-
-    public User(string userName, string name)
-        : this()
-    {
-        UpdateUserName(userName);
-        UpdateName(name);
-    }
-
-    public void Activate()
-    {
-        Active = true;
-    }
-
-    public void Deactivate()
-    {
-        Active = false;
-    }
-
-    public void UpdateEmail(string email)
-    {
-        Email = email?.Trim();
-        NormalizedEmail = NormalizeData(Email);
-    }
-
-    private void UpdateName(string name)
-    {
-        Name = name?.Trim();
-        NormalizedName = NormalizeData(Name);
+        Name = name?.Trim() ?? throw new ArgumentNullException(nameof(name));
+        NormalizedName = Name?.Trim()?.ToUpper();
     }
 
     private void UpdateUserName(string userName)
     {
-        UserName = userName?.Trim();
-        NormalizedUserName = NormalizeData(UserName);
+        UserName = userName?.Trim() ?? throw new ArgumentNullException(nameof(userName));
+        NormalizedUserName = UserName?.Trim()?.ToUpper();
     }
-
-    private static string NormalizeData(string data)
-        => data?.Trim()?.ToUpper();
 }

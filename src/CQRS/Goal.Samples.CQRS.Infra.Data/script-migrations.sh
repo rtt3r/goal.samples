@@ -1,2 +1,2 @@
 export ASPNETCORE_ENVIRONMENT=Migrations
-dotnet ef migrations script --startup-project ../Goal.Samples.CQRS.Api/Goal.Samples.CQRS.Api.csproj --context $1
+dotnet ef migrations script --startup-project ../Goal.Samples.CQRS.$1/Goal.Samples.CQRS.$1.csproj --context $2DbContext

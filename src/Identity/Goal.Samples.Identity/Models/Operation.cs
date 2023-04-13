@@ -1,8 +1,6 @@
-using Goal.Seedwork.Domain.Aggregates;
+namespace Goal.Samples.Identity.Models;
 
-namespace Goal.Samples.CQRS.Domain.Security;
-
-public class Operation : Entity<string>
+public class Operation
 {
     protected Operation()
     {
@@ -15,11 +13,12 @@ public class Operation : Entity<string>
         SetName(name);
     }
 
-    public string Name { get; protected set; }
-    public string NormalizedName { get; protected set; }
-    public string Description { get; protected set; }
-    public string ApplicationId { get; protected set; }
-    public Application Application { get; protected set; }
+    public string Id { get; set; }
+    public string Name { get; set; }
+    public string NormalizedName { get; set; }
+    public string Description { get; set; }
+    public string ApplicationId { get; set; }
+    public Application Application { get; set; }
     public IEnumerable<Permission> Permissions { get; set; } = new List<Permission>();
 
     public void SetName(string name)

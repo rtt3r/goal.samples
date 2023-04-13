@@ -32,6 +32,11 @@ namespace Goal.Samples.CQRS.Infra.Data.Configurations
 
             builder.HasIndex(p => new { p.ApplicationId, p.NormalizedName })
                 .IsUnique();
+
+            builder.HasMany(p => p.Permissions)
+                .WithOne(p => p.Operation)
+                .HasForeignKey(p => p.OperationId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

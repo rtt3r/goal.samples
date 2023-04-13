@@ -25,8 +25,7 @@ namespace Goal.Samples.CQRS.Infra.Data.Configurations
                 .HasMaxLength(512);
 
             builder.Property(p => p.ApplicationId)
-                .HasMaxLength(64)
-                .IsRequired();
+                .HasMaxLength(64);
 
             builder.Property(p => p.ConcurrencyStamp)
                 .IsConcurrencyToken();
@@ -37,7 +36,11 @@ namespace Goal.Samples.CQRS.Infra.Data.Configurations
 
             builder.HasMany(e => e.UserMembers)
                 .WithMany(e => e.MemberOf)
-                .UsingEntity("UserRoles");
+                .UsingEntity(
+                    "UserRoles",
+                    l => l.HasOne(typeof(User)).WithMany().HasForeignKey("UserId").HasPrincipalKey(nameof(User.Id)),
+                    r => r.HasOne(typeof(Role)).WithMany().HasForeignKey("RoleId").HasPrincipalKey(nameof(Role.Id)),
+                    j => j.HasKey("UserId", "RoleId"));
 
             builder.HasMany(e => e.RoleMembers)
                 .WithMany(e => e.MemberOf)

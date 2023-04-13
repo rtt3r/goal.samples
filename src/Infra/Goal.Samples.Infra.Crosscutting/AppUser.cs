@@ -15,10 +15,10 @@ public sealed class AppUser
         Roles = principal.GetRoles();
     }
 
-    public string UserId { get; protected set; }
-    public string Email { get; protected set; }
-    public string UserName { get; set; }
-    public string GivenName { get; protected set; }
-    public string ClientId { get; set; }
-    public IEnumerable<string> Roles { get; protected set; }
+    public string UserId { get; }
+    public string Email { get; }
+    public string UserName { get; }
+    public string GivenName { get; }
+    public string ClientId { get; }
+    public IEnumerable<string> Roles { get; }
 }

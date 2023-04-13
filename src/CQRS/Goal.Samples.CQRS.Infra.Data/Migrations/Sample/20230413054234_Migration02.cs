@@ -10,8 +10,6 @@ namespace Goal.Samples.CQRS.Infra.Data.Migrations.Sample
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.EnsureSchema(
-                name: "Identity");
         }
 
         /// <inheritdoc />

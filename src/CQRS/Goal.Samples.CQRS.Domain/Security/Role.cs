@@ -9,10 +9,11 @@ public class Role : Entity<string>
         Id = Guid.NewGuid().ToString();
     }
 
-    public Role(string name)
+    public Role(string name, Application application)
         : this()
     {
         SetName(name);
+        SetApplication(application);
     }
 
     public string Name { get; protected set; }
@@ -26,10 +27,16 @@ public class Role : Entity<string>
     public ICollection<Role> MemberOf { get; protected set; } = new List<Role>();
     public ICollection<Authorization> Authorizations { get; protected set; } = new List<Authorization>();
 
-    public void SetName(string name)
+    private void SetName(string name)
     {
         Name = name?.Trim() ?? throw new ArgumentNullException(nameof(name));
         NormalizedName = Name?.ToUpper();
+    }
+
+    private void SetApplication(Application application)
+    {
+        Application = application ?? throw new ArgumentNullException(nameof(application));
+        ApplicationId = application.Id;
     }
 
     public void Describe(string description)

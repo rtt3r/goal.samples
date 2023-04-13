@@ -28,7 +28,7 @@ namespace Goal.Samples.Identity
 
             User admin = userMgr.FindByNameAsync("admin").Result;
 
-            if (admin == null)
+            if (admin is null)
             {
                 admin = new User
                 {
@@ -52,17 +52,28 @@ namespace Goal.Samples.Identity
                 Log.Debug("admin already exists");
             }
 
+            Application core = applicationDbContext.Applications.FirstOrDefault(p => p.NormalizedName == "CORE");
+
+            if (core is null)
+            {
+                core = new Application("Core");
+                applicationDbContext.Applications.Add(core);
+                applicationDbContext.SaveChanges();
+
+                Log.Debug("Core application created");
+            }
+            else
+            {
+                Log.Debug("Core application already exists");
+            }
+
             RoleManager<Role> roleMgr = scope.ServiceProvider.GetRequiredService<RoleManager<Role>>();
 
             Role administrator = roleMgr.FindByNameAsync("Administrator").Result;
 
-            if (administrator == null)
+            if (administrator is null)
             {
-                administrator = new Role
-                {
-                    Name = "Administrator"
-                };
-
+                administrator = new Role("Administrator");
                 IdentityResult result = roleMgr.CreateAsync(administrator).Result;
 
                 if (!result.Succeeded)

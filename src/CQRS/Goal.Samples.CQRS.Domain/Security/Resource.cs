@@ -20,6 +20,7 @@ public class Resource : Entity<string>
     public string Description { get; protected set; }
     public string ApplicationId { get; protected set; }
     public Application Application { get; protected set; }
+    public IEnumerable<Permission> Permissions { get; set; } = new List<Permission>();
 
     public void SetName(string name)
     {

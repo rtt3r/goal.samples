@@ -3,12 +3,12 @@
 
 namespace Goal.Samples.Identity.Pages.Consent
 {
-    public static class ConsentOptions
+    public class ConsentOptions
     {
-        public const bool EnableOfflineAccess = true;
-        public const string OfflineAccessDisplayName = "Offline Access";
-        public const string OfflineAccessDescription = "Access to your applications and resources, even when you are offline";
-        public const string MustChooseOneErrorMessage = "You must pick at least one permission";
-        public const string InvalidSelectionErrorMessage = "Invalid selection";
+        public bool EnableOfflineAccess { get; set; } = true;
+        public string OfflineAccessDisplayName { get; set; } = "Offline Access";
+        public string OfflineAccessDescription { get; set; } = "Access to your applications and resources, even when you are offline";
+        public string MustChooseOneErrorMessage { get; set; } = "You must pick at least one permission";
+        public string InvalidSelectionErrorMessage { get; set; } = "Invalid selection";
     }
 }

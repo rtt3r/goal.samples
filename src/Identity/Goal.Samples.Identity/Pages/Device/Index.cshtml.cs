@@ -19,17 +19,20 @@ namespace Goal.Samples.Identity.Pages.Device
         private readonly IDeviceFlowInteractionService _interaction;
         private readonly IEventService _events;
         private readonly IOptions<IdentityServerOptions> _options;
+        private readonly ConsentOptions _consentOptions;
         private readonly ILogger<Index> _logger;
 
         public Index(
             IDeviceFlowInteractionService interaction,
             IEventService eventService,
             IOptions<IdentityServerOptions> options,
+            IOptions<ConsentOptions> consentOptions,
             ILogger<Index> logger)
         {
             _interaction = interaction;
             _events = eventService;
             _options = options;
+            _consentOptions = consentOptions.Value;
             _logger = logger;
         }
 
@@ -89,7 +92,7 @@ namespace Goal.Samples.Identity.Pages.Device
                 if (Input.ScopesConsented != null && Input.ScopesConsented.Any())
                 {
                     var scopes = Input.ScopesConsented;
-                    if (ConsentOptions.EnableOfflineAccess == false)
+                    if (_consentOptions.EnableOfflineAccess == false)
                     {
                         scopes = scopes.Where(x => x != Duende.IdentityServer.IdentityServerConstants.StandardScopes.OfflineAccess);
                     }
@@ -106,12 +109,12 @@ namespace Goal.Samples.Identity.Pages.Device
                 }
                 else
                 {
-                    ModelState.AddModelError("", ConsentOptions.MustChooseOneErrorMessage);
+                    ModelState.AddModelError("", _consentOptions.MustChooseOneErrorMessage);
                 }
             }
             else
             {
-                ModelState.AddModelError("", ConsentOptions.InvalidSelectionErrorMessage);
+                ModelState.AddModelError("", _consentOptions.InvalidSelectionErrorMessage);
             }
 
             if (grantedConsent != null)

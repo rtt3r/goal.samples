@@ -8,6 +8,7 @@ using IdentityModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Options;
 
 namespace Goal.Samples.Identity.Pages.Consent
 {
@@ -17,15 +18,18 @@ namespace Goal.Samples.Identity.Pages.Consent
     {
         private readonly IIdentityServerInteractionService _interaction;
         private readonly IEventService _events;
+        private readonly ConsentOptions _consentOptions;
         private readonly ILogger<Index> _logger;
 
         public Index(
             IIdentityServerInteractionService interaction,
             IEventService events,
+            IOptions<ConsentOptions> consentOptions,
             ILogger<Index> logger)
         {
             _interaction = interaction;
             _events = events;
+            _consentOptions = consentOptions.Value;
             _logger = logger;
         }
 
@@ -74,7 +78,7 @@ namespace Goal.Samples.Identity.Pages.Consent
                 {
                     var scopes = Input.ScopesConsented;
 
-                    if (!ConsentOptions.EnableOfflineAccess)
+                    if (!_consentOptions.EnableOfflineAccess)
                     {
                         scopes = scopes.Where(x => x != IdentityServerConstants.StandardScopes.OfflineAccess);
                     }
@@ -91,12 +95,12 @@ namespace Goal.Samples.Identity.Pages.Consent
                 }
                 else
                 {
-                    ModelState.AddModelError("", ConsentOptions.MustChooseOneErrorMessage);
+                    ModelState.AddModelError("", _consentOptions.MustChooseOneErrorMessage);
                 }
             }
             else
             {
-                ModelState.AddModelError("", ConsentOptions.InvalidSelectionErrorMessage);
+                ModelState.AddModelError("", _consentOptions.InvalidSelectionErrorMessage);
             }
 
             if (grantedConsent != null)
@@ -169,7 +173,7 @@ namespace Goal.Samples.Identity.Pages.Consent
                     apiScopes.Add(scopeVm);
                 }
             }
-            if (ConsentOptions.EnableOfflineAccess && request.ValidatedResources.Resources.OfflineAccess)
+            if (_consentOptions.EnableOfflineAccess && request.ValidatedResources.Resources.OfflineAccess)
             {
                 apiScopes.Add(GetOfflineAccessScope(model == null || model.ScopesConsented?.Contains(Duende.IdentityServer.IdentityServerConstants.StandardScopes.OfflineAccess) == true));
             }
@@ -212,13 +216,13 @@ namespace Goal.Samples.Identity.Pages.Consent
             };
         }
 
-        private static ScopeViewModel GetOfflineAccessScope(bool check)
+        private ScopeViewModel GetOfflineAccessScope(bool check)
         {
             return new ScopeViewModel
             {
                 Value = Duende.IdentityServer.IdentityServerConstants.StandardScopes.OfflineAccess,
-                DisplayName = ConsentOptions.OfflineAccessDisplayName,
-                Description = ConsentOptions.OfflineAccessDescription,
+                DisplayName = _consentOptions.OfflineAccessDisplayName,
+                Description = _consentOptions.OfflineAccessDescription,
                 Emphasize = true,
                 Checked = check
             };

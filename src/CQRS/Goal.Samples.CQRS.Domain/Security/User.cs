@@ -13,7 +13,7 @@ public class User : Entity<string>
         : this()
     {
         SetName(name);
-        UpdateUserName(userName);
+        SetUserName(userName);
     }
 
     public string Name { get; protected set; }
@@ -32,7 +32,7 @@ public class User : Entity<string>
         NormalizedName = Name?.Trim()?.ToUpper();
     }
 
-    private void UpdateUserName(string userName)
+    private void SetUserName(string userName)
     {
         UserName = userName?.Trim() ?? throw new ArgumentNullException(nameof(userName));
         NormalizedUserName = UserName?.Trim()?.ToUpper();

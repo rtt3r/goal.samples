@@ -16,12 +16,10 @@ namespace Goal.Samples.CQRS.Infra.Data.Configurations
                 .IsRequired();
 
             builder.Property(p => p.Name)
-                .HasMaxLength(256)
-                .IsRequired();
+                .HasMaxLength(256);
 
             builder.Property(p => p.NormalizedName)
-                .HasMaxLength(256)
-                .IsRequired();
+                .HasMaxLength(256);
 
             builder.Property(p => p.Description)
                 .HasMaxLength(512);
@@ -34,7 +32,8 @@ namespace Goal.Samples.CQRS.Infra.Data.Configurations
                 .IsConcurrencyToken();
 
             builder.HasIndex(p => new { p.ApplicationId, p.NormalizedName })
-                .IsUnique();
+                .IsUnique()
+                .HasFilter($"[{nameof(Role.NormalizedName)}] IS NOT NULL");
 
             builder.HasMany(e => e.UserMembers)
                 .WithMany(e => e.MemberOf)

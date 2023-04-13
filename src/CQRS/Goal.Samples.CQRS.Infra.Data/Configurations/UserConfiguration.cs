@@ -38,11 +38,13 @@ namespace Goal.Samples.CQRS.Infra.Data.Configurations
             builder.Property(p => p.ConcurrencyStamp)
                 .IsConcurrencyToken();
 
-            builder.HasIndex(p => p.NormalizedUserName)
-                .IsUnique();
-
             builder.HasIndex(p => p.NormalizedEmail)
-                .IsUnique();
+                .HasDatabaseName("EmailIndex");
+
+            builder.HasIndex(p => p.NormalizedUserName)
+                .HasDatabaseName("UserNameIndex")
+                .IsUnique()
+                .HasFilter($"[{nameof(User.NormalizedUserName)}] IS NOT NULL");
 
             builder.HasMany(p => p.Authorizations)
                 .WithOne(p => p.User)

@@ -19,11 +19,6 @@ services:
     hostname: 'mabbit'
     image: rabbitmq:3-management-alpine
     container_name: ritter.co-goal-rabbitmq
-    restart: always
-    healthcheck:
-      test: rabbitmq-diagnostics -q ping
-      interval: 1s
-      retries: 20
     ports:
       - 5672:5672
       - 15672:15672
@@ -34,7 +29,6 @@ services:
   seq:
     image: datalust/seq:latest
     container_name: ritter.co-goal-seq
-    restart: always
     ports:
       - 81:80
       - 5341:5341
@@ -52,10 +46,6 @@ services:
     environment:
       - ACCEPT_EULA=Y
       - MSSQL_SA_PASSWORD=BeycL18545#f
-    healthcheck:
-      test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-Usa", "-PBeycL18545#f", "-Q", "select 1"]
-      interval: 1s
-      retries: 20
     volumes:
       - mssql-data:/var/opt/mssql
 
@@ -69,13 +59,6 @@ services:
     ports:
       - "8001:80"
       - "4431:443"
-    depends_on:
-      mssql:
-        condition: service_healthy
-        restart: true
-      ravendb:
-        condition: service_healthy
-        restart: true
 
   cqrs-api:
     image: ${REGISTRY:-ritter.co}/goal/cqrs-api:${PLATFORM:-linux}-${TAG:-latest}
@@ -87,16 +70,6 @@ services:
     ports:
         - "8002:80"
         - "4432:443"
-    depends_on:
-      mssql:
-        condition: service_healthy
-        restart: true
-      ravendb:
-        condition: service_healthy
-        restart: true
-      rabbitmq:
-        condition: service_healthy
-        restart: true
 
   cqrs-worker:
     image: ${REGISTRY:-ritter.co}/goal/cqrs-worker:${PLATFORM:-linux}-${TAG:-latest}
@@ -108,16 +81,6 @@ services:
     ports:
         - "8003:80"
         - "4433:443"
-    depends_on:
-      mssql:
-        condition: service_healthy
-        restart: true
-      ravendb:
-        condition: service_healthy
-        restart: true
-      rabbitmq:
-        condition: service_healthy
-        restart: true
 
 volumes:
   mssql-data:

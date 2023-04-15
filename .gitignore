@@ -207,3 +207,6 @@ tools/
 .sonarlint/*
 
 *.ruleset
+
+# Custom
+nuget.config

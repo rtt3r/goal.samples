@@ -1,6 +1,17 @@
 version: "3.8"
 
 services:
+  rabbitmq:
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 1s
+      retries: 20
+
+  mssql:
+    healthcheck:
+      test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-Usa", "-PBeycL18545#f", "-Q", "select 1"]
+      interval: 1s
+      retries: 20
 
   identity:
     environment:
@@ -17,6 +28,13 @@ services:
       - ${APPDATA}\microsoft\UserSecrets\:/root/.microsoft/usersecrets
       - ${USERPROFILE}\.aspnet\https:/root/.aspnet/https/
       - ${USERPROFILE}\.aspnet\DataProtection-Keys:/root/.aspnet/DataProtection-Keys/
+    depends_on:
+      mssql:
+        condition: service_healthy
+        restart: true
+      ravendb:
+        condition: service_healthy
+        restart: true
 
   cqrs-api:
     environment:
@@ -41,6 +59,16 @@ services:
         - ${APPDATA}\microsoft\UserSecrets\:/root/.microsoft/usersecrets
         - ${USERPROFILE}\.aspnet\https:/root/.aspnet/https/
         - ${USERPROFILE}\.aspnet\DataProtection-Keys:/root/.aspnet/DataProtection-Keys/
+    depends_on:
+      mssql:
+        condition: service_healthy
+        restart: true
+      ravendb:
+        condition: service_healthy
+        restart: true
+      rabbitmq:
+        condition: service_healthy
+        restart: true
 
   cqrs-worker:
     environment:
@@ -59,3 +87,13 @@ services:
         - ${APPDATA}\microsoft\UserSecrets\:/root/.microsoft/usersecrets
         - ${USERPROFILE}\.aspnet\https:/root/.aspnet/https/
         - ${USERPROFILE}\.aspnet\DataProtection-Keys:/root/.aspnet/DataProtection-Keys/
+    depends_on:
+      mssql:
+        condition: service_healthy
+        restart: true
+      ravendb:
+        condition: service_healthy
+        restart: true
+      rabbitmq:
+        condition: service_healthy
+        restart: true

@@ -13,20 +13,19 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Duende.IdentityServer.AspNetIdentity" Version="6.2.0" />
-		<PackageReference Include="Duende.IdentityServer.EntityFramework" Version="6.2.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="7.0.1" />
+		<PackageReference Include="Duende.IdentityServer.AspNetIdentity" Version="6.2.3" />
+		<PackageReference Include="Duende.IdentityServer.EntityFramework" Version="6.2.3" />
 		<PackageReference Include="Serilog.AspNetCore" Version="6.1.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="7.0.1" />
-		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.1" />
-		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="7.0.1" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.1" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.1">
+		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="7.0.5" />
+		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.5" />
+		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="7.0.5" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.5" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.5">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
 			<TreatAsUsed>true</TreatAsUsed>
 		</PackageReference>
-		<PackageReference Include="Goal.Seedwork.Infra.Data" Version="0.3.2" />
+		<PackageReference Include="Goal.Seedwork.Infra.Data" Version="0.3.12" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -25,7 +25,7 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
 			<TreatAsUsed>true</TreatAsUsed>
 		</PackageReference>
-		<PackageReference Include="Goal.Seedwork.Infra.Data" Version="0.3.12" />
+		<PackageReference Include="Goal.Seedwork.Infra.Data" Version="0.3.13" />
 	</ItemGroup>
 
 	<ItemGroup>

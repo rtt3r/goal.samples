@@ -8,8 +8,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Goal.Seedwork.Infra.Data.Extensions.RavenDB" Version="0.3.12" />
-		<PackageReference Include="Goal.Seedwork.Infra.Data.Query" Version="0.3.12" />
+		<PackageReference Include="Goal.Seedwork.Infra.Data.Extensions.RavenDB" Version="0.3.13" />
+		<PackageReference Include="Goal.Seedwork.Infra.Data.Query" Version="0.3.13" />
 		<PackageReference Include="RavenDB.Client" Version="5.4.103" />
 	</ItemGroup>
 </Project>

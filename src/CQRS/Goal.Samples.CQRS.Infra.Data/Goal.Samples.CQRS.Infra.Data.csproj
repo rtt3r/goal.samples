@@ -14,7 +14,7 @@
 			<TreatAsUsed>true</TreatAsUsed>
 		</PackageReference>
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.5" />
-		<PackageReference Include="Goal.Seedwork.Infra.Data" Version="0.3.12" />
+		<PackageReference Include="Goal.Seedwork.Infra.Data" Version="0.3.13" />
 	</ItemGroup>
 
 	<ItemGroup>

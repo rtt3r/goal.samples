@@ -1,5 +1,7 @@
 version: "3.8"
 
+name: goalsamples
+
 services:
   ravendb:
     image: ravendb/ravendb:4.2-ubuntu-latest
@@ -49,16 +51,17 @@ services:
     volumes:
       - mssql-data:/var/opt/mssql
 
-  identity:
-    image: ${REGISTRY:-ritter.co}/goal/identity:${PLATFORM:-linux}-${TAG:-latest}
-    container_name: ritter.co-goal-identity
-    restart: always
-    build:
-      context: .
-      dockerfile: src/Identity/Goal.Samples.Identity/Dockerfile
+  keycloak:
+    image: "quay.io/keycloak/keycloak:21.0.2"
+    container_name: ritter.co-goal-keycloak
     ports:
-      - "8001:80"
-      - "4431:443"
+      - "8081:8080"
+    command: start-dev
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+    volumes:
+      - keycloak-data:/opt/keycloak/data/
 
   cqrs-api:
     image: ${REGISTRY:-ritter.co}/goal/cqrs-api:${PLATFORM:-linux}-${TAG:-latest}
@@ -91,6 +94,8 @@ volumes:
     name: ritter.co-goal-ravendb-data-vol
   seq-data:
     name: ritter.co-goal-seq-vol
+  keycloak-data:
+    name: ritter.co-goal-keycloak-vol
   rabbitmq-data:
     name: ritter.co-goal-rabbitmq-data-vol
   rabbitmq-mnesia:

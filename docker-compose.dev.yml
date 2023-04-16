@@ -9,30 +9,13 @@ services:
 
   mssql:
     healthcheck:
-      test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-Usa", "-PBeycL18545#f", "-Q", "select 1"]
+      test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-Usa", "-PBeycL18545#f", "-Q", "create database goal-dev"]
       interval: 1s
       retries: 20
 
-  identity:
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_ConnectionStrings__DefaultConnection=Server=mssql;Initial Catalog=goal-dev;Persist Security Info=False;User ID=sa;Password=BeycL18545#f;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=True;MultiSubnetFailover=True;Connection Timeout=30;
-      - ASPNETCORE_ConnectionStrings__Seq=http://seq:5341
-      - ASPNETCORE_SigninCredentials__Path=/root/.aspnet/https/ritter.starter.co.pfx
-      - ASPNETCORE_SigninCredentials__Password=16a56c6b-bc2f-4eb0-841a-f943d811ec42
-      - ASPNETCORE_URLS=https://+;http://+
-      - ASPNETCORE_HTTPS_PORT=4431
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=/root/.aspnet/https/Development.pfx
-      - ASPNETCORE_Kestrel__Certificates__Default__Password=fd7ccf84-1ff8-4817-9ecd-f0a2047ea262
-    volumes:
-      - ${APPDATA}\microsoft\UserSecrets\:/root/.microsoft/usersecrets
-      - ${USERPROFILE}\.aspnet\https:/root/.aspnet/https/
-      - ${USERPROFILE}\.aspnet\DataProtection-Keys:/root/.aspnet/DataProtection-Keys/
+  keycloak:
     depends_on:
       mssql:
-        condition: service_healthy
-        restart: true
-      ravendb:
         condition: service_healthy
         restart: true
 

@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<IsPackable>false</IsPackable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>disable</Nullable>
+		<LangVersion>latest</LangVersion>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Goal.Seedwork.Application" Version="0.3.13" />
+		<PackageReference Include="AutoMapper" Version="12.0.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Goal.Samples.DDD.Application.DTO\Goal.Samples.DDD.Application.DTO.csproj" />
+	  <ProjectReference Include="..\Goal.Samples.DDD.Domain\Goal.Samples.DDD.Domain.csproj" />
+	</ItemGroup>
+
+</Project>

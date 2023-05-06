@@ -92,6 +92,17 @@ services:
         - "8003:80"
         - "4433:443"
 
+  ddd-api:
+    image: ${REGISTRY:-ritter.co}/goal/ddd-api:${PLATFORM:-linux}-${TAG:-latest}
+    container_name: ritter.co-goal-ddd-api
+    restart: always
+    build:
+      context: .
+      dockerfile: src/DDD/Goal.Samples.DDD.Api/Dockerfile
+    ports:
+        - "8004:80"
+        - "4434:443"
+
 volumes:
   mssql-data:
     name: ritter.co-goal-mssql-vol

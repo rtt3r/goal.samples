@@ -37,6 +37,8 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\Infra\Goal.Samples.Infra.Http\Goal.Samples.Infra.Http.csproj" />
+		<ProjectReference Include="..\Goal.Samples.DDD.Application.DTO\Goal.Samples.DDD.Application.DTO.csproj" />
+		<ProjectReference Include="..\Goal.Samples.DDD.Application\Goal.Samples.DDD.Application.csproj" />
 		<ProjectReference Include="..\Goal.Samples.DDD.Infra.IoC\Goal.Samples.DDD.Infra.IoC.csproj" />
 	</ItemGroup>
 

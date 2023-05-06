@@ -22,7 +22,7 @@ services:
   cqrs-api:
     environment:
         - ASPNETCORE_ENVIRONMENT=Development
-        - ASPNETCORE_ConnectionStrings__DefaultConnection=Server=mssql;Initial Catalog=goal-dev;Persist Security Info=False;User ID=sa;Password=BeycL18545#f;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=True;MultiSubnetFailover=True;Connection Timeout=30;
+        - ASPNETCORE_ConnectionStrings__DefaultConnection=Server=mssql;Initial Catalog=goal-cqrs-dev;Persist Security Info=False;User ID=sa;Password=BeycL18545#f;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=True;MultiSubnetFailover=True;Connection Timeout=30;
         - ASPNETCORE_ConnectionStrings__Seq=http://seq:5341
         - ASPNETCORE_ConnectionStrings__RabbitMq=amqp://guest:guest@rabbitmq:5672
         - ASPNETCORE_URLS=https://+;http://+
@@ -56,14 +56,14 @@ services:
   cqrs-worker:
     environment:
         - ASPNETCORE_ENVIRONMENT=Development
-        - ASPNETCORE_ConnectionStrings__DefaultConnection=Server=mssql;Initial Catalog=goal-dev;Persist Security Info=False;User ID=sa;Password=BeycL18545#f;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=True;MultiSubnetFailover=True;Connection Timeout=30;
+        - ASPNETCORE_ConnectionStrings__DefaultConnection=Server=mssql;Initial Catalog=goal-cqrs-dev;Persist Security Info=False;User ID=sa;Password=BeycL18545#f;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=True;MultiSubnetFailover=True;Connection Timeout=30;
         - ASPNETCORE_ConnectionStrings__Seq=http://seq:5341
         - ASPNETCORE_ConnectionStrings__RabbitMq=amqp://guest:guest@rabbitmq:5672
         - ASPNETCORE_RavenSettings__Urls=http://ravendb:8080
         - ASPNETCORE_RavenSettings__DatabaseName=Sample
         - ASPNETCORE_RavenSettings__CertFilePath=
         - ASPNETCORE_RavenSettings__CertPassword=
-        - ASPNETCORE_Cors__Origins=https://localhost:4432;http://localhost:8002;http://localhost:4200
+        - ASPNETCORE_Cors__Origins=https://localhost:4433;http://localhost:8002;http://localhost:4200
         - ASPNETCORE_Kestrel__Certificates__Default__Password=fd7ccf84-1ff8-4817-9ecd-f0a2047ea262
         - ASPNETCORE_Kestrel__Certificates__Default__Path=/root/.aspnet/https/Development.pfx
     volumes:
@@ -78,5 +78,24 @@ services:
         condition: service_healthy
         restart: true
       rabbitmq:
+        condition: service_healthy
+        restart: true
+
+  ddd-api:
+    environment:
+        - ASPNETCORE_ENVIRONMENT=Development
+        - ASPNETCORE_ConnectionStrings__DefaultConnection=Server=mssql;Initial Catalog=goal-ddd-dev;Persist Security Info=False;User ID=sa;Password=BeycL18545#f;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=True;MultiSubnetFailover=True;Connection Timeout=30;
+        - ASPNETCORE_ConnectionStrings__Seq=http://seq:5341
+        - ASPNETCORE_URLS=https://+;http://+
+        - ASPNETCORE_HTTPS_PORT=4431
+        - ASPNETCORE_Cors__Origins=https://localhost:4434;http://localhost:8002;http://localhost:4200
+        - ASPNETCORE_Kestrel__Certificates__Default__Password=fd7ccf84-1ff8-4817-9ecd-f0a2047ea262
+        - ASPNETCORE_Kestrel__Certificates__Default__Path=/root/.aspnet/https/Development.pfx
+    volumes:
+        - ${APPDATA}\microsoft\UserSecrets\:/root/.microsoft/usersecrets
+        - ${USERPROFILE}\.aspnet\https:/root/.aspnet/https/
+        - ${USERPROFILE}\.aspnet\DataProtection-Keys:/root/.aspnet/DataProtection-Keys/
+    depends_on:
+      mssql:
         condition: service_healthy
         restart: true

@@ -5,7 +5,7 @@ services:
   cqrs-api:
     environment:
         - ASPNETCORE_ENVIRONMENT=Development
-        - ASPNETCORE_ConnectionStrings__DefaultConnection=Server=mssql;Initial Catalog=goal-dev;Persist Security Info=False;User ID=sa;Password=BeycL18545#f;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=True;MultiSubnetFailover=True;Connection Timeout=30;
+        - ASPNETCORE_ConnectionStrings__DefaultConnection=Server=mssql;Initial Catalog=goal-cqrs-dev;Persist Security Info=False;User ID=sa;Password=BeycL18545#f;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=True;MultiSubnetFailover=True;Connection Timeout=30;
         - ASPNETCORE_ConnectionStrings__Seq=http://seq:5341
         - ASPNETCORE_ConnectionStrings__RabbitMq=amqp://guest:guest@rabbitmq:5672
         - ASPNETCORE_RavenSettings__Urls=http://ravendb:8080
@@ -19,9 +19,6 @@ services:
         - ASPNETCORE_Cors__Origins=https://localhost:4432;http://localhost:8002;http://localhost:4200
         - ASPNETCORE_URLS=https://+;http://+
         - ASPNETCORE_HTTPS_PORT=4432
-    ports:
-        - "8002:80"
-        - "4432:443"
     volumes:
         - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
         - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
@@ -29,18 +26,28 @@ services:
   cqrs-worker:
     environment:
         - ASPNETCORE_ENVIRONMENT=Development
-        - ASPNETCORE_ConnectionStrings__DefaultConnection=Server=mssql;Initial Catalog=goal-dev;Persist Security Info=False;User ID=sa;Password=BeycL18545#f;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=True;MultiSubnetFailover=True;Connection Timeout=30;
+        - ASPNETCORE_ConnectionStrings__DefaultConnection=Server=mssql;Initial Catalog=goal-cqrs-dev;Persist Security Info=False;User ID=sa;Password=BeycL18545#f;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=True;MultiSubnetFailover=True;Connection Timeout=30;
         - ASPNETCORE_ConnectionStrings__Seq=http://seq:5341
         - ASPNETCORE_ConnectionStrings__RabbitMq=amqp://guest:guest@rabbitmq:5672
         - ASPNETCORE_RavenSettings__Urls=http://ravendb:8080
         - ASPNETCORE_RavenSettings__DatabaseName=Sample
         - ASPNETCORE_RavenSettings__CertFilePath=
         - ASPNETCORE_RavenSettings__CertPassword=
+        - ASPNETCORE_Cors__Origins=https://localhost:4433;http://localhost:8002;http://localhost:4200
         - ASPNETCORE_URLS=https://+;http://+
-        - ASPNETCORE_HTTPS_PORT=4432
-    ports:
-        - "8003:80"
-        - "4433:443"
+        - ASPNETCORE_HTTPS_PORT=4433
+    volumes:
+        - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+        - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
+  ddd-api:
+    environment:
+        - ASPNETCORE_ENVIRONMENT=Development
+        - ASPNETCORE_ConnectionStrings__DefaultConnection=Server=mssql;Initial Catalog=goal-ddd-dev;Persist Security Info=False;User ID=sa;Password=BeycL18545#f;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=True;MultiSubnetFailover=True;Connection Timeout=30;
+        - ASPNETCORE_ConnectionStrings__Seq=http://seq:5341
+        - ASPNETCORE_Cors__Origins=https://localhost:4434;http://localhost:8002;http://localhost:4200
+        - ASPNETCORE_URLS=https://+;http://+
+        - ASPNETCORE_HTTPS_PORT=4434
     volumes:
         - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
         - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro

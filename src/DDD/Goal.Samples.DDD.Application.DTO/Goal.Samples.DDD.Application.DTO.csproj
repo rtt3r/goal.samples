@@ -9,7 +9,12 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\Infra\Goal.Samples.Infra.Crosscutting\Goal.Samples.Infra.Crosscutting.csproj" />
+		<PackageReference Include="Goal.Seedwork.Infra.Crosscutting" Version="0.3.13" />
+		<PackageReference Include="FluentValidation" Version="11.5.2" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\Infra\Goal.Samples.Infra.Crosscutting\Goal.Samples.Infra.Crosscutting.csproj" />
 	</ItemGroup>
 
 </Project>

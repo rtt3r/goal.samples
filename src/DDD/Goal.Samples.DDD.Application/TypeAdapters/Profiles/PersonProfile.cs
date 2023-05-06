@@ -1,6 +1,6 @@
 using AutoMapper;
+using Goal.Samples.DDD.Application.DTO.People.Responses;
 using Goal.Samples.DDD.Domain.People.Aggregates;
-using Ritter.Samples.Application.DTO.People.Responses;
 
 namespace Goal.Samples.DDD.Application.TypeAdapters.Profiles;
 

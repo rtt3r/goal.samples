@@ -8,8 +8,8 @@
       "commandVersion": "1.0",
       "serviceActions": {
         "ddd-api": "StartDebugging",
-        "cqrs-api": "StartDebugging",
-        "cqrs-worker": "StartDebugging",
+        "cqrs-api": "StartWithoutDebugging",
+        "cqrs-worker": "StartWithoutDebugging",
         "mssql": "StartWithoutDebugging",
         "seq": "StartWithoutDebugging",
         "rabbitmq": "StartWithoutDebugging",

@@ -14,9 +14,8 @@ namespace Goal.Samples.DDD.Api.Controllers;
 /// Everything about People
 /// </summary>
 [ApiController]
-//[ApiVersion("2")]
-//[Route("api/v{version:apiVersion}/[controller]")]
-[Route("api/[controller]")]
+[ApiVersion("1")]
+[Route("v{version:apiVersion}/[controller]")]
 public class PeopleController : ApiController
 {
     private readonly IPersonAppService personAppService;

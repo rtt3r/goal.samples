@@ -7,7 +7,6 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-
 COPY ["nuget.config", "."]
 COPY ["src/DDD/Goal.Samples.DDD.Api/Goal.Samples.DDD.Api.csproj", "src/DDD/Goal.Samples.DDD.Api/"]
 COPY ["src/Infra/Goal.Samples.Infra.Http/Goal.Samples.Infra.Http.csproj", "src/Infra/Goal.Samples.Infra.Http/"]
@@ -17,9 +16,7 @@ COPY ["src/DDD/Goal.Samples.DDD.Application/Goal.Samples.DDD.Application.csproj"
 COPY ["src/DDD/Goal.Samples.DDD.Domain/Goal.Samples.DDD.Domain.csproj", "src/DDD/Goal.Samples.DDD.Domain/"]
 COPY ["src/DDD/Goal.Samples.DDD.Infra.IoC/Goal.Samples.DDD.Infra.IoC.csproj", "src/DDD/Goal.Samples.DDD.Infra.IoC/"]
 COPY ["src/DDD/Goal.Samples.DDD.Infra.Data/Goal.Samples.DDD.Infra.Data.csproj", "src/DDD/Goal.Samples.DDD.Infra.Data/"]
-
 RUN dotnet restore "src/DDD/Goal.Samples.DDD.Api/Goal.Samples.DDD.Api.csproj"
-
 COPY . .
 WORKDIR "/src/src/DDD/Goal.Samples.DDD.Api"
 RUN dotnet build "Goal.Samples.DDD.Api.csproj" -c Release -o /app/build
@@ -30,5 +27,4 @@ RUN dotnet publish "Goal.Samples.DDD.Api.csproj" -c Release -o /app/publish /p:U
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-
 ENTRYPOINT ["dotnet", "Goal.Samples.DDD.Api.dll"]

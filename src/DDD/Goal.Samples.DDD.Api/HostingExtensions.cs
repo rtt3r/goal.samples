@@ -80,6 +80,7 @@ public static class HostingExtensions
         });
 
         app.UseSerilogRequestLogging();
+        app.MigrateApiDbContext();
 
         if (app.Environment.IsDevelopment())
         {

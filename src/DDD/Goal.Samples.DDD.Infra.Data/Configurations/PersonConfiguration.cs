@@ -17,10 +17,12 @@ namespace Goal.Samples.DDD.Infra.Data.Configurations
             builder.OwnsOne(p => p.Name, name =>
             {
                 name.Property(p => p.FirstName)
+                    .HasColumnName(nameof(Name.FirstName))
                     .HasMaxLength(50)
                     .IsRequired();
 
                 name.Property(p => p.LastName)
+                    .HasColumnName(nameof(Name.LastName))
                     .HasMaxLength(50)
                     .IsRequired();
             });

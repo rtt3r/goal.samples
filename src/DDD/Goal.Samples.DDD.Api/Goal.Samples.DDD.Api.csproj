@@ -5,7 +5,7 @@
 		<IsPackable>false</IsPackable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>disable</Nullable>
-		<UserSecretsId>f2746e36-9eba-4e11-8d44-c113e4ec5bf5</UserSecretsId>
+		<UserSecretsId>41305730-50d4-4ff2-a5fc-a28f6d8e61a5</UserSecretsId>
 		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 		<DockerfileContext>..\..\..</DockerfileContext>
 		<DockerComposeProjectPath>..\..\..\docker-compose.dcproj</DockerComposeProjectPath>

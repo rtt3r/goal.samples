@@ -1,8 +1,10 @@
+using Goal.Samples.DDD.Application.People;
 using Goal.Samples.DDD.Application.TypeAdapters;
 using Goal.Samples.DDD.Domain;
 using Goal.Samples.DDD.Infra.Data;
 using Goal.Samples.DDD.Infra.Data.Repositories;
 using Goal.Samples.Infra.Crosscutting;
+using Goal.Seedwork.Application.Services;
 using Goal.Seedwork.Domain.Aggregates;
 using Goal.Seedwork.Infra.Http.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
@@ -28,6 +30,7 @@ public static class ServiceColletionExtensionMethods
         services.AddSampleDbContext(connectionString);
         services.AddScoped<IDddUnitOfWork, DddUnitOfWork>();
         services.RegisterAllTypesOf<IRepository>(typeof(PeopleRepository).Assembly);
+        services.RegisterAllTypesOf<IAppService>(typeof(PersonAppService).Assembly);
 
         return services;
     }

@@ -1,3 +1,4 @@
+using Goal.Samples.DDD.Domain;
 using Goal.Samples.DDD.Domain.People.Aggregates;
 using Goal.Seedwork.Infra.Data;
 
@@ -7,11 +8,11 @@ public sealed class DddUnitOfWork : UnitOfWork, IDddUnitOfWork
 {
     public DddUnitOfWork(
         DddDbContext context,
-        IPersonRepository personRepository)
+        IPeopleRepository peopleRepository)
         : base(context)
     {
-        People = personRepository;
+        People = peopleRepository;
     }
 
-    public IPersonRepository People { get; }
+    public IPeopleRepository People { get; }
 }

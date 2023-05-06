@@ -19,5 +19,6 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\Infra\Goal.Samples.Infra.Crosscutting\Goal.Samples.Infra.Crosscutting.csproj" />
+		<ProjectReference Include="..\Goal.Samples.DDD.Domain\Goal.Samples.DDD.Domain.csproj" />
 	</ItemGroup>
 </Project>

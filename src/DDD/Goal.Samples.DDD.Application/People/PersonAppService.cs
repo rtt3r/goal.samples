@@ -16,29 +16,26 @@ namespace Goal.Samples.DDD.Application.People;
 public class PersonAppService : AppService, IPersonAppService
 {
     private readonly IDddUnitOfWork uow;
-    private readonly IPersonRepository personRepository;
     private readonly ITypeAdapter adapter;
 
     public PersonAppService(
         IDddUnitOfWork uow,
-        IPersonRepository personRepository,
         ITypeAdapter adapter)
         : base()
     {
         this.uow = uow;
-        this.personRepository = personRepository;
         this.adapter = adapter;
     }
 
     public async Task<IPagedCollection<PersonResponse>> FindPaginatedAsync(IPageSearch pageSearch)
     {
-        IPagedCollection<Person> people = await personRepository.QueryAsync(pageSearch);
+        IPagedCollection<Person> people = await uow.People.QueryAsync(pageSearch);
         return adapter.ProjectAsPagedCollection<PersonResponse>(people);
     }
 
     public async Task<PersonResponse> GetPersonAsync(string id)
     {
-        Person person = await personRepository.LoadAsync(id)
+        Person person = await uow.People.LoadAsync(id)
             ?? throw new NotFoundException("Pessoa não encontrada");
 
         return adapter.ProjectAs<PersonResponse>(person);
@@ -53,7 +50,7 @@ public class PersonAppService : AppService, IPersonAppService
             throw new BusinessException(validationResult.Errors.First().ToString());
         }
 
-        if (await personRepository.AnyAsync(PersonSpecifications.MatchCpf(request.Cpf)))
+        if (await uow.People.AnyAsync(PersonSpecifications.MatchCpf(request.Cpf)))
         {
             throw new BusinessException("CPF duplicado");
         }
@@ -63,7 +60,7 @@ public class PersonAppService : AppService, IPersonAppService
             request.LastName,
             request.Cpf);
 
-        await personRepository.AddAsync(person);
+        await uow.People.AddAsync(person);
         await uow.SaveAsync();
 
         return adapter.ProjectAs<PersonResponse>(person);
@@ -78,17 +75,17 @@ public class PersonAppService : AppService, IPersonAppService
             throw new BusinessException(validationResult.Errors.First().ToString());
         }
 
-        Person person = await personRepository.LoadAsync(id)
+        Person person = await uow.People.LoadAsync(id)
             ?? throw new NotFoundException("Pessoa não encontrada");
 
-        if (await personRepository.AnyAsync(
+        if (await uow.People.AnyAsync(
             !PersonSpecifications.MatchId(person.Id)
             && PersonSpecifications.MatchCpf(person.Cpf.Number)))
         {
             throw new BusinessException("CPF duplicado");
         }
 
-        personRepository.Update(person);
+        uow.People.Update(person);
         await uow.SaveAsync();
 
         return adapter.ProjectAs<PersonResponse>(person);
@@ -96,10 +93,10 @@ public class PersonAppService : AppService, IPersonAppService
 
     public async Task<Try<ApplicationException, bool>> DeletePerson(string id)
     {
-        Person person = await personRepository.LoadAsync(id)
+        Person person = await uow.People.LoadAsync(id)
             ?? throw new NotFoundException("Pessoa não encontrada");
 
-        personRepository.Remove(person);
+        uow.People.Remove(person);
         return await uow.SaveAsync();
     }
 }

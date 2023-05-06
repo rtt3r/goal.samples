@@ -9,9 +9,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Goal.Samples.DDD.Infra.Data.Repositories;
 
-public class PersonRepository : Repository<Person, string>, IPersonRepository
+public class PeopleRepository : Repository<Person, string>, IPeopleRepository
 {
-    public PersonRepository(DddDbContext context)
+    public PeopleRepository(DddDbContext context)
         : base(context)
     {
     }

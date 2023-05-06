@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Goal.Samples.CQRS.Infra.Data.Migrations.Sample
 {
-    [DbContext(typeof(SampleDbContext))]
+    [DbContext(typeof(CqrsDbContext))]
     [Migration("20230413054234_Migration02")]
     partial class Migration02
     {

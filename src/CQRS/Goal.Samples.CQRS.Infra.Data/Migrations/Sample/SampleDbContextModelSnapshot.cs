@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Goal.Samples.CQRS.Infra.Data.Migrations.Sample
 {
-    [DbContext(typeof(SampleDbContext))]
+    [DbContext(typeof(CqrsDbContext))]
     partial class SampleDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

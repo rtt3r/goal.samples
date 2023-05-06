@@ -12,7 +12,7 @@ public static class ApplicationBuilderExtensionMethods
     {
         using (IServiceScope scope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope())
         {
-            scope.ServiceProvider.GetRequiredService<SampleDbContext>().Database.Migrate();
+            scope.ServiceProvider.GetRequiredService<CqrsDbContext>().Database.Migrate();
         }
 
         return app;

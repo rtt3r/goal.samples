@@ -9,7 +9,7 @@ services:
 
   mssql:
     healthcheck:
-      test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-Usa", "-PBeycL18545#f", "-Q", "create database goal-dev"]
+      test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-Usa", "-PBeycL18545#f", "-Q", "IF NOT EXISTS(SELECT * FROM sys.databases WHERE name = 'keycloak-dev') BEGIN CREATE DATABASE [keycloak-dev]; END"]
       interval: 1s
       retries: 20
 

@@ -9,9 +9,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Goal.Seedwork.Domain">
-			<Version>0.3.13</Version>
-		</PackageReference>
+		<PackageReference Include="Goal.Seedwork.Domain" Version="0.3.13" />
 	</ItemGroup>
 
 </Project>

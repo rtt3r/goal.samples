@@ -19,14 +19,14 @@ public class CustomerCommandHandler :
     ICommandHandler<UpdateCustomerCommand, ICommandResult>,
     ICommandHandler<RemoveCustomerCommand, ICommandResult>
 {
-    private readonly ISampleUnitOfWork uow;
+    private readonly ICqrsUnitOfWork uow;
     private readonly IPublishEndpoint publishEndpoint;
     private readonly IDefaultNotificationHandler notificationHandler;
     private readonly ITypeAdapter typeAdapter;
     private readonly AppState appState;
 
     public CustomerCommandHandler(
-        ISampleUnitOfWork uow,
+        ICqrsUnitOfWork uow,
         IPublishEndpoint publishEndpoint,
         IDefaultNotificationHandler notificationHandler,
         ITypeAdapter typeAdapter,

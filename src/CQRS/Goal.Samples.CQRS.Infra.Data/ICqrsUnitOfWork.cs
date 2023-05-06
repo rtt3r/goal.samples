@@ -3,7 +3,7 @@ using Goal.Seedwork.Domain;
 
 namespace Goal.Samples.CQRS.Infra.Data
 {
-    public interface ISampleUnitOfWork : IUnitOfWork
+    public interface ICqrsUnitOfWork : IUnitOfWork
     {
         ICustomerRepository Customers { get; }
     }

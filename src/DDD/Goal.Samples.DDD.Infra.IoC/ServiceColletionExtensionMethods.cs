@@ -1,4 +1,5 @@
 using Goal.Samples.DDD.Application.TypeAdapters;
+using Goal.Samples.DDD.Domain;
 using Goal.Samples.DDD.Infra.Data;
 using Goal.Samples.DDD.Infra.Data.Repositories;
 using Goal.Samples.Infra.Crosscutting;
@@ -26,7 +27,7 @@ public static class ServiceColletionExtensionMethods
 
         services.AddSampleDbContext(connectionString);
         services.AddScoped<IDddUnitOfWork, DddUnitOfWork>();
-        services.RegisterAllTypesOf<IRepository>(typeof(PersonRepository).Assembly);
+        services.RegisterAllTypesOf<IRepository>(typeof(PeopleRepository).Assembly);
 
         return services;
     }

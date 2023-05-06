@@ -10,6 +10,8 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Goal.Samples.DDD.Application\Goal.Samples.DDD.Application.csproj" />
+		<ProjectReference Include="..\Goal.Samples.DDD.Domain\Goal.Samples.DDD.Domain.csproj" />
+		<ProjectReference Include="..\Goal.Samples.DDD.Infra.Data\Goal.Samples.DDD.Infra.Data.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

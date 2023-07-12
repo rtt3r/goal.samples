@@ -47,7 +47,11 @@ public class PersonAppService : AppService, IPersonAppService
 
         if (!validationResult.IsValid)
         {
-            throw new BusinessException(validationResult.Errors.First().ToString());
+            IEnumerable<string> propertyErrors = validationResult.Errors
+                .GroupBy(p => p.PropertyName)
+                .Select(g => $"{g.Key}: {string.Join(", ", g.Select(e => e.ErrorMessage))}");
+
+            throw new BusinessException(string.Join("; ", propertyErrors.ToArray()));
         }
 
         if (await uow.People.AnyAsync(PersonSpecifications.MatchCpf(request.Cpf)))

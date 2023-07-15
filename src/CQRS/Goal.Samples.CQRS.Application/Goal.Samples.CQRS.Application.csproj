@@ -9,8 +9,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Goal.Seedwork.Application" Version="0.3.13" />
-		<PackageReference Include="MassTransit" Version="8.0.14" />
+		<PackageReference Include="Goal.Seedwork.Application" Version="0.3.14" />
+		<PackageReference Include="MassTransit" Version="8.0.16" />
 		<PackageReference Include="AutoMapper" Version="12.0.1" />
 	</ItemGroup>
 

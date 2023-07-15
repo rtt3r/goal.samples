@@ -5,7 +5,7 @@ name: goalsamples
 services:
   ravendb:
     image: ravendb/ravendb:4.2-ubuntu-latest
-    container_name: ritter.co-goal-ravendb
+    container_name: ravendb.goal.ritter.co
     ports:
       - 8080:8080
       - 38888:38888
@@ -19,8 +19,8 @@ services:
 
   rabbitmq:
     hostname: 'mabbit'
-    image: rabbitmq:3-management-alpine
-    container_name: ritter.co-goal-rabbitmq
+    image: rabbitmq:latest
+    container_name: rabbitmq.goal.ritter.co
     ports:
       - 5672:5672
       - 15672:15672
@@ -30,7 +30,7 @@ services:
 
   seq:
     image: datalust/seq:latest
-    container_name: ritter.co-goal-seq
+    container_name: seq.goal.ritter.co
     ports:
       - 81:80
       - 5341:5341
@@ -42,18 +42,23 @@ services:
 
   mssql:
     image: "mcr.microsoft.com/mssql/server:2019-CU14-ubuntu-20.04"
-    container_name: ritter.co-goal-mssql
+    container_name: mssql.goal.ritter.co
+    hostname: mssql.ritter.co
+    user: root
     ports:
       - "1433:1433"
     environment:
       - ACCEPT_EULA=Y
       - MSSQL_SA_PASSWORD=BeycL18545#f
     volumes:
-      - mssql-data:/var/opt/mssql
+      - ${APPDATA}\mssql\data:/var/opt/mssql/data
+      - ./mssql/mssql.conf:/var/opt/mssql/mssql.conf
+      - ./mssql/mssql.pem:/etc/ssl/certs/mssql.pem
+      - ./mssql/mssql.key:/etc/ssl/private/mssql.key
 
   keycloak:
-    image: "quay.io/keycloak/keycloak:21.0.2"
-    container_name: ritter.co-goal-keycloak
+    image: "quay.io/keycloak/keycloak:latest"
+    container_name: keycloak.goal.ritter.co
     ports:
       - "8081:8080"
     command: start-dev
@@ -63,49 +68,54 @@ services:
       - KC_DB=mssql
       - KC_DB_USERNAME=keycloak
       - KC_DB_PASSWORD=lol!Iusepasswords
-      - KC_DB_URL_HOST=mssql
+      - KC_DB_URL_HOST=mssql.ritter.co
       - KC_DB_URL_PORT=1433
-      - KC_DB_URL_PROPERTIES=encrypt=true;trsutServerCertificate=true;
+      - KC_DB_URL_PROPERTIES=encrypt=true;
       - KC_DB_URL_DATABASE=keycloak-dev
     volumes:
-      - keycloak-data:/opt/keycloak/data/
+      - ${APPDATA}\keycloak\data:/opt/keycloak/data/
+      - ./mssql/mssql.der:/opt/keycloak/mssql.der
 
   cqrs-api:
     image: ${REGISTRY:-ritter.co}/goal/cqrs-api:${PLATFORM:-linux}-${TAG:-latest}
-    container_name: ritter.co-goal-cqrs-api
+    container_name: cqrs-api.goal.ritter.co
     restart: always
     build:
       context: .
       dockerfile: src/CQRS/Goal.Samples.CQRS.Api/Dockerfile
     ports:
-        - "8002:80"
-        - "4432:443"
+      - "8002:80"
+      - "4432:443"
 
   cqrs-worker:
     image: ${REGISTRY:-ritter.co}/goal/cqrs-worker:${PLATFORM:-linux}-${TAG:-latest}
-    container_name: ritter.co-goal-cqrs-worker
+    container_name: cqrs-worker.goal.ritter.co
     restart: always
     build:
       context: .
       dockerfile: src/CQRS/Goal.Samples.CQRS.Worker/Dockerfile
     ports:
-        - "8003:80"
-        - "4433:443"
+      - "8003:80"
+      - "4433:443"
 
   ddd-api:
     image: ${REGISTRY:-ritter.co}/goal/ddd-api:${PLATFORM:-linux}-${TAG:-latest}
-    container_name: ritter.co-goal-ddd-api
+    container_name: ddd-api.goal.ritter.co
     restart: always
     build:
       context: .
       dockerfile: src/DDD/Goal.Samples.DDD.Api/Dockerfile
     ports:
-        - "8004:80"
-        - "4434:443"
+      - "8004:80"
+      - "4434:443"
 
 volumes:
   mssql-data:
-    name: ritter.co-goal-mssql-vol
+    name: ritter.co-goal-mssql-data-vol
+  mssql-log:
+    name: ritter.co-goal-mssql-log-vol
+  mssql-backup:
+    name: ritter.co-goal-mssql-backup-vol
   ravendb-config:
     name: ritter.co-goal-ravendb-config-vol
   ravendb-data:

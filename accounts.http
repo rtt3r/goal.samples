@@ -25,37 +25,3 @@ Authorization: Basic b3JxdWVzdHJhZG9yLWNoYW1hZG9zLmNsaWVudDpFRUZDRTc0Qy0zMjk1LTR
 
 grant_type=refresh_token
 &refresh_token={{refresh_token}}
-
-###
-
-# @name get_chamados
-GET https://localhost:58724/api/chamados
-Content-Type: application/json
-# Authorization: {{access_token}}
-
-###
-
-POST https://localhost:58724/api/chamados
-Content-Type: application/json
-Authorization: {{access_token}}
-
-{
-  "tituloChamado": "string",
-  "detalheChamado": "string",
-  "numeroSerieTerminal": "string",
-  "unidadeNegocio": 0,
-  "tipoSolicitacao": 0,
-  "motivoId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-  "indisponibilidadeEquipamento": true,
-  "alternativaUso": true,
-  "obrigacaoFiscal": true,
-  "faturamentoParado": true,
-  "cliente": {
-    "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-    "numeroDocumento": "string",
-    "identificacao": "string",
-    "contatoTelefonico": "string",
-    "email": "string",
-    "contato": "string"
-  }
-}

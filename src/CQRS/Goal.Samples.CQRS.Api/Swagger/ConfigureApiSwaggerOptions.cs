@@ -1,4 +1,6 @@
+using Goal.Samples.CQRS.Api.Options;
 using Goal.Samples.Infra.Http.Swagger;
+using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -9,7 +11,8 @@ public class ConfigureApiSwaggerOptions : ConfigureSwaggerOptions
 {
     protected readonly IConfiguration configuration;
 
-    public ConfigureApiSwaggerOptions(IConfiguration configuration)
+    public ConfigureApiSwaggerOptions(
+        IConfiguration configuration)
         : base()
     {
         this.configuration = configuration;
@@ -18,6 +21,10 @@ public class ConfigureApiSwaggerOptions : ConfigureSwaggerOptions
     public override void Configure(SwaggerGenOptions options)
     {
         base.Configure(options);
+
+        KeycloakOptions keycloakOptions = configuration
+            .GetSection(KeycloakOptions.Section)
+            .Get<KeycloakOptions>();
 
         options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
         {
@@ -29,10 +36,9 @@ public class ConfigureApiSwaggerOptions : ConfigureSwaggerOptions
             {
                 Password = new OpenApiOAuthFlow
                 {
-                    TokenUrl = new Uri($"{configuration["Auth:Authority"]}/connect/token"),
-                    AuthorizationUrl = new Uri($"{configuration["Auth:Authority"]}/connect/authorize"),
+                    TokenUrl = new Uri($"{keycloakOptions.AuthenticationOptions.KeycloakUrlRealm}/protocol/openid-connect/token"),
                     Scopes = new Dictionary<string, string>(
-                        configuration["Auth:Scopes"]
+                        configuration["Keycloak:Scopes"]
                             .Split(' ')
                             .Select(s => new KeyValuePair<string, string>(s, string.Empty)))
                 }

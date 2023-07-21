@@ -1,2 +1,0 @@
-openssl req -x509 -nodes -newkey rsa:2048 -subj '//CN=mssql.ritter.co' -keyout ./mssql/mssql.key -out ./mssql/mssql.pem -days 365
-openssl x509 -in mssql/mssql.pem -out mssql/mssql.der -outform DER

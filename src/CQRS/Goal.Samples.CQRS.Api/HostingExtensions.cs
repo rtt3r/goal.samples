@@ -1,5 +1,6 @@
 using System.Globalization;
 using System.Text.Json.Serialization;
+using Goal.Samples.CQRS.Api.Options;
 using Goal.Samples.CQRS.Api.Swagger;
 using Goal.Samples.CQRS.Infra.IoC.Extensions;
 using Goal.Samples.Infra.Crosscutting.Extensions;
@@ -7,13 +8,15 @@ using Goal.Samples.Infra.Http.Filters;
 using Goal.Samples.Infra.Http.JsonNamePolicies;
 using Goal.Samples.Infra.Http.ValueProviders;
 using Goal.Seedwork.Infra.Crosscutting.Localization;
+using Keycloak.AuthServices.Authentication;
+using Keycloak.AuthServices.Authorization;
+using Keycloak.AuthServices.Sdk.Admin;
 using MassTransit;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Logging;
 using Microsoft.OpenApi.Models;
 using Serilog;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -72,35 +75,19 @@ public static class HostingExtensions
                 options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
             });
+
         builder.Services.AddEndpointsApiExplorer();
 
         builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureApiSwaggerOptions>();
         builder.Services.AddSwaggerGen();
 
-        builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
-            {
-                string authority = builder.Configuration["Auth:Authority"] ?? string.Empty;
+        KeycloakOptions keycloakOptions = builder.Configuration
+            .GetSection(KeycloakOptions.Section)
+            .Get<KeycloakOptions>();
 
-                options.Authority = authority;
-                options.RequireHttpsMetadata = authority.StartsWith("https://");
-                options.TokenValidationParameters.ValidateAudience = false;
-            });
-
-        builder.Services.AddAuthorization(options =>
-        {
-            options.AddPolicy("goal.read", policy =>
-            {
-                policy.RequireAuthenticatedUser();
-                policy.RequireClaim("scope", "goal.read", "manage");
-            });
-
-            options.AddPolicy("goal.write", policy =>
-            {
-                policy.RequireAuthenticatedUser();
-                policy.RequireClaim("scope", "goal.write", "manage");
-            });
-        });
+        builder.Services.AddKeycloakAuthentication(keycloakOptions.AuthenticationOptions);
+        builder.Services.AddKeycloakAuthorization(keycloakOptions.ProtectionClientOptions);
+        builder.Services.AddKeycloakAdminHttpClient(keycloakOptions.AdminClientOptions);
 
         builder.Services.AddCors();
 
@@ -127,6 +114,8 @@ public static class HostingExtensions
 
         if (app.Environment.IsDevelopment())
         {
+            IdentityModelEventSource.ShowPII = true;
+
             app.UseDeveloperExceptionPage();
 
             app.UseSwagger(c =>
@@ -150,8 +139,8 @@ public static class HostingExtensions
                         description.GroupName.ToUpperInvariant());
                 }
 
-                c.OAuthClientId(app.Configuration["Auth:ClientId"]);
-                c.OAuthClientSecret(app.Configuration["Auth:ClientSecret"]);
+                c.OAuthClientId(app.Configuration["Keycloak:Resource"]);
+                c.OAuthClientSecret(app.Configuration["Keycloak:Credentials:Secret"]);
                 c.OAuthAppName("Goal Samples Api");
 
                 c.DisplayRequestDuration();
@@ -177,7 +166,7 @@ public static class HostingExtensions
         });
 
         app.UseAuthorization();
-        app.MapControllers().RequireAuthorization();
+        app.MapControllers();
 
         return app;
     }

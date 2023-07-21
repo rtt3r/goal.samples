@@ -7,10 +7,12 @@
       "composeLaunchUrl": "{Scheme}://localhost:{ServicePort}",
       "commandVersion": "1.0",
       "serviceActions": {
-        "ddd-api": "StartDebugging",
-        "cqrs-api": "StartWithoutDebugging",
+        "ddd-api": "StartWithoutDebugging",
+        "cqrs-api": "StartDebugging",
         "cqrs-worker": "StartWithoutDebugging",
         "mssql": "StartWithoutDebugging",
+        "mysql": "StartWithoutDebugging",
+        "keycloak": "StartWithoutDebugging",
         "seq": "StartWithoutDebugging",
         "rabbitmq": "StartWithoutDebugging",
         "ravendb": "StartWithoutDebugging"

@@ -15,6 +15,7 @@ namespace Goal.Samples.CQRS.Api.Controllers.Customers;
 
 [ApiController]
 [ApiVersion("1")]
+[Authorize(Roles = "Administrator")]
 [Route("v{version:apiVersion}/[controller]")]
 public class CustomersController : ApiControllerBase
 {
@@ -30,13 +31,11 @@ public class CustomersController : ApiControllerBase
     }
 
     [HttpGet]
-    [Authorize]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<PagedResponse>> Get([FromQuery] PageSearchRequest request)
         => Paged(await customerQueryRepository.QueryAsync(request.ToPageSearch()));
 
     [HttpGet("{id}", Name = nameof(GetById))]
-    [Authorize]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ApiResponse))]
     public async Task<ActionResult<CustomerModel>> GetById([FromRoute] string id)
@@ -49,7 +48,6 @@ public class CustomersController : ApiControllerBase
     }
 
     [HttpPost]
-    [Authorize]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ApiResponse))]
     [ProducesResponseType(StatusCodes.Status422UnprocessableEntity, Type = typeof(ApiResponse))]
@@ -75,7 +73,6 @@ public class CustomersController : ApiControllerBase
 
     [HttpPatch]
     [Route("{id}")]
-    [Authorize]
     [ProducesResponseType(StatusCodes.Status202Accepted)]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ApiResponse))]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ApiResponse))]
@@ -98,7 +95,6 @@ public class CustomersController : ApiControllerBase
 
     [HttpDelete]
     [Route("{id}")]
-    [Authorize]
     [ProducesResponseType(StatusCodes.Status202Accepted)]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ApiResponse))]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ApiResponse))]

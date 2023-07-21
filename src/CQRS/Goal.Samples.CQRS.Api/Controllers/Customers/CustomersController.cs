@@ -43,7 +43,9 @@ public class CustomersController : ApiControllerBase
     {
         CustomerModel customer = await customerQueryRepository.LoadAsync(id);
 
-        return customer is null ? (ActionResult<CustomerModel>)NotFound() : (ActionResult<CustomerModel>)Ok(customer);
+        return customer is null
+            ? NotFound()
+            : Ok(customer);
     }
 
     [HttpPost]
@@ -63,12 +65,12 @@ public class CustomersController : ApiControllerBase
         ICommandResult<CustomerModel> result = await mediator
             .Send<ICommandResult<CustomerModel>>(command);
 
-        return result.IsSucceeded
-            ? (ActionResult<ApiResponse<CustomerModel>>)CreatedAtRoute(
+        return !result.IsSucceeded
+            ? CommandFailure(result)
+            : CreatedAtRoute(
                 nameof(GetById),
                 new { id = result.Data.CustomerId },
-                ApiResponse.FromCommand(result))
-            : (ActionResult<ApiResponse<CustomerModel>>)CommandFailure(result);
+                ApiResponse.FromCommand(result));
     }
 
     [HttpPatch]
@@ -90,11 +92,8 @@ public class CustomersController : ApiControllerBase
         ICommandResult result = await mediator.Send(command);
 
         return result.IsSucceeded
-            ? (ActionResult<ApiResponse<CustomerModel>>)AcceptedAtAction(
-                nameof(GetById),
-                new { id },
-                null)
-            : (ActionResult<ApiResponse<CustomerModel>>)CommandFailure(result);
+            ? AcceptedAtAction(nameof(GetById), new { id }, null)
+            : CommandFailure(result);
     }
 
     [HttpDelete]
@@ -110,6 +109,8 @@ public class CustomersController : ApiControllerBase
     {
         ICommandResult result = await mediator.Send(new RemoveCustomerCommand(id));
 
-        return result.IsSucceeded ? (ActionResult<ApiResponse>)Accepted() : (ActionResult<ApiResponse>)CommandFailure(result);
+        return result.IsSucceeded
+            ? Accepted()
+            : CommandFailure(result);
     }
 }

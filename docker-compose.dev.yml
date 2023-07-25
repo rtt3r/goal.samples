@@ -75,7 +75,7 @@ services:
         - ASPNETCORE_RavenSettings__DatabaseName=Sample
         - ASPNETCORE_RavenSettings__CertFilePath=
         - ASPNETCORE_RavenSettings__CertPassword=
-        - ASPNETCORE_Cors__Origins=https://localhost:4433;http://localhost:8002;http://localhost:4200
+        - ASPNETCORE_Cors__Origins=https://localhost:4433;http://localhost:8003;http://localhost:4200
         - ASPNETCORE_Kestrel__Certificates__Default__Password=fd7ccf84-1ff8-4817-9ecd-f0a2047ea262
         - ASPNETCORE_Kestrel__Certificates__Default__Path=/root/.aspnet/https/Development.pfx
     volumes:
@@ -100,7 +100,15 @@ services:
         - ASPNETCORE_ConnectionStrings__Seq=http://seq:5341
         - ASPNETCORE_URLS=https://+;http://+
         - ASPNETCORE_HTTPS_PORT=4434
-        - ASPNETCORE_Cors__Origins=https://localhost:4434;http://localhost:8002;http://localhost:4200
+        - ASPNETCORE_Keycloak__Realm=goal
+        - ASPNETCORE_Keycloak__AuthServerUrl=http://192.168.0.151:8081
+        - ASPNETCORE_Keycloak__SslRequired=none
+        - ASPNETCORE_Keycloak__Resource=ddd.api
+        - ASPNETCORE_Keycloak__VerifyTokenAudience=true
+        - ASPNETCORE_Keycloak__Scopes=email profile ddd-client.scope
+        - ASPNETCORE_Keycloak__Credentials__Secret=sWMyiURPSVngLlBhlw3L3pnunsAf2jwZ
+        - ASPNETCORE_Keycloak__ConfidentialPort=0
+        - ASPNETCORE_Cors__Origins=https://localhost:4434;http://localhost:8004;http://localhost:4200
         - ASPNETCORE_Kestrel__Certificates__Default__Password=fd7ccf84-1ff8-4817-9ecd-f0a2047ea262
         - ASPNETCORE_Kestrel__Certificates__Default__Path=/root/.aspnet/https/Development.pfx
     volumes:

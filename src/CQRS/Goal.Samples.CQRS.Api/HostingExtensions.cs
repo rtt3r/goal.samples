@@ -1,9 +1,9 @@
 using System.Globalization;
 using System.Text.Json.Serialization;
-using Goal.Samples.CQRS.Api.Options;
 using Goal.Samples.CQRS.Api.Swagger;
 using Goal.Samples.CQRS.Infra.IoC.Extensions;
 using Goal.Samples.Infra.Crosscutting.Extensions;
+using Goal.Samples.Infra.Crosscutting.Settings;
 using Goal.Samples.Infra.Http.Filters;
 using Goal.Samples.Infra.Http.JsonNamePolicies;
 using Goal.Samples.Infra.Http.ValueProviders;
@@ -81,9 +81,9 @@ public static class HostingExtensions
         builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureApiSwaggerOptions>();
         builder.Services.AddSwaggerGen();
 
-        KeycloakOptions keycloakOptions = builder.Configuration
-            .GetSection(KeycloakOptions.Section)
-            .Get<KeycloakOptions>();
+        KeycloakSettings keycloakOptions = builder.Configuration
+            .GetSection(KeycloakSettings.Section)
+            .Get<KeycloakSettings>();
 
         builder.Services.AddKeycloakAuthentication(keycloakOptions.AuthenticationOptions);
         builder.Services.AddKeycloakAuthorization(keycloakOptions.ProtectionClientOptions);
@@ -115,7 +115,6 @@ public static class HostingExtensions
         if (app.Environment.IsDevelopment())
         {
             IdentityModelEventSource.ShowPII = true;
-
             app.UseDeveloperExceptionPage();
 
             app.UseSwagger(c =>
@@ -135,13 +134,14 @@ public static class HostingExtensions
             {
                 foreach (ApiVersionDescription description in app.Services.GetRequiredService<IApiVersionDescriptionProvider>().ApiVersionDescriptions)
                 {
-                    c.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json",
+                    c.SwaggerEndpoint(
+                        $"/swagger/{description.GroupName}/swagger.json",
                         description.GroupName.ToUpperInvariant());
                 }
 
                 c.OAuthClientId(app.Configuration["Keycloak:Resource"]);
                 c.OAuthClientSecret(app.Configuration["Keycloak:Credentials:Secret"]);
-                c.OAuthAppName("Goal Samples Api");
+                c.OAuthAppName("Goal CQRS Api");
 
                 c.DisplayRequestDuration();
                 c.RoutePrefix = string.Empty;

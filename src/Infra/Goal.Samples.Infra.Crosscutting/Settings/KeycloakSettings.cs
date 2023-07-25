@@ -3,9 +3,9 @@ using Keycloak.AuthServices.Authorization;
 using Keycloak.AuthServices.Common;
 using Keycloak.AuthServices.Sdk.Admin;
 
-namespace Goal.Samples.CQRS.Api.Options;
+namespace Goal.Samples.Infra.Crosscutting.Settings;
 
-public class KeycloakOptions
+public class KeycloakSettings
 {
     public const string Section = ConfigurationConstants.ConfigurationPrefix;
 

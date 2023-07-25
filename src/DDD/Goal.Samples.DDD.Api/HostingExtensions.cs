@@ -3,14 +3,19 @@ using System.Text.Json.Serialization;
 using Goal.Samples.DDD.Api.Swagger;
 using Goal.Samples.DDD.Infra.IoC;
 using Goal.Samples.Infra.Crosscutting.Extensions;
+using Goal.Samples.Infra.Crosscutting.Settings;
 using Goal.Samples.Infra.Http.Filters;
 using Goal.Samples.Infra.Http.JsonNamePolicies;
 using Goal.Samples.Infra.Http.ValueProviders;
 using Goal.Seedwork.Infra.Crosscutting.Localization;
+using Keycloak.AuthServices.Authentication;
+using Keycloak.AuthServices.Authorization;
+using Keycloak.AuthServices.Sdk.Admin;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Logging;
 using Microsoft.OpenApi.Models;
 using Serilog;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -54,10 +59,19 @@ public static class HostingExtensions
                 options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
             });
+
         builder.Services.AddEndpointsApiExplorer();
 
         builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureApiSwaggerOptions>();
         builder.Services.AddSwaggerGen();
+
+        KeycloakSettings keycloakOptions = builder.Configuration
+            .GetSection(KeycloakSettings.Section)
+            .Get<KeycloakSettings>();
+
+        builder.Services.AddKeycloakAuthentication(keycloakOptions.AuthenticationOptions);
+        builder.Services.AddKeycloakAuthorization(keycloakOptions.ProtectionClientOptions);
+        builder.Services.AddKeycloakAdminHttpClient(keycloakOptions.AdminClientOptions);
 
         builder.Services.AddCors();
 
@@ -84,6 +98,7 @@ public static class HostingExtensions
 
         if (app.Environment.IsDevelopment())
         {
+            IdentityModelEventSource.ShowPII = true;
             app.UseDeveloperExceptionPage();
 
             app.UseSwagger(c =>
@@ -103,9 +118,14 @@ public static class HostingExtensions
             {
                 foreach (ApiVersionDescription description in app.Services.GetRequiredService<IApiVersionDescriptionProvider>().ApiVersionDescriptions)
                 {
-                    c.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json",
+                    c.SwaggerEndpoint(
+                        $"/swagger/{description.GroupName}/swagger.json",
                         description.GroupName.ToUpperInvariant());
                 }
+
+                c.OAuthClientId(app.Configuration["Keycloak:Resource"]);
+                c.OAuthClientSecret(app.Configuration["Keycloak:Credentials:Secret"]);
+                c.OAuthAppName("Goal DDD Api");
 
                 c.DisplayRequestDuration();
                 c.RoutePrefix = string.Empty;
@@ -115,6 +135,8 @@ public static class HostingExtensions
         app.UseHttpsRedirection();
         app.UseStaticFiles();
         app.UseRouting();
+
+        app.UseAuthentication();
 
         app.UseCors(builder =>
         {
@@ -127,6 +149,7 @@ public static class HostingExtensions
                 .AllowCredentials();
         });
 
+        app.UseAuthorization();
         app.MapControllers();
 
         return app;

@@ -19,15 +19,13 @@ public static class ServiceColletionExtensionMethods
 {
     public static IServiceCollection ConfigureApiServices(this IServiceCollection services, IConfiguration configuration, IWebHostEnvironment environment)
     {
-        string connectionString = configuration.GetConnectionString("DefaultConnection");
-
         services.AddHttpContextAccessor();
         services.AddScoped(provider => provider.GetService<IHttpContextAccessor>()?.HttpContext?.User);
         services.AddScoped<AppState>();
 
         services.AddAutoMapperTypeAdapter();
 
-        services.AddSampleDbContext(connectionString);
+        services.AddSampleDbContext(configuration);
         services.AddScoped<IDddUnitOfWork, DddUnitOfWork>();
         services.RegisterAllTypesOf<IRepository>(typeof(PeopleRepository).Assembly);
         services.RegisterAllTypesOf<IAppService>(typeof(PersonAppService).Assembly);
@@ -43,20 +41,33 @@ public static class ServiceColletionExtensionMethods
         return services;
     }
 
-    private static IServiceCollection AddSampleDbContext(this IServiceCollection services, string connectionString)
+    private static IServiceCollection AddSampleDbContext(this IServiceCollection services, IConfiguration configuration)
     {
+        string connectionString = configuration.GetConnectionString("DefaultConnection");
+        string dbProvider = configuration.GetValue("DbProvider", "SqlServer");
+        string migrationsAssembly = typeof(DddDbContext).Assembly.GetName().Name;
+
         services
             .AddDbContext<DddDbContext>((provider, options) =>
             {
-                options
-                    .UseSqlServer(
+                DbContextOptionsBuilder builder = dbProvider switch
+                {
+                    "MySQL" => options.UseMySQL(
                         connectionString,
-                        opts =>
-                        {
-                            opts.MigrationsAssembly(typeof(DddDbContext).Assembly.GetName().Name);
-                            opts.EnableRetryOnFailure();
-                        })
-                    .EnableSensitiveDataLogging();
+                        x => x.MigrationsAssembly(migrationsAssembly)),
+
+                    "SqlServer" => options.UseSqlServer(
+                        connectionString,
+                        x => x.MigrationsAssembly(migrationsAssembly)),
+
+                    "Npgsql" => options.UseNpgsql(
+                        connectionString,
+                        x => x.MigrationsAssembly(migrationsAssembly)),
+
+                    _ => throw new Exception($"Unsupported provider: {dbProvider}")
+                };
+
+                builder.EnableSensitiveDataLogging();
             });
 
         return services;

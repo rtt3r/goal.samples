@@ -21,8 +21,6 @@ public static class ServiceColletionExtensionMethods
 {
     public static IServiceCollection ConfigureApiServices(this IServiceCollection services, IConfiguration configuration, IWebHostEnvironment environment)
     {
-        string connectionString = configuration.GetConnectionString("DefaultConnection");
-
         services.AddHttpContextAccessor();
         services.AddScoped(provider => provider.GetService<IHttpContextAccessor>()?.HttpContext?.User);
         services.AddScoped<AppState>();
@@ -33,7 +31,7 @@ public static class ServiceColletionExtensionMethods
         services.AddDefaultNotificationHandler();
         services.AddRavenDb(configuration);
 
-        services.AddSampleDbContext(connectionString);
+        services.AddSampleDbContext(configuration);
         services.AddScoped<ICqrsUnitOfWork, CqrsUnitOfWork>();
         services.RegisterAllTypesOf<IRepository>(typeof(CustomerRepository).Assembly);
         services.RegisterAllTypesOf<IQueryRepository>(typeof(CustomerQueryRepository).Assembly);
@@ -43,8 +41,6 @@ public static class ServiceColletionExtensionMethods
 
     public static IServiceCollection ConfigureWorkerServices(this IServiceCollection services, IConfiguration configuration, IWebHostEnvironment environment)
     {
-        string connectionString = configuration.GetConnectionString("DefaultConnection");
-
         services.AddHttpContextAccessor();
         services.AddScoped(provider => provider.GetService<IHttpContextAccessor>()?.HttpContext?.User);
         services.AddScoped<AppState>();
@@ -54,7 +50,7 @@ public static class ServiceColletionExtensionMethods
         services.AddDefaultNotificationHandler();
         services.AddRavenDb(configuration);
 
-        services.AddEventSourcingDbContext(connectionString);
+        services.AddEventSourcingDbContext(configuration);
         services.AddScoped<IEventStore, SqlEventStore>();
 
         services.RegisterAllTypesOf<IQueryRepository>(typeof(CustomerQueryRepository).Assembly);
@@ -70,36 +66,65 @@ public static class ServiceColletionExtensionMethods
         return services;
     }
 
-    private static IServiceCollection AddSampleDbContext(this IServiceCollection services, string connectionString)
+    private static IServiceCollection AddSampleDbContext(this IServiceCollection services, IConfiguration configuration)
     {
+        string connectionString = configuration.GetConnectionString("DefaultConnection");
+        string dbProvider = configuration.GetValue("DbProvider", "SqlServer");
+        string migrationsAssembly = typeof(CqrsDbContext).Assembly.GetName().Name;
+
         services
             .AddDbContext<CqrsDbContext>((provider, options) =>
             {
-                options
-                    .UseSqlServer(
+                DbContextOptionsBuilder builder = dbProvider switch
+                {
+                    "MySQL" => options.UseMySQL(
                         connectionString,
-                        opts =>
-                        {
-                            opts.MigrationsAssembly(typeof(CqrsDbContext).Assembly.GetName().Name);
-                            opts.EnableRetryOnFailure();
-                        })
-                    .EnableSensitiveDataLogging()
-                    ;
+                        x => x.MigrationsAssembly(migrationsAssembly)),
+
+                    "SqlServer" => options.UseSqlServer(
+                        connectionString,
+                        x => x.MigrationsAssembly(migrationsAssembly)),
+
+                    "Npgsql" => options.UseNpgsql(
+                        connectionString,
+                        x => x.MigrationsAssembly(migrationsAssembly)),
+
+                    _ => throw new Exception($"Unsupported provider: {dbProvider}")
+                };
+
+                builder.EnableSensitiveDataLogging();
             });
 
         return services;
     }
 
-    private static IServiceCollection AddEventSourcingDbContext(this IServiceCollection services, string connectionString)
+    private static IServiceCollection AddEventSourcingDbContext(this IServiceCollection services, IConfiguration configuration)
     {
+        string connectionString = configuration.GetConnectionString("DefaultConnection");
+        string dbProvider = configuration.GetValue("DbProvider", "SqlServer");
+        string migrationsAssembly = typeof(EventSourcingDbContext).Assembly.GetName().Name;
+
         services
             .AddDbContext<EventSourcingDbContext>((provider, options) =>
             {
-                options
-                    .UseSqlServer(
+                DbContextOptionsBuilder builder = dbProvider switch
+                {
+                    "MySQL" => options.UseMySQL(
                         connectionString,
-                        opts => opts.MigrationsAssembly(typeof(EventSourcingDbContext).Assembly.GetName().Name))
-                    .EnableSensitiveDataLogging();
+                        x => x.MigrationsAssembly(migrationsAssembly)),
+
+                    "SqlServer" => options.UseSqlServer(
+                        connectionString,
+                        x => x.MigrationsAssembly(migrationsAssembly)),
+
+                    "Npgsql" => options.UseNpgsql(
+                        connectionString,
+                        x => x.MigrationsAssembly(migrationsAssembly)),
+
+                    _ => throw new Exception($"Unsupported provider: {dbProvider}")
+                };
+
+                builder.EnableSensitiveDataLogging();
             });
 
         return services;

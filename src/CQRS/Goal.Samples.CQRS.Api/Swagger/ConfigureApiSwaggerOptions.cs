@@ -1,6 +1,5 @@
-using Goal.Samples.CQRS.Api.Options;
+using Goal.Samples.Infra.Crosscutting.Settings;
 using Goal.Samples.Infra.Http.Swagger;
-using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -22,9 +21,9 @@ public class ConfigureApiSwaggerOptions : ConfigureSwaggerOptions
     {
         base.Configure(options);
 
-        KeycloakOptions keycloakOptions = configuration
-            .GetSection(KeycloakOptions.Section)
-            .Get<KeycloakOptions>();
+        KeycloakSettings keycloakOptions = configuration
+            .GetSection(KeycloakSettings.Section)
+            .Get<KeycloakSettings>();
 
         options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
         {

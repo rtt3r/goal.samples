@@ -1,11 +1,13 @@
 using Goal.Samples.DDD.Application.DTO.People.Requests;
 using Goal.Samples.DDD.Application.DTO.People.Responses;
 using Goal.Samples.DDD.Application.People;
+using Goal.Samples.Infra.Crosscutting;
 using Goal.Samples.Infra.Crosscutting.Exceptions;
 using Goal.Seedwork.Infra.Http.Controllers;
 using Goal.Seedwork.Infra.Http.Controllers.Requests;
 using Goal.Seedwork.Infra.Http.Controllers.Results;
 using Goal.Seedwork.Infra.Http.Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Goal.Samples.DDD.Api.Controllers;
@@ -15,14 +17,19 @@ namespace Goal.Samples.DDD.Api.Controllers;
 /// </summary>
 [ApiController]
 [ApiVersion("1")]
+[Authorize]
 [Route("v{version:apiVersion}/[controller]")]
 public class PeopleController : ApiController
 {
     private readonly IPersonAppService personAppService;
+    private readonly AppState appState;
 
-    public PeopleController(IPersonAppService personAppService)
+    public PeopleController(
+        IPersonAppService personAppService,
+        AppState appState)
     {
         this.personAppService = personAppService;
+        this.appState = appState;
     }
 
     [HttpGet]

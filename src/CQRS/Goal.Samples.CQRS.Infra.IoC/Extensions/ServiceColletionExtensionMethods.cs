@@ -79,15 +79,15 @@ public static class ServiceColletionExtensionMethods
                 {
                     "MySQL" => options.UseMySQL(
                         connectionString,
-                        x => x.MigrationsAssembly(migrationsAssembly)),
+                        x => x.MigrationsAssembly($"{migrationsAssembly}.MySQL")),
 
                     "SqlServer" => options.UseSqlServer(
                         connectionString,
-                        x => x.MigrationsAssembly(migrationsAssembly)),
+                        x => x.MigrationsAssembly($"{migrationsAssembly}.SqlServer")),
 
                     "Npgsql" => options.UseNpgsql(
                         connectionString,
-                        x => x.MigrationsAssembly(migrationsAssembly)),
+                        x => x.MigrationsAssembly($"{migrationsAssembly}.Npgsql")),
 
                     _ => throw new Exception($"Unsupported provider: {dbProvider}")
                 };
@@ -111,15 +111,15 @@ public static class ServiceColletionExtensionMethods
                 {
                     "MySQL" => options.UseMySQL(
                         connectionString,
-                        x => x.MigrationsAssembly(migrationsAssembly)),
+                        x => x.MigrationsAssembly($"{migrationsAssembly}.MySQL")),
 
                     "SqlServer" => options.UseSqlServer(
                         connectionString,
-                        x => x.MigrationsAssembly(migrationsAssembly)),
+                        x => x.MigrationsAssembly($"{migrationsAssembly}.SqlServer")),
 
                     "Npgsql" => options.UseNpgsql(
                         connectionString,
-                        x => x.MigrationsAssembly(migrationsAssembly)),
+                        x => x.MigrationsAssembly($"{migrationsAssembly}.Npgsql")),
 
                     _ => throw new Exception($"Unsupported provider: {dbProvider}")
                 };

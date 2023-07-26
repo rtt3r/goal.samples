@@ -1,8 +1,11 @@
 using Goal.Samples.CQRS.Application.TypeAdapters;
 using Goal.Samples.CQRS.Infra.Data;
 using Goal.Samples.CQRS.Infra.Data.EventSourcing;
+using Goal.Samples.CQRS.Infra.Data.MySQL;
+using Goal.Samples.CQRS.Infra.Data.Npgsql;
 using Goal.Samples.CQRS.Infra.Data.Query.Repositories.Customers;
 using Goal.Samples.CQRS.Infra.Data.Repositories;
+using Goal.Samples.CQRS.Infra.Data.SqlServer;
 using Goal.Samples.Infra.Crosscutting;
 using Goal.Seedwork.Domain.Aggregates;
 using Goal.Seedwork.Domain.Events;
@@ -68,64 +71,80 @@ public static class ServiceColletionExtensionMethods
 
     private static IServiceCollection AddSampleDbContext(this IServiceCollection services, IConfiguration configuration)
     {
-        string connectionString = configuration.GetConnectionString("DefaultConnection");
         string dbProvider = configuration.GetValue("DbProvider", "SqlServer");
-        string migrationsAssembly = typeof(CqrsDbContext).Assembly.GetName().Name;
+        string connectionString = configuration.GetConnectionString("DefaultConnection");
 
-        services
-            .AddDbContext<CqrsDbContext>((provider, options) =>
+        if (dbProvider == "SqlServer")
+        {
+            services.AddDbContext<SqlServerCqrsDbContext>((provider, options) =>
             {
-                DbContextOptionsBuilder builder = dbProvider switch
-                {
-                    "MySQL" => options.UseMySQL(
-                        connectionString,
-                        x => x.MigrationsAssembly($"{migrationsAssembly}.MySQL")),
-
-                    "SqlServer" => options.UseSqlServer(
-                        connectionString,
-                        x => x.MigrationsAssembly($"{migrationsAssembly}.SqlServer")),
-
-                    "Npgsql" => options.UseNpgsql(
-                        connectionString,
-                        x => x.MigrationsAssembly($"{migrationsAssembly}.Npgsql")),
-
-                    _ => throw new Exception($"Unsupported provider: {dbProvider}")
-                };
-
-                builder.EnableSensitiveDataLogging();
+                options
+                    .UseSqlServer(connectionString, x => x.MigrationsAssembly(typeof(SqlServerCqrsDbContext).Assembly.GetName().Name))
+                    .EnableSensitiveDataLogging();
             });
+        }
+        else if (dbProvider == "MySQL")
+        {
+            services.AddDbContext<MySQLCqrsDbContext>((provider, options) =>
+            {
+                options
+                    .UseMySQL(connectionString, x => x.MigrationsAssembly(typeof(MySQLCqrsDbContext).Assembly.GetName().Name))
+                    .EnableSensitiveDataLogging();
+            });
+        }
+        else if (dbProvider == "Npgsql")
+        {
+            services.AddDbContext<NpgsqlCqrsDbContext>((provider, options) =>
+            {
+                options
+                    .UseNpgsql(connectionString, x => x.MigrationsAssembly(typeof(NpgsqlCqrsDbContext).Assembly.GetName().Name))
+                    .EnableSensitiveDataLogging();
+            });
+        }
+        else
+        {
+            throw new Exception($"Unsupported provider: {dbProvider}");
+        }
 
         return services;
     }
 
     private static IServiceCollection AddEventSourcingDbContext(this IServiceCollection services, IConfiguration configuration)
     {
-        string connectionString = configuration.GetConnectionString("DefaultConnection");
         string dbProvider = configuration.GetValue("DbProvider", "SqlServer");
-        string migrationsAssembly = typeof(EventSourcingDbContext).Assembly.GetName().Name;
+        string connectionString = configuration.GetConnectionString("DefaultConnection");
 
-        services
-            .AddDbContext<EventSourcingDbContext>((provider, options) =>
+        if (dbProvider == "SqlServer")
+        {
+            services.AddDbContext<SqlServerEventSourcingDbContext>((provider, options) =>
             {
-                DbContextOptionsBuilder builder = dbProvider switch
-                {
-                    "MySQL" => options.UseMySQL(
-                        connectionString,
-                        x => x.MigrationsAssembly($"{migrationsAssembly}.MySQL")),
-
-                    "SqlServer" => options.UseSqlServer(
-                        connectionString,
-                        x => x.MigrationsAssembly($"{migrationsAssembly}.SqlServer")),
-
-                    "Npgsql" => options.UseNpgsql(
-                        connectionString,
-                        x => x.MigrationsAssembly($"{migrationsAssembly}.Npgsql")),
-
-                    _ => throw new Exception($"Unsupported provider: {dbProvider}")
-                };
-
-                builder.EnableSensitiveDataLogging();
+                options
+                    .UseSqlServer(connectionString, x => x.MigrationsAssembly(typeof(SqlServerEventSourcingDbContext).Assembly.GetName().Name))
+                    .EnableSensitiveDataLogging();
             });
+        }
+        else if (dbProvider == "MySQL")
+        {
+            services.AddDbContext<MySQLEventSourcingDbContext>((provider, options) =>
+            {
+                options
+                    .UseMySQL(connectionString, x => x.MigrationsAssembly(typeof(MySQLEventSourcingDbContext).Assembly.GetName().Name))
+                    .EnableSensitiveDataLogging();
+            });
+        }
+        else if (dbProvider == "Npgsql")
+        {
+            services.AddDbContext<NpgsqlEventSourcingDbContext>((provider, options) =>
+            {
+                options
+                    .UseNpgsql(connectionString, x => x.MigrationsAssembly(typeof(NpgsqlEventSourcingDbContext).Assembly.GetName().Name))
+                    .EnableSensitiveDataLogging();
+            });
+        }
+        else
+        {
+            throw new Exception($"Unsupported provider: {dbProvider}");
+        }
 
         return services;
     }

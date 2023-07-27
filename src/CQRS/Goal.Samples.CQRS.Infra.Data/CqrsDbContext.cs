@@ -6,7 +6,7 @@ namespace Goal.Samples.CQRS.Infra.Data;
 
 public abstract class CqrsDbContext : DbContext
 {
-    // public DbSet<Customer> Customers { get; set; }
+    public DbSet<Customer> Customers { get; set; }
 
     public CqrsDbContext(DbContextOptions options)
         : base(options)
@@ -15,6 +15,6 @@ public abstract class CqrsDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        // modelBuilder.ApplyConfiguration(new CustomerConfiguration());
+        modelBuilder.ApplyConfiguration(new CustomerConfiguration());
     }
 }

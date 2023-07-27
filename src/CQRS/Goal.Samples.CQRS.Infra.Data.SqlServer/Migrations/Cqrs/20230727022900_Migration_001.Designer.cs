@@ -4,6 +4,7 @@ using Goal.Samples.CQRS.Infra.Data.SqlServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Goal.Samples.CQRS.Infra.Data.SqlServer.Migrations.Cqrs
 {
     [DbContext(typeof(SqlServerCqrsDbContext))]
-    partial class SqlServerCqrsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230727022900_Migration_001")]
+    partial class Migration_001
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

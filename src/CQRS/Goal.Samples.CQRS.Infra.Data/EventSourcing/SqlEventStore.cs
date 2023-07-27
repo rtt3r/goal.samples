@@ -24,7 +24,7 @@ namespace Goal.Samples.CQRS.Infra.Data.EventSourcing
                JsonSerializer.Serialize(@event),
                appState.User.UserId);
 
-            //dbContext.StoredEvents.Add(storedEvent);
+            dbContext.StoredEvents.Add(storedEvent);
             dbContext.SaveChanges();
         }
     }

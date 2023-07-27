@@ -60,9 +60,9 @@ public class CustomerCommandHandler :
             return CommandResult.Failure<CustomerModel>(default, notificationHandler.GetNotifications());
         }
 
-        var customer = new Customer(command.Name, command.Email, command.Birthdate);
+        Customer customer = await uow.Customers.GetByEmail(command.Email);
 
-        if (await uow.Customers.GetByEmail(customer.Email) != null)
+        if (customer != null)
         {
             await notificationHandler.HandleAsync(
                 Notification.DomainViolation(
@@ -73,6 +73,8 @@ public class CustomerCommandHandler :
 
             return CommandResult.Failure<CustomerModel>(default, notificationHandler.GetNotifications());
         }
+
+        customer = new Customer(command.Name, command.Email, command.Birthdate);
 
         await uow.Customers.AddAsync(customer, cancellationToken);
 

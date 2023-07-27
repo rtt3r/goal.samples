@@ -34,7 +34,7 @@ public static class ServiceColletionExtensionMethods
         services.AddDefaultNotificationHandler();
         services.AddRavenDb(configuration);
 
-        services.AddSampleDbContext(configuration);
+        services.AddCqrsDbContext(configuration);
         services.AddScoped<ICqrsUnitOfWork, CqrsUnitOfWork>();
         services.RegisterAllTypesOf<IRepository>(typeof(CustomerRepository).Assembly);
         services.RegisterAllTypesOf<IQueryRepository>(typeof(CustomerQueryRepository).Assembly);
@@ -69,14 +69,14 @@ public static class ServiceColletionExtensionMethods
         return services;
     }
 
-    private static IServiceCollection AddSampleDbContext(this IServiceCollection services, IConfiguration configuration)
+    private static IServiceCollection AddCqrsDbContext(this IServiceCollection services, IConfiguration configuration)
     {
         string dbProvider = configuration.GetValue("DbProvider", "SqlServer");
         string connectionString = configuration.GetConnectionString("DefaultConnection");
 
         if (dbProvider == "SqlServer")
         {
-            services.AddDbContext<SqlServerCqrsDbContext>((provider, options) =>
+            services.AddDbContext<CqrsDbContext, SqlServerCqrsDbContext>((provider, options) =>
             {
                 options
                     .UseSqlServer(connectionString, x => x.MigrationsAssembly(typeof(SqlServerCqrsDbContext).Assembly.GetName().Name))
@@ -85,7 +85,7 @@ public static class ServiceColletionExtensionMethods
         }
         else if (dbProvider == "MySQL")
         {
-            services.AddDbContext<MySQLCqrsDbContext>((provider, options) =>
+            services.AddDbContext<CqrsDbContext, MySQLCqrsDbContext>((provider, options) =>
             {
                 options
                     .UseMySQL(connectionString, x => x.MigrationsAssembly(typeof(MySQLCqrsDbContext).Assembly.GetName().Name))
@@ -94,7 +94,7 @@ public static class ServiceColletionExtensionMethods
         }
         else if (dbProvider == "Npgsql")
         {
-            services.AddDbContext<NpgsqlCqrsDbContext>((provider, options) =>
+            services.AddDbContext<CqrsDbContext, NpgsqlCqrsDbContext>((provider, options) =>
             {
                 options
                     .UseNpgsql(connectionString, x => x.MigrationsAssembly(typeof(NpgsqlCqrsDbContext).Assembly.GetName().Name))
@@ -116,7 +116,7 @@ public static class ServiceColletionExtensionMethods
 
         if (dbProvider == "SqlServer")
         {
-            services.AddDbContext<SqlServerEventSourcingDbContext>((provider, options) =>
+            services.AddDbContext<EventSourcingDbContext, SqlServerEventSourcingDbContext>((provider, options) =>
             {
                 options
                     .UseSqlServer(connectionString, x => x.MigrationsAssembly(typeof(SqlServerEventSourcingDbContext).Assembly.GetName().Name))
@@ -125,7 +125,7 @@ public static class ServiceColletionExtensionMethods
         }
         else if (dbProvider == "MySQL")
         {
-            services.AddDbContext<MySQLEventSourcingDbContext>((provider, options) =>
+            services.AddDbContext<EventSourcingDbContext, MySQLEventSourcingDbContext>((provider, options) =>
             {
                 options
                     .UseMySQL(connectionString, x => x.MigrationsAssembly(typeof(MySQLEventSourcingDbContext).Assembly.GetName().Name))
@@ -134,7 +134,7 @@ public static class ServiceColletionExtensionMethods
         }
         else if (dbProvider == "Npgsql")
         {
-            services.AddDbContext<NpgsqlEventSourcingDbContext>((provider, options) =>
+            services.AddDbContext<EventSourcingDbContext, NpgsqlEventSourcingDbContext>((provider, options) =>
             {
                 options
                     .UseNpgsql(connectionString, x => x.MigrationsAssembly(typeof(NpgsqlEventSourcingDbContext).Assembly.GetName().Name))

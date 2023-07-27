@@ -65,7 +65,6 @@ public static class HostingExtensions
             {
                 options.EnableEndpointRouting = false;
                 options.Filters.Add<HttpExceptionFilter>();
-                options.ValueProviderFactories.Clear();
                 options.ValueProviderFactories.Add(new SnakeCaseQueryValueProviderFactory());
             })
             .AddJsonOptions(options =>

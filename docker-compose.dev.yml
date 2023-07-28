@@ -38,7 +38,7 @@ services:
         - ASPNETCORE_RavenSettings__CertFilePath=
         - ASPNETCORE_RavenSettings__CertPassword=
         - ASPNETCORE_Keycloak__Realm=goal
-        - ASPNETCORE_Keycloak__AuthServerUrl=http://192.168.0.151:8081
+        - ASPNETCORE_Keycloak__AuthServerUrl=http://127.0.0.1:8081
         - ASPNETCORE_Keycloak__SslRequired=none
         - ASPNETCORE_Keycloak__Resource=cqrs.api
         - ASPNETCORE_Keycloak__VerifyTokenAudience=true
@@ -101,7 +101,7 @@ services:
         - ASPNETCORE_URLS=https://+;http://+
         - ASPNETCORE_HTTPS_PORT=4434
         - ASPNETCORE_Keycloak__Realm=goal
-        - ASPNETCORE_Keycloak__AuthServerUrl=http://192.168.0.151:8081
+        - ASPNETCORE_Keycloak__AuthServerUrl=http://127.0.0.1:8081
         - ASPNETCORE_Keycloak__SslRequired=none
         - ASPNETCORE_Keycloak__Resource=ddd.api
         - ASPNETCORE_Keycloak__VerifyTokenAudience=true

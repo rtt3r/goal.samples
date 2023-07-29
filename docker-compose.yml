@@ -56,6 +56,7 @@ services:
   mysql:
     image: "mysql:latest"
     container_name: mysql.goal.ritter.co
+    hostname: mysql.ritter.co
     user: root
     ports:
       - "3306:3306"
@@ -66,12 +67,11 @@ services:
       - MYSQL_ROOT_PASSWORD=BeycL18545#f
     volumes:
       - mysql-vol:/var/lib/mysql
-    networks:
-      - keycloak-network
 
   keycloak:
     image: "quay.io/keycloak/keycloak:latest"
     container_name: keycloak.goal.ritter.co
+    hostname: keycloak.ritter.co
     user: root
     ports:
       - "8081:8080"
@@ -85,8 +85,6 @@ services:
       - KC_DB_URL=jdbc:mysql://mysql:3306/keycloak
     volumes:
       - keycloak-data:/opt/keycloak/data
-    networks:
-      - keycloak-network
 
   cqrs-api:
     image: ${REGISTRY:-ritter.co}/goal/cqrs-api:${PLATFORM:-linux}-${TAG:-latest}
@@ -138,7 +136,3 @@ volumes:
     name: ritter.co-goal-rabbitmq-data-vol
   rabbitmq-mnesia:
     name: ritter.co-goal-rabbitmq-mnesia-vol
-
-networks:
-  keycloak-network:
-    driver: bridge

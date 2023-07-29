@@ -1,4 +1,3 @@
-using Goal.Samples.CQRS.Infra.Data.EventSourcing;
 using Goal.Seedwork.Infra.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

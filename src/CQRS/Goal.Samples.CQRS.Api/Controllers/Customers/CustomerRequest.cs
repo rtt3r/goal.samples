@@ -1,8 +1,7 @@
-namespace Goal.Samples.CQRS.Api.Controllers.Customers
+namespace Goal.Samples.CQRS.Api.Controllers.Customers;
+
+public abstract class CustomerRequest
 {
-    public abstract class CustomerRequest
-    {
-        public string Name { get; set; }
-        public DateTime BirthDate { get; set; }
-    }
+    public string Name { get; set; }
+    public DateTime BirthDate { get; set; }
 }

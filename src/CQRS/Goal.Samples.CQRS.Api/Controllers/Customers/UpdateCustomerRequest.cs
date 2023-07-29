@@ -1,6 +1,5 @@
-namespace Goal.Samples.CQRS.Api.Controllers.Customers
+namespace Goal.Samples.CQRS.Api.Controllers.Customers;
+
+public class UpdateCustomerRequest : CustomerRequest
 {
-    public class UpdateCustomerRequest : CustomerRequest
-    {
-    }
 }

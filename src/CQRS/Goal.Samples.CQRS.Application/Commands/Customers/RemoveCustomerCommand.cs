@@ -1,14 +1,13 @@
 using Goal.Seedwork.Application.Commands;
 
-namespace Goal.Samples.CQRS.Application.Commands.Customers
-{
-    public class RemoveCustomerCommand : CustomerCommand<ICommandResult>
-    {
-        public string CustomerId { get; set; }
+namespace Goal.Samples.CQRS.Application.Commands.Customers;
 
-        public RemoveCustomerCommand(string customerId)
-        {
-            CustomerId = customerId;
-        }
+public class RemoveCustomerCommand : CustomerCommand<ICommandResult>
+{
+    public string CustomerId { get; set; }
+
+    public RemoveCustomerCommand(string customerId)
+    {
+        CustomerId = customerId;
     }
 }

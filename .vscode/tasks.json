@@ -43,7 +43,7 @@
       "type": "process",
       "args": [
         "build",
-        "${workspaceFolder}/src/CQRS/Goal.Samples.CQRS.Api/Goal.Samples.CQRS.Api.csproj",
+        "${workspaceFolder}/src/CQRS/Goal.Samples.CQRS.App/Goal.Samples.CQRS.App.csproj",
         "/property:GenerateFullPaths=true",
         "/consoleloggerparameters:NoSummary"
       ],
@@ -55,7 +55,7 @@
       "type": "process",
       "args": [
         "publish",
-        "${workspaceFolder}/src/CQRS/Goal.Samples.CQRS.Api/Goal.Samples.CQRS.Api.csproj",
+        "${workspaceFolder}/src/CQRS/Goal.Samples.CQRS.App/Goal.Samples.CQRS.App.csproj",
         "/property:GenerateFullPaths=true",
         "/consoleloggerparameters:NoSummary"
       ],
@@ -69,7 +69,7 @@
         "watch",
         "run",
         "--project",
-        "${workspaceFolder}/src/CQRS/Goal.Samples.CQRS.Api/Goal.Samples.CQRS.Api.csproj"
+        "${workspaceFolder}/src/CQRS/Goal.Samples.CQRS.App/Goal.Samples.CQRS.App.csproj"
       ],
       "problemMatcher": "$msCompile"
     }

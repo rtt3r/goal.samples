@@ -1,4 +1,4 @@
-namespace Goal.Samples.CQRS.Api.Controllers.Customers;
+namespace Goal.Samples.CQRS.App.Api.Customers;
 
 public class UpdateCustomerRequest : CustomerRequest
 {

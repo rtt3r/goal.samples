@@ -34,9 +34,9 @@
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build-api",
-      "program": "${workspaceFolder}/src/CQRS/Goal.Samples.CQRS.Api/bin/Debug/net7.0/Goal.Samples.CQRS.Api.dll",
+      "program": "${workspaceFolder}/src/CQRS/Goal.Samples.CQRS.App/bin/Debug/net7.0/Goal.Samples.CQRS.App.dll",
       "args": [],
-      "cwd": "${workspaceFolder}/src/CQRS/Goal.Samples.CQRS.Api",
+      "cwd": "${workspaceFolder}/src/CQRS/Goal.Samples.CQRS.App",
       "stopAtEntry": false,
       "serverReadyAction": {
         "action": "openExternally",

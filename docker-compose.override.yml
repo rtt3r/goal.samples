@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
 
-  cqrs-api:
+  cqrs-app:
     environment:
         - ASPNETCORE_ENVIRONMENT=Development
         - ASPNETCORE_DbProvider=MySQL

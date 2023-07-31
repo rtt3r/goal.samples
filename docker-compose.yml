@@ -86,13 +86,13 @@ services:
     volumes:
       - keycloak-data:/opt/keycloak/data
 
-  cqrs-api:
-    image: ${REGISTRY:-ritter.co}/goal/cqrs-api:${PLATFORM:-linux}-${TAG:-latest}
-    container_name: cqrs-api.goal.ritter.co
+  cqrs-app:
+    image: ${REGISTRY:-ritter.co}/goal/cqrs-app:${PLATFORM:-linux}-${TAG:-latest}
+    container_name: cqrs-app.goal.ritter.co
     restart: always
     build:
       context: .
-      dockerfile: src/CQRS/Goal.Samples.CQRS.Api/Dockerfile
+      dockerfile: src/CQRS/Goal.Samples.CQRS.App/Dockerfile
     ports:
       - "8002:80"
       - "4432:443"

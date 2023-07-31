@@ -8,7 +8,7 @@
       "commandVersion": "1.0",
       "serviceActions": {
         "ddd-api": "StartWithoutDebugging",
-        "cqrs-api": "StartDebugging",
+        "cqrs-app": "StartDebugging",
         "cqrs-worker": "StartWithoutDebugging",
         "mssql": "StartWithoutDebugging",
         "mysql": "StartWithoutDebugging",

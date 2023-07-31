@@ -14,11 +14,11 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<DocumentationFile>bin\Release\net7.0\Goal.Samples.CQRS.Api.xml</DocumentationFile>
+		<DocumentationFile>bin\Release\net7.0\Goal.Samples.CQRS.App.xml</DocumentationFile>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<DocumentationFile>bin\Debug\net7.0\Goal.Samples.CQRS.Api.xml</DocumentationFile>
+		<DocumentationFile>bin\Debug\net7.0\Goal.Samples.CQRS.App.xml</DocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>

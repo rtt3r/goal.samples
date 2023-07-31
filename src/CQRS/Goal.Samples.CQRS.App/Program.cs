@@ -1,4 +1,4 @@
-using Goal.Samples.CQRS.Api;
+using Goal.Samples.CQRS.App;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 

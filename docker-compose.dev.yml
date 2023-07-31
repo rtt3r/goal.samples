@@ -25,7 +25,7 @@ services:
         condition: service_healthy
         restart: true
 
-  cqrs-api:
+  cqrs-app:
     environment:
         - ASPNETCORE_ENVIRONMENT=Development
         - ASPNETCORE_ConnectionStrings__DefaultConnection=Server=mssql;Initial Catalog=goal-cqrs-dev;Persist Security Info=False;User ID=sa;Password=BeycL18545#f;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=True;MultiSubnetFailover=True;Connection Timeout=30;

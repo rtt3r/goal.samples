@@ -38,7 +38,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Goal.Samples.CQRS.Infra.Dat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Goal.Samples.CQRS.Model", "src\CQRS\Goal.Samples.CQRS.Model\Goal.Samples.CQRS.Model.csproj", "{B80C4DCC-5872-438D-BB89-C4F4DB5472E1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Goal.Samples.CQRS.Api", "src\CQRS\Goal.Samples.CQRS.Api\Goal.Samples.CQRS.Api.csproj", "{A32BC576-16A7-4465-A917-0532BC2F29A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Goal.Samples.CQRS.App", "src\CQRS\Goal.Samples.CQRS.App\Goal.Samples.CQRS.App.csproj", "{A32BC576-16A7-4465-A917-0532BC2F29A7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0. Infra", "0. Infra", "{345B6633-BCF1-46EC-BC8C-32F8DC578F27}"
 EndProject

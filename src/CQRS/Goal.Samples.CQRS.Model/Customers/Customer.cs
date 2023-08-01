@@ -1,6 +1,6 @@
 namespace Goal.Samples.CQRS.Model.Customers;
 
-public class CustomerModel
+public class Customer
 {
     public string CustomerId { get; set; }
     public string Name { get; set; }

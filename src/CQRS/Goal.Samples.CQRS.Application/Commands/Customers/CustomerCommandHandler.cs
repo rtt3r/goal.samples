@@ -15,7 +15,7 @@ using MassTransit;
 namespace Goal.Samples.CQRS.Application.Commands.Customers;
 
 public class CustomerCommandHandler :
-    ICommandHandler<RegisterNewCustomerCommand, ICommandResult<CustomerModel>>,
+    ICommandHandler<RegisterNewCustomerCommand, ICommandResult<Model.Customers.Customer>>,
     ICommandHandler<UpdateCustomerCommand, ICommandResult>,
     ICommandHandler<RemoveCustomerCommand, ICommandResult>
 {
@@ -39,7 +39,7 @@ public class CustomerCommandHandler :
         this.appState = appState;
     }
 
-    public async Task<ICommandResult<CustomerModel>> Handle(RegisterNewCustomerCommand command, CancellationToken cancellationToken)
+    public async Task<ICommandResult<Model.Customers.Customer>> Handle(RegisterNewCustomerCommand command, CancellationToken cancellationToken)
     {
         FluentValidation.Results.ValidationResult validationResult = await command.ValidateCommandAsync(
             new RegisterNewCustomerCommandValidator(),
@@ -57,10 +57,10 @@ public class CustomerCommandHandler :
                     cancellationToken);
             }
 
-            return CommandResult.Failure<CustomerModel>(default, notificationHandler.GetNotifications());
+            return CommandResult.Failure<Model.Customers.Customer>(default, notificationHandler.GetNotifications());
         }
 
-        Customer customer = await uow.Customers.GetByEmail(command.Email);
+        Domain.Customers.Aggregates.Customer customer = await uow.Customers.GetByEmail(command.Email);
 
         if (customer != null)
         {
@@ -71,10 +71,10 @@ public class CustomerCommandHandler :
                 ),
                 cancellationToken);
 
-            return CommandResult.Failure<CustomerModel>(default, notificationHandler.GetNotifications());
+            return CommandResult.Failure<Model.Customers.Customer>(default, notificationHandler.GetNotifications());
         }
 
-        customer = new Customer(command.Name, command.Email, command.Birthdate);
+        customer = new Domain.Customers.Aggregates.Customer(command.Name, command.Email, command.Birthdate);
 
         await uow.Customers.AddAsync(customer, cancellationToken);
 
@@ -89,10 +89,10 @@ public class CustomerCommandHandler :
                 cancellationToken);
 
             return CommandResult.Success(
-                typeAdapter.ProjectAs<CustomerModel>(customer));
+                typeAdapter.ProjectAs<Model.Customers.Customer>(customer));
         }
 
-        return CommandResult.Failure<CustomerModel>(default, notificationHandler.GetNotifications());
+        return CommandResult.Failure<Model.Customers.Customer>(default, notificationHandler.GetNotifications());
     }
 
     public async Task<ICommandResult> Handle(UpdateCustomerCommand command, CancellationToken cancellationToken)
@@ -113,10 +113,10 @@ public class CustomerCommandHandler :
                     cancellationToken);
             }
 
-            return CommandResult.Failure<CustomerModel>(default, notificationHandler.GetNotifications());
+            return CommandResult.Failure<Model.Customers.Customer>(default, notificationHandler.GetNotifications());
         }
 
-        Customer customer = await uow.Customers.LoadAsync(command.CustomerId, cancellationToken);
+        Domain.Customers.Aggregates.Customer customer = await uow.Customers.LoadAsync(command.CustomerId, cancellationToken);
 
         if (customer is null)
         {
@@ -126,10 +126,10 @@ public class CustomerCommandHandler :
                     ApplicationConstants.Messages.CUSTOMER_NOT_FOUND),
                 cancellationToken);
 
-            return CommandResult.Failure<CustomerModel>(default, notificationHandler.GetNotifications());
+            return CommandResult.Failure<Model.Customers.Customer>(default, notificationHandler.GetNotifications());
         }
 
-        Customer existingCustomer = await uow.Customers.GetByEmail(customer.Email);
+        Domain.Customers.Aggregates.Customer existingCustomer = await uow.Customers.GetByEmail(customer.Email);
 
         if (existingCustomer != null && existingCustomer != customer)
         {
@@ -140,7 +140,7 @@ public class CustomerCommandHandler :
                 ),
                 cancellationToken);
 
-            return CommandResult.Failure<CustomerModel>(default, notificationHandler.GetNotifications());
+            return CommandResult.Failure<Model.Customers.Customer>(default, notificationHandler.GetNotifications());
         }
 
         customer.UpdateName(command.Name);
@@ -161,7 +161,7 @@ public class CustomerCommandHandler :
             return CommandResult.Success();
         }
 
-        return CommandResult.Failure<CustomerModel>(default, notificationHandler.GetNotifications());
+        return CommandResult.Failure<Model.Customers.Customer>(default, notificationHandler.GetNotifications());
     }
 
     public async Task<ICommandResult> Handle(RemoveCustomerCommand command, CancellationToken cancellationToken)
@@ -182,10 +182,10 @@ public class CustomerCommandHandler :
                     cancellationToken);
             }
 
-            return CommandResult.Failure<CustomerModel>(default, notificationHandler.GetNotifications());
+            return CommandResult.Failure<Model.Customers.Customer>(default, notificationHandler.GetNotifications());
         }
 
-        Customer customer = await uow.Customers.LoadAsync(command.CustomerId, cancellationToken);
+        Domain.Customers.Aggregates.Customer customer = await uow.Customers.LoadAsync(command.CustomerId, cancellationToken);
 
         if (customer is null)
         {
@@ -196,7 +196,7 @@ public class CustomerCommandHandler :
                 ),
                 cancellationToken);
 
-            return CommandResult.Failure<CustomerModel>(default, notificationHandler.GetNotifications());
+            return CommandResult.Failure<Model.Customers.Customer>(default, notificationHandler.GetNotifications());
         }
 
         uow.Customers.Remove(customer);
@@ -210,7 +210,7 @@ public class CustomerCommandHandler :
             return CommandResult.Success();
         }
 
-        return CommandResult.Failure<CustomerModel>(default, notificationHandler.GetNotifications());
+        return CommandResult.Failure<Model.Customers.Customer>(default, notificationHandler.GetNotifications());
     }
 
     private async Task<bool> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())

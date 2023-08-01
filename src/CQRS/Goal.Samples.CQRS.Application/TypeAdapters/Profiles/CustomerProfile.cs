@@ -1,6 +1,6 @@
 using AutoMapper;
 using Goal.Samples.CQRS.Domain.Customers.Aggregates;
-using Goal.Samples.CQRS.Model.Customers;
+using CustomerModel = Goal.Samples.CQRS.Model.Customers.Customer;
 
 namespace Goal.Samples.CQRS.Application.TypeAdapters.Profiles;
 

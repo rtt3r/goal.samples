@@ -23,7 +23,7 @@ public class CustomerRegisteredEventConsumer : EventConsumer<CustomerRegisteredE
     {
         await customerRepository.StoreAsync(
             @event.AggregateId,
-            new CustomerModel
+            new Customer
             {
                 CustomerId = @event.AggregateId,
                 Name = @event.Name,

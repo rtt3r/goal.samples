@@ -3,7 +3,7 @@ using Goal.Seedwork.Application.Commands;
 
 namespace Goal.Samples.CQRS.Application.Commands.Customers;
 
-public class RegisterNewCustomerCommand : CustomerCommand<ICommandResult<CustomerModel>>
+public class RegisterNewCustomerCommand : CustomerCommand<ICommandResult<Customer>>
 {
     public string Email { get; set; }
 

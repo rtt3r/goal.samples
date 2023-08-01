@@ -21,7 +21,7 @@ public class CustomerUpdatedEventConsumer : EventConsumer<CustomerUpdatedEvent>
 
     protected override async Task HandleEvent(CustomerUpdatedEvent @event, CancellationToken cancellationToken = default)
     {
-        CustomerModel customer = await customerRepository.LoadAsync(@event.AggregateId, cancellationToken);
+        Customer customer = await customerRepository.LoadAsync(@event.AggregateId, cancellationToken);
 
         customer.Name = @event.Name;
         customer.Birthdate = @event.Birthdate;

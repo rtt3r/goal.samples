@@ -7,12 +7,6 @@ services:
       interval: 1s
       retries: 20
 
-  mssql:
-    healthcheck:
-      test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-Usa", "-PBeycL18545#f", "-Q", "IF NOT EXISTS(SELECT * FROM sys.databases WHERE name = 'keycloak-dev') BEGIN CREATE DATABASE [keycloak-dev]; END"]
-      interval: 1s
-      retries: 20
-
   mysql:
     healthcheck:
       test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
@@ -25,10 +19,11 @@ services:
         condition: service_healthy
         restart: true
 
-  cqrs-app:
+  core-app:
     environment:
         - ASPNETCORE_ENVIRONMENT=Development
-        - ASPNETCORE_ConnectionStrings__DefaultConnection=Server=mssql;Initial Catalog=goal-cqrs-dev;Persist Security Info=False;User ID=sa;Password=BeycL18545#f;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=True;MultiSubnetFailover=True;Connection Timeout=30;
+        - ASPNETCORE_DbProvider=MySQL
+        - ASPNETCORE_ConnectionStrings__DefaultConnection=Server=mysql;Port=3306;Database=goal-cqrs-dev;Uid=root;Pwd=BeycL18545#f;
         - ASPNETCORE_ConnectionStrings__Seq=http://seq:5341
         - ASPNETCORE_ConnectionStrings__RabbitMq=amqp://guest:guest@rabbitmq:5672
         - ASPNETCORE_URLS=https://+;http://+
@@ -53,7 +48,7 @@ services:
         - ${USERPROFILE}\.aspnet\https:/root/.aspnet/https/
         - ${USERPROFILE}\.aspnet\DataProtection-Keys:/root/.aspnet/DataProtection-Keys/
     depends_on:
-      mssql:
+      mysql:
         condition: service_healthy
         restart: true
       ravendb:
@@ -63,10 +58,11 @@ services:
         condition: service_healthy
         restart: true
 
-  cqrs-worker:
+  core-worker:
     environment:
         - ASPNETCORE_ENVIRONMENT=Development
-        - ASPNETCORE_ConnectionStrings__DefaultConnection=Server=mssql;Initial Catalog=goal-cqrs-dev;Persist Security Info=False;User ID=sa;Password=BeycL18545#f;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=True;MultiSubnetFailover=True;Connection Timeout=30;
+        - ASPNETCORE_DbProvider=MySQL
+        - ASPNETCORE_ConnectionStrings__DefaultConnection=Server=mysql;Port=3306;Database=goal-cqrs-dev;Uid=root;Pwd=BeycL18545#f;
         - ASPNETCORE_ConnectionStrings__Seq=http://seq:5341
         - ASPNETCORE_ConnectionStrings__RabbitMq=amqp://guest:guest@rabbitmq:5672
         - ASPNETCORE_URLS=https://+;http://+
@@ -83,39 +79,12 @@ services:
         - ${USERPROFILE}\.aspnet\https:/root/.aspnet/https/
         - ${USERPROFILE}\.aspnet\DataProtection-Keys:/root/.aspnet/DataProtection-Keys/
     depends_on:
-      mssql:
+      mysql:
         condition: service_healthy
         restart: true
       ravendb:
         condition: service_healthy
         restart: true
       rabbitmq:
-        condition: service_healthy
-        restart: true
-
-  ddd-api:
-    environment:
-        - ASPNETCORE_ENVIRONMENT=Development
-        - ASPNETCORE_ConnectionStrings__DefaultConnection=Server=mssql;Initial Catalog=goal-ddd-dev;Persist Security Info=False;User ID=sa;Password=BeycL18545#f;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=True;MultiSubnetFailover=True;Connection Timeout=30;
-        - ASPNETCORE_ConnectionStrings__Seq=http://seq:5341
-        - ASPNETCORE_URLS=https://+;http://+
-        - ASPNETCORE_HTTPS_PORT=4434
-        - ASPNETCORE_Keycloak__Realm=goal
-        - ASPNETCORE_Keycloak__AuthServerUrl=http://192.168.0.151:8081
-        - ASPNETCORE_Keycloak__SslRequired=none
-        - ASPNETCORE_Keycloak__Resource=ddd.api
-        - ASPNETCORE_Keycloak__VerifyTokenAudience=true
-        - ASPNETCORE_Keycloak__Scopes=email profile ddd-client.scope
-        - ASPNETCORE_Keycloak__Credentials__Secret=sWMyiURPSVngLlBhlw3L3pnunsAf2jwZ
-        - ASPNETCORE_Keycloak__ConfidentialPort=0
-        - ASPNETCORE_Cors__Origins=https://localhost:4434;http://localhost:8004;http://localhost:4200
-        - ASPNETCORE_Kestrel__Certificates__Default__Password=fd7ccf84-1ff8-4817-9ecd-f0a2047ea262
-        - ASPNETCORE_Kestrel__Certificates__Default__Path=/root/.aspnet/https/Development.pfx
-    volumes:
-        - ${APPDATA}\microsoft\UserSecrets\:/root/.microsoft/usersecrets
-        - ${USERPROFILE}\.aspnet\https:/root/.aspnet/https/
-        - ${USERPROFILE}\.aspnet\DataProtection-Keys:/root/.aspnet/DataProtection-Keys/
-    depends_on:
-      mssql:
         condition: service_healthy
         restart: true

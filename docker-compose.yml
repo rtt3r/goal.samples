@@ -40,19 +40,6 @@ services:
     volumes:
       - seq-data:/var/lib/seq/data/
 
-  mssql:
-    image: "mcr.microsoft.com/mssql/server:2019-CU14-ubuntu-20.04"
-    container_name: mssql.goal.ritter.co
-    hostname: mssql.ritter.co
-    user: root
-    ports:
-      - "1433:1433"
-    environment:
-      - ACCEPT_EULA=Y
-      - MSSQL_SA_PASSWORD=BeycL18545#f
-    volumes:
-      - mssql-data:/var/opt/mssql/data
-
   mysql:
     image: "mysql:latest"
     container_name: mysql.goal.ritter.co
@@ -86,42 +73,29 @@ services:
     volumes:
       - keycloak-data:/opt/keycloak/data
 
-  cqrs-app:
-    image: ${REGISTRY:-ritter.co}/goal/cqrs-app:${PLATFORM:-linux}-${TAG:-latest}
-    container_name: cqrs-app.goal.ritter.co
+  core-app:
+    image: ${REGISTRY:-ritter.co}/goal/core-app:${PLATFORM:-linux}-${TAG:-latest}
+    container_name: core-app.goal.ritter.co
     restart: always
     build:
       context: .
-      dockerfile: src/CQRS/Goal.Samples.CQRS.App/Dockerfile
+      dockerfile: src/Core/Goal.Samples.Core.App/Dockerfile
     ports:
       - "8002:80"
       - "4432:443"
 
-  cqrs-worker:
-    image: ${REGISTRY:-ritter.co}/goal/cqrs-worker:${PLATFORM:-linux}-${TAG:-latest}
-    container_name: cqrs-worker.goal.ritter.co
+  core-worker:
+    image: ${REGISTRY:-ritter.co}/goal/core-worker:${PLATFORM:-linux}-${TAG:-latest}
+    container_name: core-worker.goal.ritter.co
     restart: always
     build:
       context: .
-      dockerfile: src/CQRS/Goal.Samples.CQRS.Worker/Dockerfile
+      dockerfile: src/Core/Goal.Samples.Core.Worker/Dockerfile
     ports:
       - "8003:80"
       - "4433:443"
 
-  ddd-api:
-    image: ${REGISTRY:-ritter.co}/goal/ddd-api:${PLATFORM:-linux}-${TAG:-latest}
-    container_name: ddd-api.goal.ritter.co
-    restart: always
-    build:
-      context: .
-      dockerfile: src/DDD/Goal.Samples.DDD.Api/Dockerfile
-    ports:
-      - "8004:80"
-      - "4434:443"
-
 volumes:
-  mssql-data:
-    name: ritter.co-goal-mssql-data-vol
   mysql-vol:
     name: ritter.co-goal-mysql-vol
   ravendb-config:

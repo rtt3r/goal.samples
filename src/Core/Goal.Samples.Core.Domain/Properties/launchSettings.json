@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Goal.Samples.Core.Domain": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:56589;http://localhost:56590"
+    }
+  }
+}

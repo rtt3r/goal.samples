@@ -78,7 +78,7 @@ public static class ClaimsPrincipalExtensions
         => principal?.GetClaimValues(JwtClaimTypes.Scope);
 
     public static string GetClientId(this ClaimsPrincipal principal)
-        => principal?.GetClaimValue(JwtClaimTypes.ClientId);
+        => principal?.GetClaimValue(JwtClaimTypes.ClientId, JwtClaimTypes.AuthorizedParty);
 
     public static void AddClaim(this IIdentity identity, Claim claim)
     {

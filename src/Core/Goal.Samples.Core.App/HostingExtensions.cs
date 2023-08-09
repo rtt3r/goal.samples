@@ -88,14 +88,14 @@ public static class HostingExtensions
     {
         app.UseRequestLocalization(new RequestLocalizationOptions
         {
-            DefaultRequestCulture = new RequestCulture(ApplicationCultures.Portugues, ApplicationCultures.Portugues),
+            DefaultRequestCulture = new RequestCulture(ApplicationCultures.English, ApplicationCultures.English),
             SupportedCultures = new List<CultureInfo>
             {
-                ApplicationCultures.Portugues,
+                ApplicationCultures.English
             },
             SupportedUICultures = new List<CultureInfo>
             {
-                ApplicationCultures.Portugues,
+                ApplicationCultures.English
             }
         });
 

@@ -8,9 +8,6 @@ using Goal.Samples.Infra.Http.Filters;
 using Goal.Samples.Infra.Http.JsonNamePolicies;
 using Goal.Samples.Infra.Http.ValueProviders;
 using Goal.Seedwork.Infra.Crosscutting.Localization;
-using Keycloak.AuthServices.Authentication;
-using Keycloak.AuthServices.Authorization;
-using Keycloak.AuthServices.Sdk.Admin;
 using MassTransit;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
@@ -80,13 +77,7 @@ public static class HostingExtensions
         builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureApiSwaggerOptions>();
         builder.Services.AddSwaggerGen();
 
-        KeycloakSettings keycloakOptions = builder.Configuration
-            .GetSection(KeycloakSettings.Section)
-            .Get<KeycloakSettings>();
-
-        builder.Services.AddKeycloakAuthentication(keycloakOptions.AuthenticationOptions);
-        builder.Services.AddKeycloakAuthorization(keycloakOptions.ProtectionClientOptions);
-        builder.Services.AddKeycloakAdminHttpClient(keycloakOptions.AdminClientOptions);
+        builder.Services.AddKeycloak(builder.Configuration);
 
         builder.Services.AddCors();
 

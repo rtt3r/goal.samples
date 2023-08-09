@@ -7,10 +7,14 @@ using Goal.Samples.Core.Infra.Data.Query.Repositories.Customers;
 using Goal.Samples.Core.Infra.Data.Repositories;
 using Goal.Samples.Core.Infra.Data.SqlServer;
 using Goal.Samples.Infra.Crosscutting;
+using Goal.Samples.Infra.Crosscutting.Settings;
 using Goal.Seedwork.Domain.Aggregates;
 using Goal.Seedwork.Domain.Events;
 using Goal.Seedwork.Infra.Data.Query;
 using Goal.Seedwork.Infra.Http.DependencyInjection;
+using Keycloak.AuthServices.Authentication;
+using Keycloak.AuthServices.Authorization;
+using Keycloak.AuthServices.Sdk.Admin;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -57,6 +61,19 @@ public static class ServiceColletionExtensionMethods
         services.AddScoped<IEventStore, SqlEventStore>();
 
         services.RegisterAllTypesOf<IQueryRepository>(typeof(CustomerQueryRepository).Assembly);
+
+        return services;
+    }
+
+    public static IServiceCollection AddKeycloak(this IServiceCollection services, IConfiguration configuration)
+    {
+        KeycloakSettings keycloakOptions = configuration
+            .GetSection(KeycloakSettings.Section)
+            .Get<KeycloakSettings>();
+
+        services.AddKeycloakAuthentication(keycloakOptions.AuthenticationOptions);
+        services.AddKeycloakAuthorization(keycloakOptions.ProtectionClientOptions);
+        services.AddKeycloakAdminHttpClient(keycloakOptions.AdminClientOptions);
 
         return services;
     }

@@ -2,9 +2,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Goal.Samples.Core.Infra.Data.Npgsql;
 
-public class NpgsqlCqrsDbContext : CqrsDbContext
+public class NpgsqlCoreDbContext : CoreDbContext
 {
-    public NpgsqlCqrsDbContext(DbContextOptions options)
+    public NpgsqlCoreDbContext(DbContextOptions options)
         : base(options)
     { }
 }

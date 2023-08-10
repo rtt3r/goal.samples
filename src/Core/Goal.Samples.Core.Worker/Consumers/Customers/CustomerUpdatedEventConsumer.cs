@@ -24,7 +24,7 @@ public class CustomerUpdatedEventConsumer : EventConsumer<CustomerUpdatedEvent>
         Customer customer = await customerRepository.LoadAsync(@event.AggregateId, cancellationToken);
 
         customer.Name = @event.Name;
-        customer.Birthdate = @event.Birthdate;
+        customer.BirthDate = @event.BirthDate;
         customer.Email = @event.Email;
 
         await customerRepository.StoreAsync(

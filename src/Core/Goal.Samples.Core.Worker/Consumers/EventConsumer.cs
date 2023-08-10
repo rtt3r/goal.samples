@@ -1,5 +1,4 @@
 using System.Diagnostics;
-using Goal.Samples.Core.Application.Events.Customers;
 using Goal.Seedwork.Domain.Events;
 using MassTransit;
 using MassTransit.Metadata;
@@ -12,6 +11,8 @@ public abstract class EventConsumer<TEvent> : IConsumer<TEvent>
     private readonly IEventStore eventStore;
     private readonly ILogger logger;
 
+    protected virtual string ConsumerName { get; } = TypeMetadataCache<TEvent>.ShortName;
+
     protected EventConsumer(
         IEventStore eventStore,
         ILogger logger)
@@ -23,22 +24,23 @@ public abstract class EventConsumer<TEvent> : IConsumer<TEvent>
     public async Task Consume(ConsumeContext<TEvent> context)
     {
         var timer = Stopwatch.StartNew();
-        string consumerName = TypeMetadataCache<CustomerRegisteredEvent>.ShortName;
 
-        logger.LogInformation("{InformationData} Receive event.", consumerName);
+        logger.LogInformation("{InformationData} Received event.", ConsumerName);
 
         try
         {
             await HandleEvent(context.Message);
             eventStore.Save(context.Message);
 
-            logger.LogInformation("{InformationData}: Successfully consumed event.", consumerName);
-            await context.NotifyConsumed(timer.Elapsed, consumerName);
+            timer.Stop();
+            logger.LogInformation("{InformationData}: Successfully consumed event.", ConsumerName);
+            await context.NotifyConsumed(timer.Elapsed, ConsumerName);
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "{InformationData}: An error occurred while consuming an event.", consumerName);
-            await context.NotifyFaulted(timer.Elapsed, consumerName, ex);
+            timer.Stop();
+            logger.LogError(ex, "{InformationData}: An error occurred while consuming an event.", ConsumerName);
+            await context.NotifyFaulted(timer.Elapsed, ConsumerName, ex);
         }
     }
 

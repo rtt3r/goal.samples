@@ -9,9 +9,9 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Goal.Samples.Core.Infra.Data.SqlServer.Migrations.Cqrs
+namespace Goal.Samples.Core.Infra.Data.SqlServer.Migrations.Core
 {
-    [DbContext(typeof(SqlServerCqrsDbContext))]
+    [DbContext(typeof(SqlServerCoreDbContext))]
     [Migration("20230727022900_Migration_001")]
     partial class Migration_001
     {
@@ -30,7 +30,7 @@ namespace Goal.Samples.Core.Infra.Data.SqlServer.Migrations.Cqrs
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime>("Birthdate")
+                    b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")

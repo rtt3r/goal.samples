@@ -7,9 +7,9 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Goal.Samples.Core.Infra.Data.MySQL.Migrations.Cqrs
+namespace Goal.Samples.Core.Infra.Data.MySQL.Migrations.Core
 {
-    [DbContext(typeof(MySQLCqrsDbContext))]
+    [DbContext(typeof(MySQLCoreDbContext))]
     [Migration("20230727020859_Migration_000")]
     partial class Migration_000
     {

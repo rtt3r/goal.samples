@@ -6,7 +6,7 @@ namespace Goal.Samples.Core.Infra.Data.Repositories;
 
 public class CustomerRepository : Repository<Customer, string>, ICustomerRepository
 {
-    public CustomerRepository(CqrsDbContext context)
+    public CustomerRepository(CoreDbContext context)
         : base(context)
     {
     }

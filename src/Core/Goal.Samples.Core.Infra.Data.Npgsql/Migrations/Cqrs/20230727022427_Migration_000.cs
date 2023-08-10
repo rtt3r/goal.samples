@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 
-namespace Goal.Samples.Core.Infra.Data.Npgsql.Migrations.Cqrs;
+namespace Goal.Samples.Core.Infra.Data.Npgsql.Migrations.Core;
 
 /// <inheritdoc />
 public partial class Migration_000 : Migration

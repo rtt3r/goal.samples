@@ -8,20 +8,20 @@ FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 
 COPY ["nuget.config", "."]
-COPY ["src/CQRS/Goal.Samples.Core.Worker/Goal.Samples.Core.Worker.csproj", "src/CQRS/Goal.Samples.Core.Worker/"]
-COPY ["src/CQRS/Goal.Samples.Core.Application/Goal.Samples.Core.Application.csproj", "src/CQRS/Goal.Samples.Core.Application/"]
+COPY ["src/Core/Goal.Samples.Core.Worker/Goal.Samples.Core.Worker.csproj", "src/Core/Goal.Samples.Core.Worker/"]
+COPY ["src/Core/Goal.Samples.Core.Application/Goal.Samples.Core.Application.csproj", "src/Core/Goal.Samples.Core.Application/"]
 COPY ["src/Infra/Goal.Samples.Infra.Crosscutting/Goal.Samples.Infra.Crosscutting.csproj", "src/Infra/Goal.Samples.Infra.Crosscutting/"]
 COPY ["src/Infra/Goal.Samples.Infra.Data.Query/Goal.Samples.Infra.Data.Query.csproj", "src/Infra/Goal.Samples.Infra.Data.Query/"]
-COPY ["src/CQRS/Goal.Samples.Core.Domain/Goal.Samples.Core.Domain.csproj", "src/CQRS/Goal.Samples.Core.Domain/"]
-COPY ["src/CQRS/Goal.Samples.Core.Infra.Data.Query/Goal.Samples.Core.Infra.Data.Query.csproj", "src/CQRS/Goal.Samples.Core.Infra.Data.Query/"]
-COPY ["src/CQRS/Goal.Samples.Core.Model/Goal.Samples.Core.Model.csproj", "src/CQRS/Goal.Samples.Core.Model/"]
-COPY ["src/CQRS/Goal.Samples.Core.Infra.Data/Goal.Samples.Core.Infra.Data.csproj", "src/CQRS/Goal.Samples.Core.Infra.Data/"]
-COPY ["src/CQRS/Goal.Samples.Core.Infra.IoC/Goal.Samples.Core.Infra.IoC.csproj", "src/CQRS/Goal.Samples.Core.Infra.IoC/"]
+COPY ["src/Core/Goal.Samples.Core.Domain/Goal.Samples.Core.Domain.csproj", "src/Core/Goal.Samples.Core.Domain/"]
+COPY ["src/Core/Goal.Samples.Core.Infra.Data.Query/Goal.Samples.Core.Infra.Data.Query.csproj", "src/Core/Goal.Samples.Core.Infra.Data.Query/"]
+COPY ["src/Core/Goal.Samples.Core.Model/Goal.Samples.Core.Model.csproj", "src/Core/Goal.Samples.Core.Model/"]
+COPY ["src/Core/Goal.Samples.Core.Infra.Data/Goal.Samples.Core.Infra.Data.csproj", "src/Core/Goal.Samples.Core.Infra.Data/"]
+COPY ["src/Core/Goal.Samples.Core.Infra.IoC/Goal.Samples.Core.Infra.IoC.csproj", "src/Core/Goal.Samples.Core.Infra.IoC/"]
 
-RUN dotnet restore "src/CQRS/Goal.Samples.Core.Worker/Goal.Samples.Core.Worker.csproj"
+RUN dotnet restore "src/Core/Goal.Samples.Core.Worker/Goal.Samples.Core.Worker.csproj"
 
 COPY . .
-WORKDIR "/src/src/CQRS/Goal.Samples.Core.Worker"
+WORKDIR "/src/src/Core/Goal.Samples.Core.Worker"
 RUN dotnet build "Goal.Samples.Core.Worker.csproj" -c Release -o /app/build
 
 FROM build AS publish

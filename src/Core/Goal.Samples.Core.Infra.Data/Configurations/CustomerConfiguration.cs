@@ -22,7 +22,7 @@ internal sealed class CustomerConfiguration : IEntityTypeConfiguration<Customer>
             .HasMaxLength(256)
             .IsRequired();
 
-        builder.Property(p => p.Birthdate)
+        builder.Property(p => p.BirthDate)
             .IsRequired();
     }
 }

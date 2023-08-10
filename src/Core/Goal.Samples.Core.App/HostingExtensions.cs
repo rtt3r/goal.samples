@@ -131,7 +131,7 @@ public static class HostingExtensions
 
                 c.OAuthClientId(app.Configuration["Keycloak:Resource"]);
                 c.OAuthClientSecret(app.Configuration["Keycloak:Credentials:Secret"]);
-                c.OAuthAppName("Goal CQRS Api");
+                c.OAuthAppName("Goal Core Api");
 
                 c.DisplayRequestDuration();
                 c.RoutePrefix = string.Empty;

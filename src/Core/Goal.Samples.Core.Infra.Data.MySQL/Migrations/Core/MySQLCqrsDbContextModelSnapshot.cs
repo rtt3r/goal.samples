@@ -3,19 +3,16 @@ using System;
 using Goal.Samples.Core.Infra.Data.MySQL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Goal.Samples.Core.Infra.Data.MySQL.Migrations.Cqrs
+namespace Goal.Samples.Core.Infra.Data.MySQL.Migrations.Core
 {
-    [DbContext(typeof(MySQLCqrsDbContext))]
-    [Migration("20230727022754_Migration_001")]
-    partial class Migration_001
+    [DbContext(typeof(MySQLCoreDbContext))]
+    partial class MySQLCoreDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -27,7 +24,7 @@ namespace Goal.Samples.Core.Infra.Data.MySQL.Migrations.Cqrs
                     b.Property<string>("Id")
                         .HasColumnType("varchar(255)");
 
-                    b.Property<DateTime>("Birthdate")
+                    b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Email")

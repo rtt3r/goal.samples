@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 
-namespace Goal.Samples.Core.Infra.Data.MySQL.Migrations.Cqrs;
+namespace Goal.Samples.Core.Infra.Data.MySQL.Migrations.Core;
 
 /// <inheritdoc />
 public partial class Migration_000 : Migration

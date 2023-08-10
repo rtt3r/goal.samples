@@ -9,9 +9,9 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Goal.Samples.Core.Infra.Data.Npgsql.Migrations.Cqrs
+namespace Goal.Samples.Core.Infra.Data.Npgsql.Migrations.Core
 {
-    [DbContext(typeof(NpgsqlCqrsDbContext))]
+    [DbContext(typeof(NpgsqlCoreDbContext))]
     [Migration("20230727022946_Migration_001")]
     partial class Migration_001
     {
@@ -30,7 +30,7 @@ namespace Goal.Samples.Core.Infra.Data.Npgsql.Migrations.Cqrs
                     b.Property<string>("Id")
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("Birthdate")
+                    b.Property<DateTime>("BirthDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Email")

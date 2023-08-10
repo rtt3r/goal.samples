@@ -6,10 +6,10 @@ public class UpdateCustomerCommand : CustomerCommand<ICommandResult>
 {
     public string CustomerId { get; set; }
 
-    public UpdateCustomerCommand(string customerId, string name, DateTime birthdate)
+    public UpdateCustomerCommand(string customerId, string name, DateTime birthDate)
     {
         CustomerId = customerId;
         Name = name;
-        Birthdate = birthdate;
+        BirthDate = birthDate;
     }
 }

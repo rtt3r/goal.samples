@@ -8,7 +8,7 @@
       "commandVersion": "1.0",
       "serviceActions": {
         "core-app": "StartDebugging",
-        "core-worker": "StartWithoutDebugging",
+        "core-worker": "StartDebugging",
         "mysql": "StartWithoutDebugging",
         "keycloak": "StartWithoutDebugging",
         "seq": "StartWithoutDebugging",

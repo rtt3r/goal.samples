@@ -27,7 +27,7 @@ public class CustomerRegisteredEventConsumer : EventConsumer<CustomerRegisteredE
             {
                 CustomerId = @event.AggregateId,
                 Name = @event.Name,
-                Birthdate = @event.Birthdate,
+                BirthDate = @event.BirthDate,
                 Email = @event.Email,
             },
             cancellationToken);

@@ -10,7 +10,7 @@ public class ConfigureSwaggerOptions : IConfigureOptions<SwaggerGenOptions>
 {
     public void Configure(SwaggerGenOptions options)
     {
-        options.SwaggerDoc("v1", new OpenApiInfo { Title = "Goal Samples CQRS Worker", Version = "v1" });
+        options.SwaggerDoc("v1", new OpenApiInfo { Title = "Goal Samples Core Worker", Version = "v1" });
         options.IncludeXmlComments(GetXmlCommentsFile());
         options.DocumentFilter<LowerCaseDocumentFilter>();
         options.DescribeAllParametersInCamelCase();

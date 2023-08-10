@@ -19,14 +19,14 @@ public class CustomerCommandHandler :
     ICommandHandler<UpdateCustomerCommand, ICommandResult>,
     ICommandHandler<RemoveCustomerCommand, ICommandResult>
 {
-    private readonly ICqrsUnitOfWork uow;
+    private readonly ICoreUnitOfWork uow;
     private readonly IPublishEndpoint publishEndpoint;
     private readonly IDefaultNotificationHandler notificationHandler;
     private readonly ITypeAdapter typeAdapter;
     private readonly AppState appState;
 
     public CustomerCommandHandler(
-        ICqrsUnitOfWork uow,
+        ICoreUnitOfWork uow,
         IPublishEndpoint publishEndpoint,
         IDefaultNotificationHandler notificationHandler,
         ITypeAdapter typeAdapter,
@@ -74,7 +74,7 @@ public class CustomerCommandHandler :
             return CommandResult.Failure<Model.Customers.Customer>(default, notificationHandler.GetNotifications());
         }
 
-        customer = new Domain.Customers.Aggregates.Customer(command.Name, command.Email, command.Birthdate);
+        customer = new Domain.Customers.Aggregates.Customer(command.Name, command.Email, command.BirthDate);
 
         await uow.Customers.AddAsync(customer, cancellationToken);
 
@@ -85,7 +85,7 @@ public class CustomerCommandHandler :
                     customer.Id,
                     customer.Name,
                     customer.Email,
-                    customer.Birthdate),
+                    customer.BirthDate),
                 cancellationToken);
 
             return CommandResult.Success(
@@ -144,7 +144,7 @@ public class CustomerCommandHandler :
         }
 
         customer.UpdateName(command.Name);
-        customer.UpdateBirthdate(command.Birthdate);
+        customer.UpdateBirthDate(command.BirthDate);
 
         uow.Customers.Update(existingCustomer);
 
@@ -155,7 +155,7 @@ public class CustomerCommandHandler :
                     customer.Id,
                     customer.Name,
                     customer.Email,
-                    customer.Birthdate),
+                    customer.BirthDate),
                 cancellationToken);
 
             return CommandResult.Success();

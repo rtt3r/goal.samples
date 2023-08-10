@@ -2,9 +2,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Goal.Samples.Core.Infra.Data.SqlServer;
 
-public class SqlServerCqrsDbContext : CqrsDbContext
+public class SqlServerCoreDbContext : CoreDbContext
 {
-    public SqlServerCqrsDbContext(DbContextOptions options)
+    public SqlServerCoreDbContext(DbContextOptions options)
         : base(options)
     { }
 }

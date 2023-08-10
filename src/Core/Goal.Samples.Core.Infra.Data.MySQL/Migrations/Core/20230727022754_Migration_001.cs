@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 
-namespace Goal.Samples.Core.Infra.Data.MySQL.Migrations.Cqrs;
+namespace Goal.Samples.Core.Infra.Data.MySQL.Migrations.Core;
 
 /// <inheritdoc />
 public partial class Migration_001 : Migration
@@ -16,7 +16,7 @@ public partial class Migration_001 : Migration
                 Id = table.Column<string>(type: "varchar(255)", nullable: false),
                 Name = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
                 Email = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: false),
-                Birthdate = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                BirthDate = table.Column<DateTime>(type: "datetime(6)", nullable: false)
             },
             constraints: table =>
             {

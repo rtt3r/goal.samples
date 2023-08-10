@@ -3,10 +3,10 @@ using Goal.Seedwork.Infra.Data;
 
 namespace Goal.Samples.Core.Infra.Data;
 
-public sealed class CqrsUnitOfWork : UnitOfWork, ICqrsUnitOfWork
+public sealed class CoreUnitOfWork : UnitOfWork, ICoreUnitOfWork
 {
-    public CqrsUnitOfWork(
-        CqrsDbContext context,
+    public CoreUnitOfWork(
+        CoreDbContext context,
         ICustomerRepository customerRepository)
         : base(context)
     {

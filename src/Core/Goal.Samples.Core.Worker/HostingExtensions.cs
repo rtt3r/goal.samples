@@ -78,7 +78,7 @@ public static class HostingExtensions
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Goal Samples CQRS Worker v1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Goal Samples Core Worker v1");
                 c.DisplayRequestDuration();
                 c.RoutePrefix = string.Empty;
             });

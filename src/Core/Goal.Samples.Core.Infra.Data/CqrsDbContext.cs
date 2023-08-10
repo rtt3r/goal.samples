@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Goal.Samples.Core.Infra.Data;
 
-public abstract class CqrsDbContext : DbContext
+public abstract class CoreDbContext : DbContext
 {
     public DbSet<Customer> Customers { get; set; }
 
-    public CqrsDbContext(DbContextOptions options)
+    public CoreDbContext(DbContextOptions options)
         : base(options)
     { }
 

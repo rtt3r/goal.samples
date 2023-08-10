@@ -8,9 +8,9 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Goal.Samples.Core.Infra.Data.Npgsql.Migrations.Cqrs
+namespace Goal.Samples.Core.Infra.Data.Npgsql.Migrations.Core
 {
-    [DbContext(typeof(NpgsqlCqrsDbContext))]
+    [DbContext(typeof(NpgsqlCoreDbContext))]
     [Migration("20230727022427_Migration_000")]
     partial class Migration_000
     {

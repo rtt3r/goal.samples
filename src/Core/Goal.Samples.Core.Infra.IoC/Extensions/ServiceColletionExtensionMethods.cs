@@ -38,8 +38,8 @@ public static class ServiceColletionExtensionMethods
         services.AddDefaultNotificationHandler();
         services.AddRavenDb(configuration);
 
-        services.AddCqrsDbContext(configuration);
-        services.AddScoped<ICqrsUnitOfWork, CqrsUnitOfWork>();
+        services.AddCoreDbContext(configuration);
+        services.AddScoped<ICoreUnitOfWork, CoreUnitOfWork>();
         services.RegisterAllTypesOf<IRepository>(typeof(CustomerRepository).Assembly);
         services.RegisterAllTypesOf<IQueryRepository>(typeof(CustomerQueryRepository).Assembly);
 
@@ -86,35 +86,35 @@ public static class ServiceColletionExtensionMethods
         return services;
     }
 
-    private static IServiceCollection AddCqrsDbContext(this IServiceCollection services, IConfiguration configuration)
+    private static IServiceCollection AddCoreDbContext(this IServiceCollection services, IConfiguration configuration)
     {
         string dbProvider = configuration.GetValue("DbProvider", "SqlServer");
         string connectionString = configuration.GetConnectionString("DefaultConnection");
 
         if (dbProvider == "SqlServer")
         {
-            services.AddDbContext<CqrsDbContext, SqlServerCqrsDbContext>((provider, options) =>
+            services.AddDbContext<CoreDbContext, SqlServerCoreDbContext>((provider, options) =>
             {
                 options
-                    .UseSqlServer(connectionString, x => x.MigrationsAssembly(typeof(SqlServerCqrsDbContext).Assembly.GetName().Name))
+                    .UseSqlServer(connectionString, x => x.MigrationsAssembly(typeof(SqlServerCoreDbContext).Assembly.GetName().Name))
                     .EnableSensitiveDataLogging();
             });
         }
         else if (dbProvider == "MySQL")
         {
-            services.AddDbContext<CqrsDbContext, MySQLCqrsDbContext>((provider, options) =>
+            services.AddDbContext<CoreDbContext, MySQLCoreDbContext>((provider, options) =>
             {
                 options
-                    .UseMySQL(connectionString, x => x.MigrationsAssembly(typeof(MySQLCqrsDbContext).Assembly.GetName().Name))
+                    .UseMySQL(connectionString, x => x.MigrationsAssembly(typeof(MySQLCoreDbContext).Assembly.GetName().Name))
                     .EnableSensitiveDataLogging();
             });
         }
         else if (dbProvider == "Npgsql")
         {
-            services.AddDbContext<CqrsDbContext, NpgsqlCqrsDbContext>((provider, options) =>
+            services.AddDbContext<CoreDbContext, NpgsqlCoreDbContext>((provider, options) =>
             {
                 options
-                    .UseNpgsql(connectionString, x => x.MigrationsAssembly(typeof(NpgsqlCqrsDbContext).Assembly.GetName().Name))
+                    .UseNpgsql(connectionString, x => x.MigrationsAssembly(typeof(NpgsqlCoreDbContext).Assembly.GetName().Name))
                     .EnableSensitiveDataLogging();
             });
         }

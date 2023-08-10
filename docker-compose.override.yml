@@ -12,7 +12,7 @@ services:
         - ASPNETCORE_URLS=https://+;http://+
         - ASPNETCORE_HTTPS_PORT=4432
         - ASPNETCORE_RavenSettings__Urls=http://ravendb:8080
-        - ASPNETCORE_RavenSettings__DatabaseName=CQRS
+        - ASPNETCORE_RavenSettings__DatabaseName=Core
         - ASPNETCORE_RavenSettings__CertFilePath=
         - ASPNETCORE_RavenSettings__CertPassword=
         - ASPNETCORE_Keycloak__Realm=goal
@@ -40,7 +40,7 @@ services:
         - ASPNETCORE_ConnectionStrings__Seq=http://seq:5341
         - ASPNETCORE_ConnectionStrings__RabbitMq=amqp://guest:guest@rabbitmq:5672
         - ASPNETCORE_RavenSettings__Urls=http://ravendb:8080
-        - ASPNETCORE_RavenSettings__DatabaseName=CQRS
+        - ASPNETCORE_RavenSettings__DatabaseName=Core
         - ASPNETCORE_RavenSettings__CertFilePath=
         - ASPNETCORE_RavenSettings__CertPassword=
         - ASPNETCORE_Cors__Origins=https://localhost:4433;http://localhost:8003;http://localhost:4200

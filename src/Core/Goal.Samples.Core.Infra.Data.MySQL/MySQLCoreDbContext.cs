@@ -2,9 +2,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Goal.Samples.Core.Infra.Data.MySQL;
 
-public class MySQLCqrsDbContext : CqrsDbContext
+public class MySQLCoreDbContext : CoreDbContext
 {
-    public MySQLCqrsDbContext(DbContextOptions options)
+    public MySQLCoreDbContext(DbContextOptions options)
         : base(options)
     { }
 }

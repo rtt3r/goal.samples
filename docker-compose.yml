@@ -35,7 +35,7 @@ services:
       - 5341:5341
     environment:
       - ACCEPT_EULA=Y
-      - SEQ_FIRSTRUN_ADMINPASSWORDHASH=FCYqICbqbAUjB9UmVl3ddA5EOeqd6d51jNwW+SgPK1wmajiQoQ==
+      - SEQ_FIRSTRUN_ADMINPASSWORDHASH=QNSakIX8rLtMqwkby4zVU3tAmt9ajfIp3srPNneBJ8Mdrvht9rQRuhelhj9VpNGH5x7NhUdix0rX/Ay7wHFLmwwajZKx+EBpydhUjxHKu/zv
     volumes:
       - seq-data:/var/lib/seq/data/
 

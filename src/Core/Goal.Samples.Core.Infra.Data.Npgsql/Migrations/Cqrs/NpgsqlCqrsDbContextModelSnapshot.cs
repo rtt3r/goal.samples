@@ -8,10 +8,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Goal.Samples.Core.Infra.Data.Npgsql.Migrations.Cqrs
+namespace Goal.Samples.Core.Infra.Data.Npgsql.Migrations.Core
 {
-    [DbContext(typeof(NpgsqlCqrsDbContext))]
-    partial class NpgsqlCqrsDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(NpgsqlCoreDbContext))]
+    partial class NpgsqlCoreDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -27,7 +27,7 @@ namespace Goal.Samples.Core.Infra.Data.Npgsql.Migrations.Cqrs
                     b.Property<string>("Id")
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("Birthdate")
+                    b.Property<DateTime>("BirthDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Email")

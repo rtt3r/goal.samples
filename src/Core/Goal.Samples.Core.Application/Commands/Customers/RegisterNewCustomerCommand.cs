@@ -7,10 +7,10 @@ public class RegisterNewCustomerCommand : CustomerCommand<ICommandResult<Custome
 {
     public string Email { get; set; }
 
-    public RegisterNewCustomerCommand(string name, string email, DateTime birthdate)
+    public RegisterNewCustomerCommand(string name, string email, DateTime birthDate)
     {
         Name = name;
         Email = email;
-        Birthdate = birthdate;
+        BirthDate = birthDate;
     }
 }

@@ -33,7 +33,7 @@ public class CustomersController : ApiControllerBase
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ApiResponse))]
-    public async Task<ActionResult<PagedResponse>> Get([FromQuery] PageSearchRequest request)
+    public async Task<ActionResult<PagedResponse<Customer>>> Get([FromQuery] PageSearchRequest request)
         => Paged(await customerQueryRepository.QueryAsync(request.ToPageSearch()));
 
     [HttpGet("{customerId}", Name = nameof(GetById))]

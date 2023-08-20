@@ -16,7 +16,6 @@ public class KeycloakSettings
     public string AuthServerUrl { get; set; } = default!;
     public string Realm { get; set; } = string.Empty;
     public string Resource { get; set; } = string.Empty;
-    public string Scopes { get; set; } = string.Empty;
     public bool? VerifyTokenAudience { get; set; } = default!;
     public KeycloakClientInstallationCredentials Credentials { get; set; } = new();
     public TimeSpan TokenClockSkew { get; set; } = default!;

@@ -36,10 +36,7 @@ public class ConfigureApiSwaggerOptions : ConfigureSwaggerOptions
                 Password = new OpenApiOAuthFlow
                 {
                     TokenUrl = new Uri($"{keycloakOptions.AuthenticationOptions.KeycloakUrlRealm}/protocol/openid-connect/token"),
-                    Scopes = new Dictionary<string, string>(
-                        configuration["Keycloak:Scopes"]
-                            .Split(' ')
-                            .Select(s => new KeyValuePair<string, string>(s, string.Empty)))
+                    Scopes = new Dictionary<string, string>()
                 }
             }
         });

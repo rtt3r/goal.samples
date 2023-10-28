@@ -16,7 +16,7 @@ services:
         - ASPNETCORE_RavenSettings__CertFilePath=
         - ASPNETCORE_RavenSettings__CertPassword=
         - ASPNETCORE_Keycloak__Realm=goal
-        - ASPNETCORE_Keycloak__AuthServerUrl=http://192.168.1.9:8081
+        - ASPNETCORE_Keycloak__AuthServerUrl=http://192.168.0.193:8081
         - ASPNETCORE_Keycloak__SslRequired=none
         - ASPNETCORE_Keycloak__Resource=core-api
         - ASPNETCORE_Keycloak__VerifyTokenAudience=true

@@ -43,9 +43,9 @@ services:
         - ASPNETCORE_Kestrel__Certificates__Default__Password=fd7ccf84-1ff8-4817-9ecd-f0a2047ea262
         - ASPNETCORE_Kestrel__Certificates__Default__Path=/root/.aspnet/https/Development.pfx
     volumes:
-        - ${APPDATA}\microsoft\UserSecrets\:/root/.microsoft/usersecrets
-        - ${USERPROFILE}\.aspnet\https:/root/.aspnet/https/
-        - ${USERPROFILE}\.aspnet\DataProtection-Keys:/root/.aspnet/DataProtection-Keys/
+        - ~/.microsoft/usersecrets\:/root/.microsoft/usersecrets
+        - ~/.aspnet/https:/root/.aspnet/https/
+        - ~/.aspnet/DataProtection-Keys:/root/.aspnet/DataProtection-Keys/
     depends_on:
       mysql:
         condition: service_healthy
@@ -74,9 +74,9 @@ services:
         - ASPNETCORE_Kestrel__Certificates__Default__Password=fd7ccf84-1ff8-4817-9ecd-f0a2047ea262
         - ASPNETCORE_Kestrel__Certificates__Default__Path=/root/.aspnet/https/Development.pfx
     volumes:
-        - ${APPDATA}\microsoft\UserSecrets\:/root/.microsoft/usersecrets
-        - ${USERPROFILE}\.aspnet\https:/root/.aspnet/https/
-        - ${USERPROFILE}\.aspnet\DataProtection-Keys:/root/.aspnet/DataProtection-Keys/
+        - ~/.microsoft/usersecrets\:/root/.microsoft/usersecrets
+        - ~/.aspnet/https:/root/.aspnet/https/
+        - ~/.aspnet/DataProtection-Keys:/root/.aspnet/DataProtection-Keys/
     depends_on:
       mysql:
         condition: service_healthy

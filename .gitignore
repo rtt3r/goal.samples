@@ -211,3 +211,4 @@ tools/
 # Custom
 nuget.config
 activate-raven.sh
+.env

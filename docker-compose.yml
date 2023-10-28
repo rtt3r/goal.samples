@@ -17,7 +17,7 @@ services:
       - ravendb-data:/opt/RavenDB/Server/RavenData
 
   rabbitmq:
-    hostname: 'mabbit'
+    hostname: "mabbit"
     image: rabbitmq:latest
     container_name: rabbitmq.goal.ritter.co
     ports:
@@ -35,7 +35,7 @@ services:
       - 5341:5341
     environment:
       - ACCEPT_EULA=Y
-      - SEQ_FIRSTRUN_ADMINPASSWORDHASH=QNSakIX8rLtMqwkby4zVU3tAmt9ajfIp3srPNneBJ8Mdrvht9rQRuhelhj9VpNGH5x7NhUdix0rX/Ay7wHFLmwwajZKx+EBpydhUjxHKu/zv
+      - SEQ_FIRSTRUN_ADMINPASSWORDHASH=${SEQ_PWD_HASH}
     volumes:
       - seq-data:/var/lib/seq/data/
 
@@ -48,9 +48,9 @@ services:
       - "3306:3306"
     environment:
       - MYSQL_DATABASE=keycloak
-      - MYSQL_USER=keycloak
-      - MYSQL_PASSWORD=keycloak
-      - MYSQL_ROOT_PASSWORD=BeycL18545#f
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     volumes:
       - mysql-vol:/var/lib/mysql
 
@@ -64,10 +64,10 @@ services:
     command: start-dev
     environment:
       - KEYCLOAK_ADMIN=admin
-      - KEYCLOAK_ADMIN_PASSWORD=admin
+      - KEYCLOAK_ADMIN_PASSWORD=${KC_ADMIN_PWD}
       - KC_DB=mysql
-      - KC_DB_USERNAME=keycloak
-      - KC_DB_PASSWORD=keycloak
+      - KC_DB_USERNAME=${KC_DB_USERNAME}
+      - KC_DB_PASSWORD=${KC_DB_PASSWORD}
       - KC_DB_URL=jdbc:mysql://mysql:3306/keycloak
     volumes:
       - keycloak-data:/opt/keycloak/data

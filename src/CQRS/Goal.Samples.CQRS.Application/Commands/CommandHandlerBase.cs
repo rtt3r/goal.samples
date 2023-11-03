@@ -15,7 +15,7 @@ public class CommandHandlerBase
     protected readonly ITypeAdapter typeAdapter;
     protected readonly AppState appState;
 
-    public CommandHandlerBase(
+    protected CommandHandlerBase(
         ICqrsUnitOfWork uow,
         IPublishEndpoint publishEndpoint,
         IDefaultNotificationHandler notificationHandler,

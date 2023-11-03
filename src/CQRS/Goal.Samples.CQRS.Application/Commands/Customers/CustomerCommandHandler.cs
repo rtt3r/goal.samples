@@ -1,9 +1,7 @@
 using FluentValidation.Results;
 using Goal.Samples.CQRS.Application.Commands.Customers.Validators;
 using Goal.Samples.CQRS.Application.Events.Customers;
-using Goal.Samples.CQRS.Domain.Customers.Aggregates;
 using Goal.Samples.CQRS.Infra.Data;
-using Goal.Samples.CQRS.Model.Customers;
 using Goal.Samples.Infra.Crosscutting;
 using Goal.Samples.Infra.Crosscutting.Constants;
 using Goal.Seedwork.Application.Commands;
@@ -14,29 +12,19 @@ using MassTransit;
 
 namespace Goal.Samples.CQRS.Application.Commands.Customers;
 
-public class CustomerCommandHandler :
+public class CustomerCommandHandler : CommandHandlerBase,
     ICommandHandler<RegisterNewCustomerCommand, ICommandResult<Model.Customers.Customer>>,
     ICommandHandler<UpdateCustomerCommand, ICommandResult>,
     ICommandHandler<RemoveCustomerCommand, ICommandResult>
 {
-    private readonly ICqrsUnitOfWork uow;
-    private readonly IPublishEndpoint publishEndpoint;
-    private readonly IDefaultNotificationHandler notificationHandler;
-    private readonly ITypeAdapter typeAdapter;
-    private readonly AppState appState;
-
     public CustomerCommandHandler(
         ICqrsUnitOfWork uow,
         IPublishEndpoint publishEndpoint,
         IDefaultNotificationHandler notificationHandler,
         ITypeAdapter typeAdapter,
         AppState appState)
+        : base(uow, publishEndpoint, notificationHandler, typeAdapter, appState)
     {
-        this.uow = uow;
-        this.publishEndpoint = publishEndpoint;
-        this.notificationHandler = notificationHandler;
-        this.typeAdapter = typeAdapter;
-        this.appState = appState;
     }
 
     public async Task<ICommandResult<Model.Customers.Customer>> Handle(RegisterNewCustomerCommand command, CancellationToken cancellationToken)
@@ -211,21 +199,5 @@ public class CustomerCommandHandler :
         }
 
         return CommandResult.Failure<Model.Customers.Customer>(default, notificationHandler.GetNotifications());
-    }
-
-    private async Task<bool> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
-    {
-        if (await uow.SaveAsync(cancellationToken))
-        {
-            return true;
-        }
-
-        await notificationHandler.HandleAsync(
-            Notification.InternalError(
-                nameof(ApplicationConstants.Messages.SAVING_DATA_FAILURE),
-                ApplicationConstants.Messages.SAVING_DATA_FAILURE),
-            cancellationToken);
-
-        return false;
     }
 }

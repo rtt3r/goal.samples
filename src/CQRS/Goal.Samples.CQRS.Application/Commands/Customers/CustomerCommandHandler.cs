@@ -1,6 +1,7 @@
 using FluentValidation.Results;
 using Goal.Samples.CQRS.Application.Commands.Customers.Validators;
 using Goal.Samples.CQRS.Application.Events.Customers;
+using Goal.Samples.CQRS.Domain.Customers.Aggregates;
 using Goal.Samples.CQRS.Infra.Data;
 using Goal.Samples.Infra.Crosscutting;
 using Goal.Samples.Infra.Crosscutting.Constants;
@@ -9,11 +10,12 @@ using Goal.Seedwork.Application.Extensions;
 using Goal.Seedwork.Infra.Crosscutting.Adapters;
 using Goal.Seedwork.Infra.Crosscutting.Notifications;
 using MassTransit;
+using CustomerModel = Goal.Samples.CQRS.Model.Customers.Customer;
 
 namespace Goal.Samples.CQRS.Application.Commands.Customers;
 
 public class CustomerCommandHandler : CommandHandlerBase,
-    ICommandHandler<RegisterNewCustomerCommand, ICommandResult<Model.Customers.Customer>>,
+    ICommandHandler<RegisterNewCustomerCommand, ICommandResult<CustomerModel>>,
     ICommandHandler<UpdateCustomerCommand, ICommandResult>,
     ICommandHandler<RemoveCustomerCommand, ICommandResult>
 {
@@ -27,7 +29,7 @@ public class CustomerCommandHandler : CommandHandlerBase,
     {
     }
 
-    public async Task<ICommandResult<Model.Customers.Customer>> Handle(RegisterNewCustomerCommand command, CancellationToken cancellationToken)
+    public async Task<ICommandResult<CustomerModel>> Handle(RegisterNewCustomerCommand command, CancellationToken cancellationToken)
     {
         FluentValidation.Results.ValidationResult validationResult = await command.ValidateCommandAsync(
             new RegisterNewCustomerCommandValidator(),
@@ -37,32 +39,29 @@ public class CustomerCommandHandler : CommandHandlerBase,
         {
             foreach (ValidationFailure error in validationResult.Errors)
             {
-                await notificationHandler.HandleAsync(
-                    Notification.InputValidation(
-                        error.ErrorCode,
-                        error.ErrorMessage,
-                        error.PropertyName),
+                await HandleInputValidationAsync(
+                    error.ErrorCode,
+                    error.ErrorMessage,
+                    error.PropertyName,
                     cancellationToken);
             }
 
-            return CommandResult.Failure<Model.Customers.Customer>(default, notificationHandler.GetNotifications());
+            return CommandResult.Failure<CustomerModel>(default, notificationHandler.GetNotifications());
         }
 
-        Domain.Customers.Aggregates.Customer customer = await uow.Customers.GetByEmail(command.Email);
+        Customer customer = await uow.Customers.GetByEmail(command.Email);
 
         if (customer != null)
         {
-            await notificationHandler.HandleAsync(
-                Notification.DomainViolation(
-                    nameof(ApplicationConstants.Messages.CUSTOMER_EMAIL_DUPLICATED),
-                    ApplicationConstants.Messages.CUSTOMER_EMAIL_DUPLICATED
-                ),
+            await HandleDomainViolationAsync(
+                nameof(ApplicationConstants.Messages.CUSTOMER_EMAIL_DUPLICATED),
+                ApplicationConstants.Messages.CUSTOMER_EMAIL_DUPLICATED,
                 cancellationToken);
 
-            return CommandResult.Failure<Model.Customers.Customer>(default, notificationHandler.GetNotifications());
+            return CommandResult.Failure<CustomerModel>(default, notificationHandler.GetNotifications());
         }
 
-        customer = new Domain.Customers.Aggregates.Customer(command.Name, command.Email, command.Birthdate);
+        customer = new Customer(command.Name, command.Email, command.Birthdate);
 
         await uow.Customers.AddAsync(customer, cancellationToken);
 
@@ -77,10 +76,10 @@ public class CustomerCommandHandler : CommandHandlerBase,
                 cancellationToken);
 
             return CommandResult.Success(
-                typeAdapter.ProjectAs<Model.Customers.Customer>(customer));
+                typeAdapter.ProjectAs<CustomerModel>(customer));
         }
 
-        return CommandResult.Failure<Model.Customers.Customer>(default, notificationHandler.GetNotifications());
+        return CommandResult.Failure<CustomerModel>(default, notificationHandler.GetNotifications());
     }
 
     public async Task<ICommandResult> Handle(UpdateCustomerCommand command, CancellationToken cancellationToken)
@@ -93,42 +92,38 @@ public class CustomerCommandHandler : CommandHandlerBase,
         {
             foreach (ValidationFailure error in validationResult.Errors)
             {
-                await notificationHandler.HandleAsync(
-                    Notification.InputValidation(
-                        error.ErrorCode,
-                        error.ErrorMessage,
-                        error.PropertyName),
+                await HandleInputValidationAsync(
+                    error.ErrorCode,
+                    error.ErrorMessage,
+                    error.PropertyName,
                     cancellationToken);
             }
 
-            return CommandResult.Failure<Model.Customers.Customer>(default, notificationHandler.GetNotifications());
+            return CommandResult.Failure<CustomerModel>(default, notificationHandler.GetNotifications());
         }
 
-        Domain.Customers.Aggregates.Customer customer = await uow.Customers.LoadAsync(command.CustomerId, cancellationToken);
+        Customer customer = await uow.Customers.LoadAsync(command.CustomerId, cancellationToken);
 
         if (customer is null)
         {
-            await notificationHandler.HandleAsync(
-                Notification.ResourceNotFound(
-                    nameof(ApplicationConstants.Messages.CUSTOMER_NOT_FOUND),
-                    ApplicationConstants.Messages.CUSTOMER_NOT_FOUND),
+            await HandleResourceNotFoundAsync(
+                nameof(ApplicationConstants.Messages.CUSTOMER_NOT_FOUND),
+                ApplicationConstants.Messages.CUSTOMER_NOT_FOUND,
                 cancellationToken);
 
-            return CommandResult.Failure<Model.Customers.Customer>(default, notificationHandler.GetNotifications());
+            return CommandResult.Failure<CustomerModel>(default, notificationHandler.GetNotifications());
         }
 
-        Domain.Customers.Aggregates.Customer existingCustomer = await uow.Customers.GetByEmail(customer.Email);
+        Customer existingCustomer = await uow.Customers.GetByEmail(customer.Email);
 
         if (existingCustomer != null && existingCustomer != customer)
         {
-            await notificationHandler.HandleAsync(
-                Notification.DomainViolation(
-                    nameof(ApplicationConstants.Messages.CUSTOMER_EMAIL_DUPLICATED),
-                    ApplicationConstants.Messages.CUSTOMER_EMAIL_DUPLICATED
-                ),
+            await HandleDomainViolationAsync(
+                nameof(ApplicationConstants.Messages.CUSTOMER_EMAIL_DUPLICATED),
+                ApplicationConstants.Messages.CUSTOMER_EMAIL_DUPLICATED,
                 cancellationToken);
 
-            return CommandResult.Failure<Model.Customers.Customer>(default, notificationHandler.GetNotifications());
+            return CommandResult.Failure<CustomerModel>(default, notificationHandler.GetNotifications());
         }
 
         customer.UpdateName(command.Name);
@@ -149,7 +144,7 @@ public class CustomerCommandHandler : CommandHandlerBase,
             return CommandResult.Success();
         }
 
-        return CommandResult.Failure<Model.Customers.Customer>(default, notificationHandler.GetNotifications());
+        return CommandResult.Failure<CustomerModel>(default, notificationHandler.GetNotifications());
     }
 
     public async Task<ICommandResult> Handle(RemoveCustomerCommand command, CancellationToken cancellationToken)
@@ -162,29 +157,26 @@ public class CustomerCommandHandler : CommandHandlerBase,
         {
             foreach (ValidationFailure error in validationResult.Errors)
             {
-                await notificationHandler.HandleAsync(
-                    Notification.InputValidation(
-                        error.ErrorCode,
-                        error.ErrorMessage,
-                        error.PropertyName),
+                await HandleInputValidationAsync(
+                    error.ErrorCode,
+                    error.ErrorMessage,
+                    error.PropertyName,
                     cancellationToken);
             }
 
-            return CommandResult.Failure<Model.Customers.Customer>(default, notificationHandler.GetNotifications());
+            return CommandResult.Failure<CustomerModel>(default, notificationHandler.GetNotifications());
         }
 
-        Domain.Customers.Aggregates.Customer customer = await uow.Customers.LoadAsync(command.CustomerId, cancellationToken);
+        Customer customer = await uow.Customers.LoadAsync(command.CustomerId, cancellationToken);
 
         if (customer is null)
         {
-            await notificationHandler.HandleAsync(
-                Notification.DomainViolation(
-                    nameof(ApplicationConstants.Messages.CUSTOMER_NOT_FOUND),
-                    ApplicationConstants.Messages.CUSTOMER_NOT_FOUND
-                ),
+            await HandleDomainViolationAsync(
+                nameof(ApplicationConstants.Messages.CUSTOMER_NOT_FOUND),
+                ApplicationConstants.Messages.CUSTOMER_NOT_FOUND,
                 cancellationToken);
 
-            return CommandResult.Failure<Model.Customers.Customer>(default, notificationHandler.GetNotifications());
+            return CommandResult.Failure<CustomerModel>(default, notificationHandler.GetNotifications());
         }
 
         uow.Customers.Remove(customer);
@@ -198,6 +190,6 @@ public class CustomerCommandHandler : CommandHandlerBase,
             return CommandResult.Success();
         }
 
-        return CommandResult.Failure<Model.Customers.Customer>(default, notificationHandler.GetNotifications());
+        return CommandResult.Failure<CustomerModel>(default, notificationHandler.GetNotifications());
     }
 }

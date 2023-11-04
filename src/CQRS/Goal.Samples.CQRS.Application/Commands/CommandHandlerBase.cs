@@ -36,12 +36,60 @@ public class CommandHandlerBase
             return true;
         }
 
-        await notificationHandler.HandleAsync(
-            Notification.InternalError(
-                nameof(ApplicationConstants.Messages.SAVING_DATA_FAILURE),
-                ApplicationConstants.Messages.SAVING_DATA_FAILURE),
+        await HandleInternalErrorAsync(
+            nameof(ApplicationConstants.Messages.SAVING_DATA_FAILURE),
+            ApplicationConstants.Messages.SAVING_DATA_FAILURE,
             cancellationToken);
 
         return false;
+    }
+
+    protected async Task HandleDomainViolationAsync(string code, string message, CancellationToken cancellationToken)
+    {
+        await HandleAsync(
+            Notification.DomainViolation(code, message),
+            cancellationToken);
+    }
+
+    protected async Task HandleInputValidationAsync(string code, string message, string paramName, CancellationToken cancellationToken)
+    {
+        await HandleAsync(
+            Notification.InputValidation(code, message, paramName),
+            cancellationToken);
+    }
+
+    protected async Task HandleResourceNotFoundAsync(string code, string message, CancellationToken cancellationToken)
+    {
+        await HandleAsync(
+            Notification.ResourceNotFound(code, message),
+            cancellationToken);
+    }
+
+    protected async Task HandleInternalErrorAsync(string code, string message, CancellationToken cancellationToken)
+    {
+        await HandleAsync(
+            Notification.InternalError(code, message),
+            cancellationToken);
+    }
+
+    protected async Task HandleExternalErrorAsync(string code, string message, CancellationToken cancellationToken)
+    {
+        await HandleAsync(
+            Notification.ExternalError(code, message),
+            cancellationToken);
+    }
+
+    protected async Task HandleInformationAsync(string code, string message, CancellationToken cancellationToken)
+    {
+        await HandleAsync(
+            Notification.Information(code, message),
+            cancellationToken);
+    }
+
+    private async Task HandleAsync(Notification notification, CancellationToken cancellationToken)
+    {
+        await notificationHandler.HandleAsync(
+            notification,
+            cancellationToken);
     }
 }

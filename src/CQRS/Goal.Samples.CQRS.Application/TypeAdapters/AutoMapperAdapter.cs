@@ -14,7 +14,9 @@ public class AutoMapperAdapter : ITypeAdapter
 
     public TTarget Adapt<TSource, TTarget>(TSource source)
         where TSource : class
-        where TTarget : class, new() => mapper.Map<TSource, TTarget>(source);
+        where TTarget : class, new()
+        => mapper.Map<TSource, TTarget>(source);
 
-    public TTarget Adapt<TTarget>(object source) where TTarget : class, new() => mapper.Map<TTarget>(source);
+    public TTarget Adapt<TTarget>(object source) where TTarget : class, new()
+        => mapper.Map<TTarget>(source);
 }

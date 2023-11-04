@@ -2,43 +2,7 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "build-identity",
-      "command": "dotnet",
-      "type": "process",
-      "args": [
-        "build",
-        "${workspaceFolder}/src/Identity/Goal.Samples.Identity/Goal.Samples.Identity.csproj",
-        "/property:GenerateFullPaths=true",
-        "/consoleloggerparameters:NoSummary"
-      ],
-      "problemMatcher": "$msCompile"
-    },
-    {
-      "label": "publish-identity",
-      "command": "dotnet",
-      "type": "process",
-      "args": [
-        "publish",
-        "${workspaceFolder}/src/Identity/Goal.Samples.Identity/Goal.Samples.Identity.csproj",
-        "/property:GenerateFullPaths=true",
-        "/consoleloggerparameters:NoSummary"
-      ],
-      "problemMatcher": "$msCompile"
-    },
-    {
-      "label": "watch-identity",
-      "command": "dotnet",
-      "type": "process",
-      "args": [
-        "watch",
-        "run",
-        "--project",
-        "${workspaceFolder}/src/Identity/Goal.Samples.Identity/Goal.Samples.Identity.csproj"
-      ],
-      "problemMatcher": "$msCompile"
-    },
-    {
-      "label": "build-api",
+      "label": "build",
       "command": "dotnet",
       "type": "process",
       "args": [
@@ -50,7 +14,7 @@
       "problemMatcher": "$msCompile"
     },
     {
-      "label": "publish-api",
+      "label": "publish",
       "command": "dotnet",
       "type": "process",
       "args": [
@@ -62,7 +26,7 @@
       "problemMatcher": "$msCompile"
     },
     {
-      "label": "watch-api",
+      "label": "watch",
       "command": "dotnet",
       "type": "process",
       "args": [

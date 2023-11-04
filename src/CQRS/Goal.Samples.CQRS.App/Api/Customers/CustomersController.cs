@@ -20,13 +20,17 @@ namespace Goal.Samples.CQRS.App.Api.Customers;
 public class CustomersController : ApiControllerBase
 {
     private readonly ICustomerQueryRepository customerQueryRepository;
+    private readonly ILogger<CustomersController> logger;
     private readonly IMediator mediator;
 
     public CustomersController(
         ICustomerQueryRepository customerQueryRepository,
+        ILogger<CustomersController> logger,
         IMediator mediator)
     {
         this.customerQueryRepository = customerQueryRepository;
+        this.logger = logger;
+
         this.mediator = mediator;
     }
 
@@ -100,6 +104,7 @@ public class CustomersController : ApiControllerBase
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ApiResponse))]
     public async Task<ActionResult<ApiResponse>> Delete([FromRoute] string customerId)
     {
+        logger?.LogInformation("Delete customer", new { CustomerId = customerId });
         ICommandResult result = await mediator.Send(new RemoveCustomerCommand(customerId));
 
         return result.IsSucceeded

@@ -1,4 +1,3 @@
-using FluentValidation.Results;
 using Goal.Samples.CQRS.Application.Commands.Customers.Validators;
 using Goal.Samples.CQRS.Application.Events.Customers;
 using Goal.Samples.CQRS.Domain.Customers.Aggregates;
@@ -31,21 +30,8 @@ public class CustomerCommandHandler : CommandHandlerBase,
 
     public async Task<ICommandResult<CustomerModel>> Handle(RegisterNewCustomerCommand command, CancellationToken cancellationToken)
     {
-        FluentValidation.Results.ValidationResult validationResult = await command.ValidateCommandAsync(
-            new RegisterNewCustomerCommandValidator(),
-            cancellationToken);
-
-        if (!validationResult.IsValid)
+        if (!await ValidateCommandAsync<RegisterNewCustomerCommandValidator, RegisterNewCustomerCommand>(command, cancellationToken))
         {
-            foreach (ValidationFailure error in validationResult.Errors)
-            {
-                await HandleInputValidationAsync(
-                    error.ErrorCode,
-                    error.ErrorMessage,
-                    error.PropertyName,
-                    cancellationToken);
-            }
-
             return CommandResult.Failure<CustomerModel>(default, notificationHandler.GetNotifications());
         }
 
@@ -84,21 +70,8 @@ public class CustomerCommandHandler : CommandHandlerBase,
 
     public async Task<ICommandResult> Handle(UpdateCustomerCommand command, CancellationToken cancellationToken)
     {
-        FluentValidation.Results.ValidationResult validationResult = await command.ValidateCommandAsync(
-            new UpdateCustomerCommandValidator(),
-            cancellationToken);
-
-        if (!validationResult.IsValid)
+        if (!await ValidateCommandAsync<UpdateCustomerCommandValidator, UpdateCustomerCommand>(command, cancellationToken))
         {
-            foreach (ValidationFailure error in validationResult.Errors)
-            {
-                await HandleInputValidationAsync(
-                    error.ErrorCode,
-                    error.ErrorMessage,
-                    error.PropertyName,
-                    cancellationToken);
-            }
-
             return CommandResult.Failure<CustomerModel>(default, notificationHandler.GetNotifications());
         }
 
@@ -149,21 +122,8 @@ public class CustomerCommandHandler : CommandHandlerBase,
 
     public async Task<ICommandResult> Handle(RemoveCustomerCommand command, CancellationToken cancellationToken)
     {
-        FluentValidation.Results.ValidationResult validationResult = await command.ValidateCommandAsync(
-            new RemoveCustomerCommandValidator(),
-            cancellationToken);
-
-        if (!validationResult.IsValid)
+        if (!await ValidateCommandAsync<RemoveCustomerCommandValidator, RemoveCustomerCommand>(command, cancellationToken))
         {
-            foreach (ValidationFailure error in validationResult.Errors)
-            {
-                await HandleInputValidationAsync(
-                    error.ErrorCode,
-                    error.ErrorMessage,
-                    error.PropertyName,
-                    cancellationToken);
-            }
-
             return CommandResult.Failure<CustomerModel>(default, notificationHandler.GetNotifications());
         }
 
@@ -171,7 +131,7 @@ public class CustomerCommandHandler : CommandHandlerBase,
 
         if (customer is null)
         {
-            await HandleDomainViolationAsync(
+            await HandleResourceNotFoundAsync(
                 nameof(ApplicationConstants.Messages.CUSTOMER_NOT_FOUND),
                 ApplicationConstants.Messages.CUSTOMER_NOT_FOUND,
                 cancellationToken);

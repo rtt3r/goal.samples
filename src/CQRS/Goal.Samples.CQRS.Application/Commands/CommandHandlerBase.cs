@@ -1,6 +1,9 @@
+using FluentValidation;
+using FluentValidation.Results;
 using Goal.Samples.CQRS.Infra.Data;
 using Goal.Samples.Infra.Crosscutting;
 using Goal.Samples.Infra.Crosscutting.Constants;
+using Goal.Seedwork.Application.Commands;
 using Goal.Seedwork.Infra.Crosscutting.Adapters;
 using Goal.Seedwork.Infra.Crosscutting.Notifications;
 using MassTransit;
@@ -27,6 +30,37 @@ public class CommandHandlerBase
         this.notificationHandler = notificationHandler;
         this.typeAdapter = typeAdapter;
         this.appState = appState;
+    }
+
+    protected async Task<bool> ValidateCommandAsync<TValidator, TCommand>(TCommand command, CancellationToken cancellationToken = default)
+        where TValidator : IValidator<TCommand>, new()
+        where TCommand : ICommand
+    {
+        return await ValidateCommandAsync(command, new TValidator(), cancellationToken);
+    }
+
+    protected async Task<bool> ValidateCommandAsync<TCommand>(TCommand command, IValidator<TCommand> validator, CancellationToken cancellationToken = default)
+        where TCommand : ICommand
+    {
+        FluentValidation.Results.ValidationResult validationResult = await command.ValidateCommandAsync(
+            validator,
+            cancellationToken);
+
+        if (!validationResult.IsValid)
+        {
+            foreach (ValidationFailure error in validationResult.Errors)
+            {
+                await HandleInputValidationAsync(
+                    error.ErrorCode,
+                    error.ErrorMessage,
+                    error.PropertyName,
+                    cancellationToken);
+            }
+
+            return false;
+        }
+
+        return true;
     }
 
     protected virtual async Task<bool> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())

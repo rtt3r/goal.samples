@@ -1,4 +1,4 @@
-using Goal.Samples.Core.App;
+using Goal.Samples.Core.Api;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 

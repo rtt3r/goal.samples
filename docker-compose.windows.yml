@@ -19,7 +19,7 @@ services:
         condition: service_healthy
         restart: true
 
-  core-app:
+  core-api:
     environment:
         - ASPNETCORE_ENVIRONMENT=Development
         - ASPNETCORE_DbProvider=MySQL

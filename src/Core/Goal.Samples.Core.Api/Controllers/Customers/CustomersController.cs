@@ -11,7 +11,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Goal.Samples.Core.App.Api.Customers;
+namespace Goal.Samples.Core.Api.Controllers.Customers;
 
 [ApiController]
 [ApiVersion("1")]

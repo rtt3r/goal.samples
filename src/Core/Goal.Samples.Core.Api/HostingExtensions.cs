@@ -1,6 +1,6 @@
 using System.Globalization;
 using System.Text.Json.Serialization;
-using Goal.Samples.Core.App.Swagger;
+using Goal.Samples.Core.Api.Swagger;
 using Goal.Samples.Core.Infra.IoC.Extensions;
 using Goal.Samples.Infra.Crosscutting.Extensions;
 using Goal.Samples.Infra.Crosscutting.Settings;
@@ -18,7 +18,7 @@ using Microsoft.OpenApi.Models;
 using Serilog;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace Goal.Samples.Core.App;
+namespace Goal.Samples.Core.Api;
 
 public static class HostingExtensions
 {

@@ -4,7 +4,7 @@ using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace Goal.Samples.Core.App.Swagger;
+namespace Goal.Samples.Core.Api.Swagger;
 
 public class ConfigureApiSwaggerOptions : ConfigureSwaggerOptions
 {

@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
 
-  core-app:
+  core-api:
     environment:
         - ASPNETCORE_ENVIRONMENT=Development
         - ASPNETCORE_DbProvider=MySQL

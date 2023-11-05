@@ -1,4 +1,4 @@
-namespace Goal.Samples.Core.App.Api.Customers;
+namespace Goal.Samples.Core.Api.Controllers.Customers;
 
 public abstract class CustomerRequest
 {

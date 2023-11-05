@@ -69,16 +69,20 @@ services:
       - KC_DB_USERNAME=${KC_DB_USERNAME}
       - KC_DB_PASSWORD=${KC_DB_PASSWORD}
       - KC_DB_URL=jdbc:mysql://mysql:3306/keycloak
+      - KC_HTTPS_CERTIFICATE_FILE=/opt/keycloak/conf/server.crt.pem
+      - KC_HTTPS_CERTIFICATE_KEY_FILE=/opt/keycloak/conf/server.key.pem
     volumes:
       - keycloak-data:/opt/keycloak/data
+      - ~/.ssl/keycloak.crt.pem:/opt/keycloak/conf/keycloak.crt.pem
+      - ~/.ssl/keycloak.key.pem:/opt/keycloak/conf/keycloak.key.pem
 
-  core-app:
-    image: ${REGISTRY:-ritter.co}/goal/core-app:${PLATFORM:-linux}-${TAG:-latest}
-    container_name: core-app.goal.ritter.co
+  core-api:
+    image: ${REGISTRY:-ritter.co}/goal/core-api:${PLATFORM:-linux}-${TAG:-latest}
+    container_name: core-api.goal.ritter.co
     restart: always
     build:
       context: .
-      dockerfile: src/Core/Goal.Samples.Core.App/Dockerfile
+      dockerfile: src/Core/Goal.Samples.Core.Api/Dockerfile
     ports:
       - "8002:80"
       - "4432:443"

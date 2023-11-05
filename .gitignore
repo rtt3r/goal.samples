@@ -212,3 +212,4 @@ tools/
 nuget.config
 activate-raven.sh
 .env
+.DS_Store

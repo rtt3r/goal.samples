@@ -6,7 +6,7 @@
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build",
-      "program": "${workspaceFolder}/src/Core/Goal.Samples.Core.App/bin/Debug/net7.0/Goal.Samples.Core.App.dll",
+      "program": "${workspaceFolder}/src/Core/Goal.Samples.Core.Api/bin/Debug/net7.0/Goal.Samples.Core.Api.dll",
       "args": [],
       "cwd": "${workspaceFolder}",
       "stopAtEntry": false,

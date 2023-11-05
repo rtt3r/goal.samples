@@ -94,7 +94,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3.3. Domain", "3.3. Domain"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3.4. Infrastructure", "3.4. Infrastructure", "{7D6E78DC-A990-49CD-BE53-D9D98636D797}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Goal.Samples.Core.App", "src\Core\Goal.Samples.Core.App\Goal.Samples.Core.App.csproj", "{CB115A98-BCFA-4BCD-AC91-763C1C130C11}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Goal.Samples.Core.Api", "src\Core\Goal.Samples.Core.Api\Goal.Samples.Core.Api.csproj", "{CB115A98-BCFA-4BCD-AC91-763C1C130C11}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Goal.Samples.Core.Infra.IoC", "src\Core\Goal.Samples.Core.Infra.IoC\Goal.Samples.Core.Infra.IoC.csproj", "{188EA6A5-3E18-42C7-8622-06482F4A74FF}"
 EndProject

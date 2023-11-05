@@ -7,7 +7,7 @@
       "type": "process",
       "args": [
         "build",
-        "${workspaceFolder}/src/Core/Goal.Samples.Core.App/Goal.Samples.Core.App.csproj",
+        "${workspaceFolder}/src/Core/Goal.Samples.Core.Api/Goal.Samples.Core.Api.csproj",
         "/property:GenerateFullPaths=true",
         "/consoleloggerparameters:NoSummary"
       ],
@@ -19,7 +19,7 @@
       "type": "process",
       "args": [
         "publish",
-        "${workspaceFolder}/src/Core/Goal.Samples.Core.App/Goal.Samples.Core.App.csproj",
+        "${workspaceFolder}/src/Core/Goal.Samples.Core.Api/Goal.Samples.Core.Api.csproj",
         "/property:GenerateFullPaths=true",
         "/consoleloggerparameters:NoSummary"
       ],
@@ -33,7 +33,7 @@
         "watch",
         "run",
         "--project",
-        "${workspaceFolder}/src/Core/Goal.Samples.Core.App/Goal.Samples.Core.App.csproj"
+        "${workspaceFolder}/src/Core/Goal.Samples.Core.Api/Goal.Samples.Core.Api.csproj"
       ],
       "problemMatcher": "$msCompile"
     }

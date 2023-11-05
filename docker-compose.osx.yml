@@ -18,6 +18,12 @@ services:
       mysql:
         condition: service_healthy
         restart: true
+    environment:
+      - KC_HTTPS_CERTIFICATE_FILE=/opt/keycloak/conf/server.crt.pem
+      - KC_HTTPS_CERTIFICATE_KEY_FILE=/opt/keycloak/conf/server.key.pem
+    volumes:
+      - $PWD/server.crt.pem:/opt/keycloak/conf/server.crt.pem
+      - $PWD/server.key.pem:/opt/keycloak/conf/server.key.pem
 
   core-app:
     environment:

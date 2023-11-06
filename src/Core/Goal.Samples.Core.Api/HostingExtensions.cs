@@ -137,8 +137,11 @@ public static class HostingExtensions
                 c.RoutePrefix = string.Empty;
             });
         }
+        else
+        {
+            app.UseHttpsRedirection();
+        }
 
-        app.UseHttpsRedirection();
         app.UseStaticFiles();
         app.UseRouting();
 

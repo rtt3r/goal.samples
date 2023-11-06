@@ -36,7 +36,7 @@ services:
         - ASPNETCORE_Keycloak__AuthServerUrl=http://192.168.0.193:8081
         - ASPNETCORE_Keycloak__SslRequired=none
         - ASPNETCORE_Keycloak__Resource=core-ui
-        - ASPNETCORE_Keycloak__VerifyTokenAudience=true`
+        - ASPNETCORE_Keycloak__VerifyTokenAudience=true
         - ASPNETCORE_Keycloak__Scopes=email profile core-api-scope
         - ASPNETCORE_Keycloak__ConfidentialPort=0
         - ASPNETCORE_Cors__Origins=https://localhost:4432;http://localhost:8002;http://localhost:4200

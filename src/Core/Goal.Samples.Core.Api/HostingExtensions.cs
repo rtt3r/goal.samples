@@ -122,11 +122,12 @@ public static class HostingExtensions
             });
             app.UseSwaggerUI(c =>
             {
-                foreach (ApiVersionDescription description in app.Services.GetRequiredService<IApiVersionDescriptionProvider>().ApiVersionDescriptions)
+                IApiVersionDescriptionProvider apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
+                foreach (string groupName in apiVersionDescriptionProvider.ApiVersionDescriptions.Select(p => p.GroupName))
                 {
                     c.SwaggerEndpoint(
-                        $"/swagger/{description.GroupName}/swagger.json",
-                        description.GroupName.ToUpperInvariant());
+                        $"/swagger/{groupName}/swagger.json",
+                        groupName.ToUpperInvariant());
                 }
 
                 c.OAuthClientId(app.Configuration["Keycloak:Resource"]);

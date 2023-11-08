@@ -9,7 +9,7 @@ public class UpdateCustomerCommandValidator : CustomerValidator<UpdateCustomerCo
     {
         ValidateId();
         ValidateName();
-        ValidateBirthDate();
+        ValidateBirthdate();
     }
 
     protected void ValidateId()

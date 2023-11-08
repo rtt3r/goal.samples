@@ -9,10 +9,10 @@ public class CustomerUpdatedEvent : Event
         AggregateId = aggregateId;
         Name = name;
         Email = email;
-        BirthDate = birthDate;
+        Birthdate = birthDate;
     }
 
     public string Name { get; protected set; }
     public string Email { get; protected set; }
-    public DateTime BirthDate { get; protected set; }
+    public DateTime Birthdate { get; protected set; }
 }

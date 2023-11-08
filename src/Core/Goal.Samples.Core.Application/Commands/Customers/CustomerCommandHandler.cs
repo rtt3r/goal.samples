@@ -47,7 +47,7 @@ public class CustomerCommandHandler : CommandHandlerBase,
             return CommandResult.Failure<CustomerModel>(default, notificationHandler.GetNotifications());
         }
 
-        customer = new Customer(command.Name, command.Email, command.BirthDate);
+        customer = new Customer(command.Name, command.Email, command.Birthdate);
 
         await uow.Customers.AddAsync(customer, cancellationToken);
 
@@ -58,7 +58,7 @@ public class CustomerCommandHandler : CommandHandlerBase,
                     customer.Id,
                     customer.Name,
                     customer.Email,
-                    customer.BirthDate),
+                    customer.Birthdate),
                 cancellationToken);
 
             return CommandResult.Success(
@@ -100,7 +100,7 @@ public class CustomerCommandHandler : CommandHandlerBase,
         }
 
         customer.UpdateName(command.Name);
-        customer.UpdateBirthDate(command.BirthDate);
+        customer.UpdateBirthdate(command.Birthdate);
 
         uow.Customers.Update(existingCustomer);
 
@@ -111,7 +111,7 @@ public class CustomerCommandHandler : CommandHandlerBase,
                     customer.Id,
                     customer.Name,
                     customer.Email,
-                    customer.BirthDate),
+                    customer.Birthdate),
                 cancellationToken);
 
             return CommandResult.Success();

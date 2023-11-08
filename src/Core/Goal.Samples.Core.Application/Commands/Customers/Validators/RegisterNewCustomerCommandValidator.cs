@@ -8,7 +8,7 @@ public class RegisterNewCustomerCommandValidator : CustomerValidator<RegisterNew
     public RegisterNewCustomerCommandValidator()
     {
         ValidateName();
-        ValidateBirthDate();
+        ValidateBirthdate();
         ValidateEmail();
     }
 

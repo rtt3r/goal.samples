@@ -10,6 +10,6 @@ public class UpdateCustomerCommand : CustomerCommand<ICommandResult>
     {
         CustomerId = customerId;
         Name = name;
-        BirthDate = birthDate;
+        Birthdate = birthDate;
     }
 }

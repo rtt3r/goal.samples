@@ -17,9 +17,9 @@ public abstract class CustomerValidator<TCommand> : AbstractValidator<TCommand>
                 .WithErrorCode(nameof(ApplicationConstants.Messages.CUSTOMER_NAME_LENGTH_INVALID));
     }
 
-    protected void ValidateBirthDate()
+    protected void ValidateBirthdate()
     {
-        RuleFor(c => c.BirthDate)
+        RuleFor(c => c.Birthdate)
             .NotEmpty()
                 .WithMessage(ApplicationConstants.Messages.CUSTOMER_BIRTHDATE_REQUIRED)
                 .WithErrorCode(nameof(ApplicationConstants.Messages.CUSTOMER_BIRTHDATE_REQUIRED))
@@ -28,6 +28,6 @@ public abstract class CustomerValidator<TCommand> : AbstractValidator<TCommand>
                 .WithErrorCode(nameof(ApplicationConstants.Messages.CUSTOMER_BIRTHDATE_LENGTH_INVALID));
     }
 
-    protected static bool HaveMinimumAge(DateTime BirthDate)
-        => BirthDate.Date <= DateTime.Today.AddYears(-18);
+    protected static bool HaveMinimumAge(DateTime Birthdate)
+        => Birthdate.Date <= DateTime.Today.AddYears(-18);
 }

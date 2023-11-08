@@ -11,6 +11,6 @@ public class RegisterNewCustomerCommand : CustomerCommand<ICommandResult<Custome
     {
         Name = name;
         Email = email;
-        BirthDate = birthDate;
+        Birthdate = birthDate;
     }
 }

@@ -59,7 +59,7 @@ public class CustomersController : ApiControllerBase
         var command = new RegisterNewCustomerCommand(
             request.Name,
             request.Email,
-            request.BirthDate);
+            request.Birthdate);
 
         ICommandResult<Customer> result = await mediator
             .Send<ICommandResult<Customer>>(command);
@@ -84,7 +84,7 @@ public class CustomersController : ApiControllerBase
             new UpdateCustomerCommand(
                 customerId,
                 request.Name,
-                request.BirthDate));
+                request.Birthdate));
 
         return result.IsSucceeded
             ? AcceptedAtAction(nameof(GetById), new { customerId }, null)

@@ -9,7 +9,7 @@ public class Customer : Entity<string>
         Id = Guid.NewGuid().ToString();
         Name = name;
         Email = email;
-        BirthDate = birthDate;
+        Birthdate = birthDate;
     }
 
     // Empty constructor for EF
@@ -19,9 +19,9 @@ public class Customer : Entity<string>
 
     public string Email { get; protected set; }
 
-    public DateTime BirthDate { get; protected set; }
+    public DateTime Birthdate { get; protected set; }
 
     public void UpdateName(string name) => Name = name;
 
-    public void UpdateBirthDate(DateTime birthDate) => BirthDate = birthDate;
+    public void UpdateBirthdate(DateTime birthDate) => Birthdate = birthDate;
 }

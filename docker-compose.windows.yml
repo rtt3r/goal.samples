@@ -22,7 +22,7 @@ services:
   core-api:
     environment:
         - ASPNETCORE_ENVIRONMENT=Development
-        - ASPNETCORE_DbProvider=MySQL
+        - ASPNETCORE_DbProvider=MySql
         - ASPNETCORE_ConnectionStrings__DefaultConnection=Server=mysql;Port=3306;Database=goal-cqrs-dev;Uid=root;Pwd=${MYSQL_ROOT_PASSWORD};
         - ASPNETCORE_ConnectionStrings__Seq=http://seq:5341
         - ASPNETCORE_ConnectionStrings__RabbitMq=amqp://${RMQ_USER}:${RMQ_PWD}@rabbitmq:5672
@@ -60,7 +60,7 @@ services:
   core-worker:
     environment:
         - ASPNETCORE_ENVIRONMENT=Development
-        - ASPNETCORE_DbProvider=MySQL
+        - ASPNETCORE_DbProvider=MySql
         - ASPNETCORE_ConnectionStrings__DefaultConnection=Server=mysql;Port=3306;Database=goal-cqrs-dev;Uid=root;Pwd=${MYSQL_ROOT_PASSWORD};
         - ASPNETCORE_ConnectionStrings__Seq=http://seq:5341
         - ASPNETCORE_ConnectionStrings__RabbitMq=amqp://${RMQ_USER}:${RMQ_PWD}@rabbitmq:5672

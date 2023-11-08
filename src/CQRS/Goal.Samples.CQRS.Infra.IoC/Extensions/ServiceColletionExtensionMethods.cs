@@ -1,7 +1,7 @@
 using Goal.Samples.CQRS.Application.TypeAdapters;
 using Goal.Samples.CQRS.Infra.Data;
 using Goal.Samples.CQRS.Infra.Data.EventSourcing;
-using Goal.Samples.CQRS.Infra.Data.MySQL;
+using Goal.Samples.CQRS.Infra.Data.MySql;
 using Goal.Samples.CQRS.Infra.Data.Npgsql;
 using Goal.Samples.CQRS.Infra.Data.Query.Repositories.Customers;
 using Goal.Samples.CQRS.Infra.Data.Repositories;
@@ -83,13 +83,16 @@ public static class ServiceColletionExtensionMethods
                     .EnableSensitiveDataLogging();
             });
         }
-        else if (dbProvider == "MySQL")
+        else if (dbProvider == "MySql")
         {
-            services.AddDbContext<CqrsDbContext, MySQLCqrsDbContext>((provider, options) =>
+            services.AddDbContext<CqrsDbContext, MySqlCqrsDbContext>((provider, options) =>
             {
-                options
-                    .UseMySQL(connectionString, x => x.MigrationsAssembly(typeof(MySQLCqrsDbContext).Assembly.GetName().Name))
-                    .EnableSensitiveDataLogging();
+                options.UseMySql(
+                    connectionString,
+                    new MySqlServerVersion(new Version(8, 2, 0)),
+                    x => x.MigrationsAssembly(typeof(MySqlCqrsDbContext).Assembly.GetName().Name)
+                )
+                .EnableSensitiveDataLogging();
             });
         }
         else if (dbProvider == "Npgsql")
@@ -123,13 +126,16 @@ public static class ServiceColletionExtensionMethods
                     .EnableSensitiveDataLogging();
             });
         }
-        else if (dbProvider == "MySQL")
+        else if (dbProvider == "MySql")
         {
-            services.AddDbContext<EventSourcingDbContext, MySQLEventSourcingDbContext>((provider, options) =>
+            services.AddDbContext<EventSourcingDbContext, MySqlEventSourcingDbContext>((provider, options) =>
             {
-                options
-                    .UseMySQL(connectionString, x => x.MigrationsAssembly(typeof(MySQLEventSourcingDbContext).Assembly.GetName().Name))
-                    .EnableSensitiveDataLogging();
+                options.UseMySql(
+                    connectionString,
+                    new MySqlServerVersion(new Version(8, 2, 0)),
+                    x => x.MigrationsAssembly(typeof(MySqlEventSourcingDbContext).Assembly.GetName().Name)
+                )
+                .EnableSensitiveDataLogging();
             });
         }
         else if (dbProvider == "Npgsql")

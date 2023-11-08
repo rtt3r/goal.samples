@@ -14,9 +14,10 @@ public class DddDbContextFactory : DesignTimeDbContextFactory<DddDbContext>
 
         optionsBuilder = dbProvider switch
         {
-            "MySQL" => optionsBuilder.UseMySQL(
+            "MySql" => optionsBuilder.UseMySql(
                 connectionString,
-                x => x.MigrationsAssembly($"{migrationsAssembly}.MySQL")),
+                new MySqlServerVersion(new Version(8, 2, 0)),
+                x => x.MigrationsAssembly(migrationsAssembly)),
 
             "SqlServer" => optionsBuilder.UseSqlServer(
                 connectionString,

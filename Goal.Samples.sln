@@ -80,7 +80,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Goal.Samples.DDD.Api", "src
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Goal.Samples.CQRS.Infra.Data.SqlServer", "src\CQRS\Goal.Samples.CQRS.Infra.Data.SqlServer\Goal.Samples.CQRS.Infra.Data.SqlServer.csproj", "{5722D2A0-14DB-4E30-83FA-DFA0070B9758}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Goal.Samples.CQRS.Infra.Data.MySQL", "src\CQRS\Goal.Samples.CQRS.Infra.Data.MySQL\Goal.Samples.CQRS.Infra.Data.MySQL.csproj", "{B1B917B9-51E2-4933-913C-1A1FD282E127}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Goal.Samples.CQRS.Infra.Data.MySql", "src\CQRS\Goal.Samples.CQRS.Infra.Data.MySql\Goal.Samples.CQRS.Infra.Data.MySql.csproj", "{B1B917B9-51E2-4933-913C-1A1FD282E127}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Goal.Samples.CQRS.Infra.Data.Npgsql", "src\CQRS\Goal.Samples.CQRS.Infra.Data.Npgsql\Goal.Samples.CQRS.Infra.Data.Npgsql.csproj", "{B773CC99-6A0F-473C-ACEB-5119E8F43DE8}"
 EndProject
@@ -102,7 +102,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Goal.Samples.Core.Infra.Dat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Goal.Samples.Core.Infra.Data.Query", "src\Core\Goal.Samples.Core.Infra.Data.Query\Goal.Samples.Core.Infra.Data.Query.csproj", "{52D9A04C-C826-4A71-94F3-40BF48A45163}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Goal.Samples.Core.Infra.Data.MySQL", "src\Core\Goal.Samples.Core.Infra.Data.MySQL\Goal.Samples.Core.Infra.Data.MySQL.csproj", "{401FA938-FB04-44C0-A31D-DD3ACB53F428}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Goal.Samples.Core.Infra.Data.MySql", "src\Core\Goal.Samples.Core.Infra.Data.MySql\Goal.Samples.Core.Infra.Data.MySql.csproj", "{401FA938-FB04-44C0-A31D-DD3ACB53F428}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Goal.Samples.Core.Infra.Data.Npgsql", "src\Core\Goal.Samples.Core.Infra.Data.Npgsql\Goal.Samples.Core.Infra.Data.Npgsql.csproj", "{58674965-EAE0-4913-A42C-F976A2A2C0F5}"
 EndProject

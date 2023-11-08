@@ -52,8 +52,9 @@ public static class ServiceColletionExtensionMethods
             {
                 DbContextOptionsBuilder builder = dbProvider switch
                 {
-                    "MySQL" => options.UseMySQL(
+                    "MySql" => options.UseMySql(
                         connectionString,
+                        new MySqlServerVersion(new Version(8, 2, 0)),
                         x => x.MigrationsAssembly(migrationsAssembly)),
 
                     "SqlServer" => options.UseSqlServer(

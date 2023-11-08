@@ -5,7 +5,7 @@ services:
   core-api:
     environment:
         - ASPNETCORE_ENVIRONMENT=Development
-        - ASPNETCORE_DbProvider=MySQL
+        - ASPNETCORE_DbProvider=MySql
         - ASPNETCORE_ConnectionStrings__DefaultConnection=Server=mysql;Port=3306;Database=goal-cqrs-dev;Uid=root;Pwd=BeycL18545#f;
         - ASPNETCORE_ConnectionStrings__Seq=http://seq:5341
         - ASPNETCORE_ConnectionStrings__RabbitMq=amqp://guest:guest@rabbitmq:5672
@@ -34,7 +34,7 @@ services:
         - ASPNETCORE_ENVIRONMENT=Development
         - ASPNETCORE_URLS=https://+;http://+
         - ASPNETCORE_HTTPS_PORT=4433
-        - ASPNETCORE_DbProvider=MySQL
+        - ASPNETCORE_DbProvider=MySql
         - ASPNETCORE_ConnectionStrings__DefaultConnection=Server=mysql;Port=3306;Database=goal-cqrs-dev;Uid=root;Pwd=BeycL18545#f;
         - ASPNETCORE_ConnectionStrings__Seq=http://seq:5341
         - ASPNETCORE_ConnectionStrings__RabbitMq=amqp://guest:guest@rabbitmq:5672

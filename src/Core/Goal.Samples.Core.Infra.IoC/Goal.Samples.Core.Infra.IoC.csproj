@@ -13,7 +13,7 @@
 		<ProjectReference Include="..\Goal.Samples.Core.Domain\Goal.Samples.Core.Domain.csproj" />
 		<ProjectReference Include="..\Goal.Samples.Core.Infra.Data.Query\Goal.Samples.Core.Infra.Data.Query.csproj" />
 		<ProjectReference Include="..\Goal.Samples.Core.Infra.Data.SqlServer\Goal.Samples.Core.Infra.Data.SqlServer.csproj" />
-		<ProjectReference Include="..\Goal.Samples.Core.Infra.Data.MySQL\Goal.Samples.Core.Infra.Data.MySQL.csproj" />
+		<ProjectReference Include="..\Goal.Samples.Core.Infra.Data.MySql\Goal.Samples.Core.Infra.Data.MySql.csproj" />
 		<ProjectReference Include="..\Goal.Samples.Core.Infra.Data.Npgsql\Goal.Samples.Core.Infra.Data.Npgsql.csproj" />
 		<ProjectReference Include="..\Goal.Samples.Core.Infra.Data\Goal.Samples.Core.Infra.Data.csproj" />
 		<ProjectReference Include="..\..\Infra\Goal.Samples.Infra.Crosscutting\Goal.Samples.Infra.Crosscutting.csproj" />

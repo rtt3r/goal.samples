@@ -27,7 +27,7 @@ namespace Goal.Samples.Core.Infra.Data.Npgsql.Migrations.Core
                     b.Property<string>("Id")
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("BirthDate")
+                    b.Property<DateTime>("Birthdate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Email")

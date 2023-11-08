@@ -1,4 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
+
 	<PropertyGroup>
 		<TargetFramework>net7.0</TargetFramework>
 		<IsPackable>false</IsPackable>
@@ -13,14 +14,12 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
 			<TreatAsUsed>true</TreatAsUsed>
 		</PackageReference>
-		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.9" />
 		<PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="7.0.0"></PackageReference>
-		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.4" />
 		<PackageReference Include="Goal.Seedwork.Infra.Data" Version="0.3.15" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\Infra\Goal.Samples.Infra.Crosscutting\Goal.Samples.Infra.Crosscutting.csproj" />
-		<ProjectReference Include="..\Goal.Samples.DDD.Domain\Goal.Samples.DDD.Domain.csproj" />
+		<ProjectReference Include="..\Goal.Samples.CQRS.Infra.Data\Goal.Samples.CQRS.Infra.Data.csproj" />
 	</ItemGroup>
+
 </Project>

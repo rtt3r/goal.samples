@@ -40,7 +40,7 @@ services:
       - seq-data:/var/lib/seq/data/
 
   mysql:
-    image: "mysql:latest"
+    image: "mysql:8.2.0"
     container_name: mysql.goal.ritter.co
     hostname: mysql.ritter.co
     user: root

@@ -1,7 +1,7 @@
 using Goal.Samples.Core.Application.TypeAdapters;
 using Goal.Samples.Core.Infra.Data;
 using Goal.Samples.Core.Infra.Data.EventSourcing;
-using Goal.Samples.Core.Infra.Data.MySQL;
+using Goal.Samples.Core.Infra.Data.MySql;
 using Goal.Samples.Core.Infra.Data.Npgsql;
 using Goal.Samples.Core.Infra.Data.Query.Repositories.Customers;
 using Goal.Samples.Core.Infra.Data.Repositories;
@@ -100,12 +100,16 @@ public static class ServiceColletionExtensionMethods
                     .EnableSensitiveDataLogging();
             });
         }
-        else if (dbProvider == "MySQL")
+        else if (dbProvider == "MySql")
         {
-            services.AddDbContext<CoreDbContext, MySQLCoreDbContext>((provider, options) =>
+            services.AddDbContext<CoreDbContext, MySqlCoreDbContext>((provider, options) =>
             {
                 options
-                    .UseMySQL(connectionString, x => x.MigrationsAssembly(typeof(MySQLCoreDbContext).Assembly.GetName().Name))
+                    .UseMySql(
+                        connectionString,
+                        new MySqlServerVersion(new Version(8, 2, 0)),
+                        x => x.MigrationsAssembly(typeof(MySqlCoreDbContext).Assembly.GetName().Name)
+                    )
                     .EnableSensitiveDataLogging();
             });
         }
@@ -140,12 +144,16 @@ public static class ServiceColletionExtensionMethods
                     .EnableSensitiveDataLogging();
             });
         }
-        else if (dbProvider == "MySQL")
+        else if (dbProvider == "MySql")
         {
-            services.AddDbContext<EventSourcingDbContext, MySQLEventSourcingDbContext>((provider, options) =>
+            services.AddDbContext<EventSourcingDbContext, MySqlEventSourcingDbContext>((provider, options) =>
             {
                 options
-                    .UseMySQL(connectionString, x => x.MigrationsAssembly(typeof(MySQLEventSourcingDbContext).Assembly.GetName().Name))
+                    .UseMySql(
+                        connectionString,
+                        new MySqlServerVersion(new Version(8, 2, 0)),
+                        x => x.MigrationsAssembly(typeof(MySqlEventSourcingDbContext).Assembly.GetName().Name)
+                    )
                     .EnableSensitiveDataLogging();
             });
         }

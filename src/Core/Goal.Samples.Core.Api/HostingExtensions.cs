@@ -3,7 +3,6 @@ using System.Text.Json.Serialization;
 using Goal.Samples.Core.Api.Swagger;
 using Goal.Samples.Core.Infra.IoC.Extensions;
 using Goal.Samples.Infra.Crosscutting.Extensions;
-using Goal.Samples.Infra.Crosscutting.Settings;
 using Goal.Samples.Infra.Http.Filters;
 using Goal.Samples.Infra.Http.JsonNamePolicies;
 using Goal.Samples.Infra.Http.ValueProviders;
